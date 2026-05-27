@@ -1,0 +1,1682 @@
+{
+  "1111": {
+    "id": "1111",
+    "type": "figure",
+    "name": "Orko",
+    "description": "Gelingt ein großer Zauber zum Ende des Spiels",
+    "might": 1,
+    "base_might": 1,
+    "mobility": {
+      "type": "flying",
+      "range": 1,
+      "ignores_idle_split": true
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,mobil,good,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 5,
+          "target": "Orko",
+          "target_type": null
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "1110": {
+    "id": "1110",
+    "type": "figure",
+    "name": "Adam",
+    "description": "Wird in Snake Mountain verzaubert",
+    "might": 10,
+    "base_might": 10,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 1
+    },
+    "alt_entity": "1110a",
+    "faction": "Adam,main,good,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2110": {
+    "id": "2110",
+    "type": "figure",
+    "name": "Skeletor",
+    "description": "Wird in Greyskull betrogen",
+    "might": 10,
+    "base_might": 10,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 2
+    },
+    "alt_entity": "2110a",
+    "faction": "Skeletor,main,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "3110": {
+    "id": "3110",
+    "type": "figure",
+    "name": "Hordak",
+    "description": "Wird in Snake Mountain überredet",
+    "might": 10,
+    "base_might": 10,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 2
+    },
+    "alt_entity": "3110a",
+    "faction": "Hordak,main,evil,horde,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "4110": {
+    "id": "4110",
+    "type": "figure",
+    "name": "Zodak",
+    "description": "Wird in Fright Zone überzeugt",
+    "might": 10,
+    "base_might": 10,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 1
+    },
+    "alt_entity": "4110a",
+    "faction": "Zodak,main,neutral,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2111": {
+    "id": "2111",
+    "type": "figure",
+    "name": "BeastMan",
+    "description": "Unterstützt Skeletor und TrapJaw",
+    "might": 4,
+    "base_might": 4,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,evil,labil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [
+        {
+          "value": 3,
+          "target": "Skeletor",
+          "target_type": null
+        }
+      ],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2112": {
+    "id": "2112",
+    "type": "figure",
+    "name": "Grizzlor",
+    "description": "Unterstützt Hordak bis dieser überredet wird",
+    "might": 5,
+    "base_might": 5,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,horde,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [
+        {
+          "value": 3,
+          "target": "Hordak",
+          "target_type": null
+        }
+      ],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2113": {
+    "id": "2113",
+    "type": "figure",
+    "name": "Teela",
+    "description": "Hat die Stärke von Orko",
+    "might": 1,
+    "base_might": 1,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,good,labil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 2,
+          "target": "Adam",
+          "target_type": null
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2114": {
+    "id": "2114",
+    "type": "figure",
+    "name": "ManAtArms",
+    "description": "Unterstütz Adam und Zodak",
+    "might": 5,
+    "base_might": 5,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,good,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [
+        {
+          "value": 3,
+          "target": "good",
+          "target_type": null
+        }
+      ],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2115": {
+    "id": "2115",
+    "type": "figure",
+    "name": "Stratos",
+    "description": "Kann zwei Idle angreifen",
+    "might": 7,
+    "base_might": 7,
+    "mobility": {
+      "type": "flying",
+      "range": 1,
+      "ignores_idle_split": true
+    },
+    "scout_vision": 3,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,good,mobil,spy,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      1.0,
+      1.0
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2116": {
+    "id": "2116",
+    "type": "figure",
+    "name": "RamMan",
+    "description": "Gegner Figur hat hier keine Macht",
+    "might": 2,
+    "base_might": 2,
+    "mobility": {
+      "type": "flying",
+      "range": 1,
+      "ignores_idle_split": true
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,good,mobil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2117": {
+    "id": "2117",
+    "type": "figure",
+    "name": "ManEFaces",
+    "description": "",
+    "might": 16,
+    "base_might": 16,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,good,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "good",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2118": {
+    "id": "2118",
+    "type": "figure",
+    "name": "Modulok",
+    "description": "Kann zwei Idle angreifen",
+    "might": 6,
+    "base_might": 6,
+    "mobility": {
+      "type": "flying",
+      "range": 1,
+      "ignores_idle_split": true
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,evil,horde,mobil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2119": {
+    "id": "2119",
+    "type": "figure",
+    "name": "Leech",
+    "description": "Zieht dem Gegner 3 Macht",
+    "might": 3,
+    "base_might": 3,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,Skeletor,evil,horde,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2120": {
+    "id": "2120",
+    "type": "figure",
+    "name": "Dragstor",
+    "description": "",
+    "might": 9,
+    "base_might": 9,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,evil,horde,labil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2121": {
+    "id": "2121",
+    "type": "figure",
+    "name": "Mantenna",
+    "description": "Gegner Adam hat hier keine Macht auf Fright Zone",
+    "might": 8,
+    "base_might": 8,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 3,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,Skeletor,evil,horde,spy,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2122": {
+    "id": "2122",
+    "type": "figure",
+    "name": "Multibot",
+    "description": "Bufft alle Hordak Figuren um 5",
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,Skeletor,horde,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "Hordak",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2123": {
+    "id": "2123",
+    "type": "figure",
+    "name": "Trooper",
+    "description": "",
+    "might": 6,
+    "base_might": 6,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,Skeletor,horde,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [
+        {
+          "value": 1,
+          "target": "horde",
+          "target_type": null
+        }
+      ],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2124": {
+    "id": "2124",
+    "type": "figure",
+    "name": "TrapJaw",
+    "description": "",
+    "might": 6,
+    "base_might": 6,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,Skeletor,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [
+        {
+          "value": 3,
+          "target": "evil",
+          "target_type": null
+        }
+      ],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2125": {
+    "id": "2125",
+    "type": "figure",
+    "name": "TriKlops",
+    "description": "",
+    "might": 8,
+    "base_might": 8,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 3,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,Skeletor,evil,spy,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [
+        {
+          "value": 3,
+          "target": "Skeletor",
+          "target_type": null
+        }
+      ],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2126": {
+    "id": "2126",
+    "type": "figure",
+    "name": "EvilLyn",
+    "description": "",
+    "might": 5,
+    "base_might": 5,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 2,
+          "target": "Skeletor",
+          "target_type": null
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2127": {
+    "id": "2127",
+    "type": "figure",
+    "name": "MerMan",
+    "description": "",
+    "might": 8,
+    "base_might": 8,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2128": {
+    "id": "2128",
+    "type": "figure",
+    "name": "Webstor",
+    "description": "Kann Position tauschen",
+    "might": 15,
+    "base_might": 15,
+    "mobility": {
+      "type": "flying",
+      "range": 1,
+      "ignores_idle_split": true
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,evil,mobil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2129": {
+    "id": "2129",
+    "type": "figure",
+    "name": "Clawful",
+    "description": "Gibt seine Stärke an die Figur rechts",
+    "might": 5,
+    "base_might": 5,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [
+        {
+          "value": 3,
+          "target": "evil",
+          "target_type": null
+        }
+      ],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2130": {
+    "id": "2130",
+    "type": "figure",
+    "name": "Jitsu",
+    "description": "",
+    "might": 7,
+    "base_might": 7,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2131": {
+    "id": "2131",
+    "type": "figure",
+    "name": "Stinkor",
+    "description": "Gegner hat keine Macht auf Snake Mountain",
+    "might": 1,
+    "base_might": 1,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,evil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2132": {
+    "id": "2132",
+    "type": "figure",
+    "name": "TwoBad",
+    "description": "Kann zwei Idle angreifen",
+    "might": 7,
+    "base_might": 7,
+    "mobility": {
+      "type": "flying",
+      "range": 1,
+      "ignores_idle_split": true
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,evil,mobil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2133": {
+    "id": "2133",
+    "type": "figure",
+    "name": "Whiplash",
+    "description": "",
+    "might": 10,
+    "base_might": 10,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2134": {
+    "id": "2134",
+    "type": "figure",
+    "name": "KingHiss",
+    "description": "Bufft Alle Schlangenmenschen",
+    "might": 2,
+    "base_might": 2,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "Schlangenmensch",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2135": {
+    "id": "2135",
+    "type": "figure",
+    "name": "KobraKahn",
+    "description": "Bufft Alle Schlangenmenschen",
+    "might": 5,
+    "base_might": 5,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "Schlangenmensch",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2136": {
+    "id": "2136",
+    "type": "figure",
+    "name": "Rattlor",
+    "description": "Bufft Alle Schlangenmenschen",
+    "might": 9,
+    "base_might": 9,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "Schlangenmensch",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2137": {
+    "id": "2137",
+    "type": "figure",
+    "name": "TungLashor",
+    "description": "Bufft Alle Schlangenmenschen",
+    "might": 12,
+    "base_might": 12,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "Schlangenmensch",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2138": {
+    "id": "2138",
+    "type": "figure",
+    "name": "BuzzOff",
+    "description": "Kann Platz Tauschen",
+    "might": 5,
+    "base_might": 5,
+    "mobility": {
+      "type": "flying",
+      "range": 1,
+      "ignores_idle_split": true
+    },
+    "scout_vision": 3,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,mobil,good,spy,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2139": {
+    "id": "2139",
+    "type": "figure",
+    "name": "Randor",
+    "description": "",
+    "might": 1,
+    "base_might": 1,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,good,labil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2140": {
+    "id": "2140",
+    "type": "figure",
+    "name": "Mekanek",
+    "description": "",
+    "might": 2,
+    "base_might": 2,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 3,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,good,spy,labil,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": -1,
+          "target": "spy",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2141": {
+    "id": "2141",
+    "type": "figure",
+    "name": "MossMan",
+    "description": "",
+    "might": 5,
+    "base_might": 5,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,good,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2142": {
+    "id": "2142",
+    "type": "figure",
+    "name": "Stondar",
+    "description": "Bufft Rokkon +2",
+    "might": 8,
+    "base_might": 8,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,Felsling,good,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 2,
+          "target": "Felsling",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2143": {
+    "id": "2143",
+    "type": "figure",
+    "name": "Rokkon",
+    "description": "Bufft Stondar +2",
+    "might": 8,
+    "base_might": 8,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,Felsling,good,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 2,
+          "target": "Felsling",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  },
+  "2144": {
+    "id": "2144",
+    "type": "figure",
+    "name": "SnoutSpout",
+    "description": "Bufft Stondar und Rokkon +2",
+    "might": 8,
+    "base_might": 8,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,good,figure",
+    "rarity": null,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "Felsling",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might_split": [
+      0.5,
+      0.5
+    ],
+    "mighty_threshold": 0,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": []
+  }
+}

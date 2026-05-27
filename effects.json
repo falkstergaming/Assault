@@ -1,0 +1,464 @@
+{
+  "9211": {
+    "id": "9211",
+    "type": "effect",
+    "name": "Zauberschwert",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": 0,
+          "target": "Adam",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,effect",
+    "rarity": null
+  },
+  "9112": {
+    "id": "9112",
+    "type": "effect",
+    "name": "ZoarGefangen",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": -1,
+          "target": "evil",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,effect",
+    "rarity": null
+  },
+  "9212": {
+    "id": "9212",
+    "type": "effect",
+    "name": "Schlangenstab",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,effect",
+    "rarity": null
+  },
+  "9314": {
+    "id": "9314",
+    "type": "effect",
+    "name": "Armbrust",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": 0,
+          "target": "Hordak",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,Hordak,effect",
+    "rarity": null
+  },
+  "9001": {
+    "id": "9001",
+    "type": "effect",
+    "name": "AdamEffect",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": 2,
+          "target": "Adam",
+          "target_type": null
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,effect",
+    "rarity": null
+  },
+  "9002": {
+    "id": "9002",
+    "type": "effect",
+    "name": "SkeletorEffect",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": 2,
+          "target": "Skeletor",
+          "target_type": null
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor,effect",
+    "rarity": null
+  },
+  "9003": {
+    "id": "9003",
+    "type": "effect",
+    "name": "HordakEffect",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": 2,
+          "target": "Hordak",
+          "target_type": null
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Hordak,effect",
+    "rarity": null
+  },
+  "9004": {
+    "id": "9004",
+    "type": "effect",
+    "name": "ZodakEffect",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "Zodak",
+          "target_type": null
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Zodak,effect",
+    "rarity": null
+  },
+  "9216": {
+    "id": "9216",
+    "type": "effect",
+    "name": "MagierRing",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": 2,
+          "target": "labil",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Zodak,Skeletor,effect",
+    "rarity": null
+  },
+  "9218": {
+    "id": "9218",
+    "type": "effect",
+    "name": "Sternenstaub",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "Zodak",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Zodak,effect",
+    "rarity": null
+  },
+  "9311": {
+    "id": "9311",
+    "type": "effect",
+    "name": "GeistVonGrayskull",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": 1,
+          "target": "good",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Adam,Zodak,effect",
+    "rarity": null
+  },
+  "9312": {
+    "id": "9312",
+    "type": "effect",
+    "name": "ZepterDerMacht",
+    "description": "",
+    "active": false,
+    "cost": 2,
+    "activation_cost": 2,
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [
+        {
+          "value": -1,
+          "target": "good",
+          "target_type": "faction"
+        }
+      ],
+      "neighbor": [],
+      "all": [],
+      "enemy": [],
+      "enemy_all": []
+    },
+    "might": 0,
+    "base_might": 0,
+    "mobility": {
+      "type": "ground",
+      "range": 0,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 0,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "alt_entity": null,
+    "faction": "Skeletor;Zodak,effect",
+    "rarity": null
+  }
+}
