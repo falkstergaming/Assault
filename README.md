@@ -168,6 +168,50 @@ Coding Assault
 - 🟢 **Niedrig**: Kann später folgen.
 
 # Projektdokumentation
+
+# Ordnerstruktur / Architektur
+
+AssaultOnGrayskull/
+│
+├── **core/**                          # ✅ Spiel-Logik (Python-Klassen)
+│   ├── **game/**
+│   │   └── board.py                   # Board-Klasse (battle_init, _initialize_valid_hex_ids, get_neighbors)
+│   │
+│   ├── **entities/**
+│   │   ├── __init__.py
+│   │   ├── base_entity.py             # BaseEntity, calculate_might()
+│   │   ├── figure.py                  # Figure-Klasse
+│   │   ├── location.py                # Location-Klasse
+│   │   └── effect.py                  # Effect-Klasse
+│   │
+│   └── **utils/**
+│       ├── __init__.py
+│       ├── hex_id.py                  # HexID-Klasse
+│       └── global_constants.py        # COLORS, FONT_FAMILY, etc.
+│
+├── **data/**                          # ✅ Spiel-Daten (JSON)
+│   ├── figurenwerk.json               # Figuren (Adam=1110, Orko=1111, ...)
+│   ├── eterniaorte.json               # Locations (Vine Dschungel=6002, ...)
+│   └── effects.json                   # Effekte (Schlangenstab=9212, ...)
+│
+├── **interfaces/**                    # ✅ UI & Controller
+│   ├── game_controller.py             # GameController (Input-Handling)
+│   │
+│   └── **renderer/**
+│       └── **pygame/**
+│           ├── **artwork/**           # ✅ UI-Ressourcen (JPG/MP3)
+│           │   ├── background.jpg
+│           │   └── music.mp3
+│           │
+│           ├── audio.py               # AudioManager (Musik/Sounds)
+│           ├── screen.py               # Screen-Klasse (Hintergrund, draw_text)
+│           └── **components/**
+│               └── console.py          # Console-Klasse (12pt Schrift)
+│
+├── **simulation.py**                  # ✅ Testumgebung (Tasten 1–8, Konsole)
+└── **main.py**                        # ✅ Einstiegspunkt (startet simulation_main())
+
+
 # 📋 **Anforderungs-Tracking**
 
 *Status: ✅ Finalisiert | ⏳ Offen | ❌ Nicht relevant*  
