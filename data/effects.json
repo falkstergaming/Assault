@@ -12,7 +12,7 @@
     "vision": null,
     "placing": false,
     "AP_credit": 0,
-    "faction": "neutral",
+    "faction": "test",
     "rarity": "test",
     "self_alt_activation": false,
     "alt_state": false,
@@ -23,20 +23,12 @@
     "duration": "once",
     "bonus_ap": 0,
     "buffs": {
-      "self": [],
+      "self": [{"value": 6, "target": null, "target_type": "id"}],
       "neighbor": [],
       "opponent": [],
-      "faction": [],
+      "faction": [{"value": 3, "target": "test", "target_type": "faction"}],
       "targeted": []
     },
-    "might_split": [0.5, 0.5],
-    "mighty_threshold": 20,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "tags": ["test", "dummy"]
   },
   "9211": {
     "id": "9211",
