@@ -12,7 +12,7 @@
     "vision": null,
     "placing": false,
     "AP_credit": 0,
-    "faction": "test",
+    "faction": "neutral",
     "rarity": "test",
     "self_alt_activation": false,
     "alt_state": false,
@@ -23,12 +23,20 @@
     "duration": "once",
     "bonus_ap": 0,
     "buffs": {
-      "self": [{"value": 6, "target": null, "target_type": "id"}],
+      "self": [],
       "neighbor": [],
       "opponent": [],
-      "faction": [{"value": 3, "target": "test", "target_type": "faction"}],
+      "faction": [],
       "targeted": []
     },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 20,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": ["test", "dummy"]
   },
   "9211": {
     "id": "9211",
@@ -80,16 +88,10 @@
     "rarity": null,
     "self_alt_activation": false,
     "alt_state": false,
-    "alt_activation_cost": 2,
+    "alt_activation_cost": 0,
     "active": false,
     "buffs": {
-      "self": [
-        {
-          "value": -1,
-          "target": "evil",
-          "target_type": "faction"
-        }
-      ],
+      "self": [],
       "neighbor": [],
       "opponent": [],
       "faction": [],
@@ -100,113 +102,8 @@
     "id": "9212",
     "type": "effect",
     "name": "Schlangenstab",
-    "display_name_en": "Snake Staff",
+    "display_name_en": "Schlangenstab",
     "display_name_de": "Schlangenstab",
-    "description": "Herrsht über die Schlangen",
-    "base_might": 2,
-    "mobility": null,
-    "range": null,
-    "vision": null,
-    "placing": null,
-    "AP_credit": null,
-    "faction": "Skeletor,Hordak",
-    "rarity": "rare",
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": 2,
-    "active": false,
-    "buffs": {
-      "self": [
-        {
-          "value": 2,
-          "target": null,
-          "target_type": "id"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [
-        {
-          "value": 1,
-          "target": "snake_folk",
-          "target_type": "faction"
-        }
-      ],
-      "targeted": []
-    }
-  },
-  "9314": {
-    "id": "9314",
-    "type": "effect",
-    "name": "Armbrust",
-    "display_name_en": "Armbrust",
-    "display_name_de": "Armbrust",
-    "description": "",
-    "base_might": 0,
-    "mobility": null,
-    "range": null,
-    "vision": null,
-    "placing": null,
-    "AP_credit": null,
-    "faction": "Skeletor,Hordak",
-    "rarity": null,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": 2,
-    "active": false,
-    "buffs": {
-      "self": [
-        {
-          "value": 0,
-          "target": "Hordak",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    }
-  },
-  "9001": {
-    "id": "9001",
-    "type": "effect",
-    "name": "AdamEffect",
-    "display_name_en": "AdamEffect",
-    "display_name_de": "AdamEffect",
-    "description": "",
-    "base_might": 0,
-    "mobility": null,
-    "range": null,
-    "vision": null,
-    "placing": null,
-    "AP_credit": null,
-    "faction": "Adam",
-    "rarity": null,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": 2,
-    "active": false,
-    "buffs": {
-      "self": [
-        {
-          "value": 2,
-          "target": "Adam",
-          "target_type": null
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    }
-  },
-  "9002": {
-    "id": "9002",
-    "type": "effect",
-    "name": "SkeletorEffect",
-    "display_name_en": "SkeletorEffect",
-    "display_name_de": "SkeletorEffect",
     "description": "",
     "base_might": 0,
     "mobility": null,
@@ -218,214 +115,10 @@
     "rarity": null,
     "self_alt_activation": false,
     "alt_state": false,
-    "alt_activation_cost": 2,
+    "alt_activation_cost": 0,
     "active": false,
     "buffs": {
-      "self": [
-        {
-          "value": 2,
-          "target": "Skeletor",
-          "target_type": null
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    }
-  },
-  "9003": {
-    "id": "9003",
-    "type": "effect",
-    "name": "HordakEffect",
-    "display_name_en": "HordakEffect",
-    "display_name_de": "HordakEffect",
-    "description": "",
-    "base_might": 0,
-    "mobility": null,
-    "range": null,
-    "vision": null,
-    "placing": null,
-    "AP_credit": null,
-    "faction": "Hordak",
-    "rarity": null,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": 2,
-    "active": false,
-    "buffs": {
-      "self": [
-        {
-          "value": 2,
-          "target": "Hordak",
-          "target_type": null
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    }
-  },
-  "9004": {
-    "id": "9004",
-    "type": "effect",
-    "name": "ZodakEffect",
-    "display_name_en": "ZodakEffect",
-    "display_name_de": "ZodakEffect",
-    "description": "",
-    "base_might": 0,
-    "mobility": null,
-    "range": null,
-    "vision": null,
-    "placing": null,
-    "AP_credit": null,
-    "faction": "Zodak",
-    "rarity": null,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": 2,
-    "active": false,
-    "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "Zodak",
-          "target_type": null
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    }
-  },
-  "9216": {
-    "id": "9216",
-    "type": "effect",
-    "name": "MagierRing",
-    "display_name_en": "MagierRing",
-    "display_name_de": "MagierRing",
-    "description": "",
-    "base_might": 0,
-    "mobility": null,
-    "range": null,
-    "vision": null,
-    "placing": null,
-    "AP_credit": null,
-    "faction": "Zodak,Skeletor",
-    "rarity": null,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": 2,
-    "active": false,
-    "buffs": {
-      "self": [
-        {
-          "value": 2,
-          "target": "labil",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    }
-  },
-  "9218": {
-    "id": "9218",
-    "type": "effect",
-    "name": "Sternenstaub",
-    "display_name_en": "Sternenstaub",
-    "display_name_de": "Sternenstaub",
-    "description": "",
-    "base_might": 0,
-    "mobility": null,
-    "range": null,
-    "vision": null,
-    "placing": null,
-    "AP_credit": null,
-    "faction": "Zodak",
-    "rarity": null,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": 2,
-    "active": false,
-    "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "Zodak",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    }
-  },
-  "9311": {
-    "id": "9311",
-    "type": "effect",
-    "name": "GeistVonGrayskull",
-    "display_name_en": "GeistVonGrayskull",
-    "display_name_de": "GeistVonGrayskull",
-    "description": "",
-    "base_might": 0,
-    "mobility": null,
-    "range": null,
-    "vision": null,
-    "placing": null,
-    "AP_credit": null,
-    "faction": "Adam,Zodak",
-    "rarity": null,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": 2,
-    "active": false,
-    "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "good",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    }
-  },
-  "9312": {
-    "id": "9312",
-    "type": "effect",
-    "name": "ZepterDerMacht",
-    "display_name_en": "ZepterDerMacht",
-    "display_name_de": "ZepterDerMacht",
-    "description": "",
-    "base_might": 0,
-    "mobility": null,
-    "range": null,
-    "vision": null,
-    "placing": null,
-    "AP_credit": null,
-    "faction": "Skeletor;Zodak",
-    "rarity": null,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": 2,
-    "active": false,
-    "buffs": {
-      "self": [
-        {
-          "value": -1,
-          "target": "good",
-          "target_type": "faction"
-        }
-      ],
+      "self": [],
       "neighbor": [],
       "opponent": [],
       "faction": [],

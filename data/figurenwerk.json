@@ -24,14 +24,20 @@
       "faction": [],
       "targeted": []
     },
-    "might_split": [0.5, 0.5],
+    "might_split": [
+      0.5,
+      0.5
+    ],
     "mighty_threshold": 20,
     "immunity": {
       "buff_types": [],
       "buff_targets": [],
       "buff_values": null
     },
-    "tags": ["test", "dummy"]
+    "tags": [
+      "test",
+      "dummy"
+    ]
   },
   "1110": {
     "id": "1110",

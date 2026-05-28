@@ -73,7 +73,12 @@ class Mobility:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'Mobility':
+    def from_dict(cls, data: Union[Dict[str, Any], str, None]) -> 'Mobility':
+        # Falls data ein String ist (z. B. "ground"), konvertiere es in ein Dictionary
+        if isinstance(data, str):
+            return cls(type=data, range=1, ignores_idle_split=False)
+        elif data is None:
+            return cls(type="ground", range=1, ignores_idle_split=False)
         return cls(
             type=data.get("type", "ground"),
             range=data.get("range", 1),
@@ -157,6 +162,21 @@ class BaseEntity:
             for buff_type, buff_list in data["buffs"].items():
                 buffs[buff_type] = [Buff.from_dict(b) for b in buff_list]
 
+        # mobility kann ein String, None oder Dictionary sein
+        mobility_data = data.get("mobility", {})
+        mobility = Mobility.from_dict(mobility_data)
+
+        # scout_vision kann aus 'vision' oder 'scout_vision' stammen
+        scout_vision = data.get("scout_vision", data.get("vision", 1))
+
+        # special_abilities aus den neuen Attributen erstellen
+        special_abilities_data = {
+            "placing": data.get("placing", False),
+            "self_alt_activation": data.get("self_alt_activation", False),
+            "credit": data.get("AP_credit", 0)
+        }
+        special_abilities = SpecialAbilities.from_dict(special_abilities_data)
+
         return cls(
             id=data.get("id", ""),
             name=data.get("name", ""),
@@ -169,9 +189,9 @@ class BaseEntity:
             immunity=Immunity.from_dict(data.get("immunity", {})),
             buffs=buffs,
             tags=data.get("tags", []),
-            mobility=Mobility.from_dict(data.get("mobility", {})),
-            scout_vision=data.get("scout_vision", 1),
-            special_abilities=SpecialAbilities.from_dict(data.get("special_abilities", {}))
+            mobility=mobility,
+            scout_vision=scout_vision,
+            special_abilities=special_abilities
         )
 
     def to_dict(self) -> Dict[str, Any]:
@@ -181,6 +201,10 @@ class BaseEntity:
         buffs = {}
         for buff_type, buff_list in self.buffs.items():
             buffs[buff_type] = [b.to_dict() for b in buff_list]
+
+        # mobility als String speichern, wenn es ein einfacher Typ ist
+        mobility_dict = self.mobility.to_dict()
+        mobility_value = mobility_dict["type"] if mobility_dict["type"] in ["ground", "flying", "special"] and mobility_dict["range"] == 1 and not mobility_dict["ignores_idle_split"] else mobility_dict
 
         return {
             "id": self.id,
@@ -194,9 +218,11 @@ class BaseEntity:
             "immunity": self.immunity.to_dict(),
             "buffs": buffs,
             "tags": self.tags,
-            "mobility": self.mobility.to_dict(),
-            "scout_vision": self.scout_vision,
-            "special_abilities": self.special_abilities.to_dict()
+            "mobility": mobility_value,
+            "vision": self.scout_vision,
+            "placing": self.special_abilities.placing,
+            "AP_credit": self.special_abilities.credit,
+            "self_alt_activation": self.special_abilities.self_alt_activation
         }
 
     def save_to_json(self, file_path: Union[str, Path]) -> None:
