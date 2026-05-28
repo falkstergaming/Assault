@@ -1,4 +1,41 @@
 {
+  "0000": {
+    "id": "0000",
+    "type": "figure",
+    "name": "DummyFigur",
+    "display_name_en": "Dummy Figure",
+    "display_name_de": "Dummy-Figur",
+    "description": "Test-Figur für Simulationen",
+    "base_might": 5,
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "vision": 1,
+    "placing": false,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": 0,
+    "faction": "neutral",
+    "rarity": "test",
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 20,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": ["test", "dummy"]
+  },
   "1110": {
     "id": "1110",
     "type": "figure",

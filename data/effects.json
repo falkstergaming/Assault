@@ -1,4 +1,43 @@
 {
+  "0000": {
+    "id": "0000",
+    "type": "effect",
+    "name": "DummyEffekt",
+    "display_name_en": "Dummy Effect",
+    "display_name_de": "Dummy-Effekt",
+    "description": "Test-Effekt für Simulationen (keine Effekte)",
+    "base_might": 0,
+    "mobility": null,
+    "range": null,
+    "vision": null,
+    "placing": false,
+    "AP_credit": 0,
+    "faction": "neutral",
+    "rarity": "test",
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": 0,
+    "active": false,
+    "cost": 1,
+    "activation_cost": 0,
+    "duration": "once",
+    "bonus_ap": 0,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 20,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "tags": ["test", "dummy"]
+  },
   "9211": {
     "id": "9211",
     "type": "effect",
