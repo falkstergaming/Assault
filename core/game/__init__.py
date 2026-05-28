@@ -1,1 +1,1 @@
-#
+# Leere Datei, um das interfaces-Paket zu definieren.

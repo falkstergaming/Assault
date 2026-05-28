@@ -1,0 +1,282 @@
+{
+  "1001": {
+    "id": "1001",
+    "name": "Adam",
+    "type": "figure",
+    "faction": "Good",
+    "base_might": 10,
+    "alt": false,
+    "alt_entity": "1001a",
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 20,
+    "immunity": {
+      "buff_types": ["targeted_buff"],
+      "buff_targets": ["Evil"],
+      "buff_values": "negative"
+    },
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "buffs": {
+      "self": [{"value": 2, "target": null, "target_type": null}],
+      "neighbor": [{"value": 1, "target": "Good", "target_type": "faction"}],
+      "opponent": [{"value": -1, "target": null, "target_type": null}],
+      "faction": [{"value": 3, "target": "Good", "target_type": "faction"}],
+      "targeted": [{"value": 5, "target": "1001", "target_type": "id"}]
+    },
+    "tags": ["hero", "melee"]
+  },
+  "1001a": {
+    "id": "1001a",
+    "name": "Adam (Alt)",
+    "type": "figure",
+    "faction": "Good",
+    "base_might": 15,
+    "alt": false,
+    "alt_entity": null,
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 20,
+    "immunity": {
+      "buff_types": ["targeted_buff", "faction_buff"],
+      "buff_targets": ["Evil"],
+      "buff_values": "all"
+    },
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "buffs": {
+      "self": [{"value": 4, "target": null, "target_type": null}],
+      "neighbor": [{"value": 2, "target": "Good", "target_type": "faction"}],
+      "opponent": [{"value": -2, "target": null, "target_type": null}],
+      "faction": [],
+      "targeted": []
+    },
+    "tags": ["hero", "melee", "alt"]
+  },
+  "2001": {
+    "id": "2001",
+    "name": "Skeletor",
+    "type": "figure",
+    "faction": "Evil",
+    "base_might": 12,
+    "alt": false,
+    "alt_entity": "2001a",
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 20,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": ["Good"],
+      "buff_values": "negative"
+    },
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 1
+    },
+    "buffs": {
+      "self": [{"value": 3, "target": null, "target_type": null}],
+      "neighbor": [],
+      "opponent": [{"value": -2, "target": null, "target_type": null}],
+      "faction": [{"value": 2, "target": "Evil", "target_type": "faction"}],
+      "targeted": []
+    },
+    "tags": ["villain"]
+  },
+  "2001a": {
+    "id": "2001a",
+    "name": "Skeletor (Alt)",
+    "type": "figure",
+    "faction": "Evil",
+    "base_might": 18,
+    "alt": false,
+    "alt_entity": null,
+    "might_split": [0.7, 0.3],
+    "mighty_threshold": 20,
+    "immunity": {
+      "buff_types": ["opponent_buff"],
+      "buff_targets": [],
+      "buff_values": "all"
+    },
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 1,
+    "special_abilities": {
+      "placing": true,
+      "self_alt_activation": false,
+      "credit": 1
+    },
+    "buffs": {
+      "self": [{"value": 5, "target": null, "target_type": null}],
+      "neighbor": [{"value": -1, "target": "Good", "target_type": "faction"}],
+      "opponent": [{"value": -3, "target": null, "target_type": null}],
+      "faction": [],
+      "targeted": []
+    },
+    "tags": ["villain", "alt"]
+  },
+  "3001": {
+    "id": "3001",
+    "name": "Hordak",
+    "type": "figure",
+    "faction": "Horde",
+    "base_might": 14,
+    "alt": false,
+    "alt_entity": "3001a",
+    "might_split": [0.6, 0.4],
+    "mighty_threshold": 25,
+    "immunity": {
+      "buff_types": ["faction_buff"],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "mobility": {
+      "type": "flying",
+      "range": 2,
+      "ignores_idle_split": true
+    },
+    "scout_vision": 2,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": true,
+      "credit": 2
+    },
+    "buffs": {
+      "self": [{"value": 4, "target": null, "target_type": null}],
+      "neighbor": [{"value": 1, "target": "Horde", "target_type": "faction"}],
+      "opponent": [],
+      "faction": [{"value": 4, "target": "Horde", "target_type": "faction"}],
+      "targeted": []
+    },
+    "tags": ["villain", "horde"]
+  },
+  "3001a": {
+    "id": "3001a",
+    "name": "Hordak (Alt)",
+    "type": "figure",
+    "faction": "Horde",
+    "base_might": 20,
+    "alt": false,
+    "alt_entity": null,
+    "might_split": [0.8, 0.2],
+    "mighty_threshold": 25,
+    "immunity": {
+      "buff_types": ["neighbor_buff", "opponent_buff"],
+      "buff_targets": [],
+      "buff_values": "negative"
+    },
+    "mobility": {
+      "type": "flying",
+      "range": 2,
+      "ignores_idle_split": true
+    },
+    "scout_vision": 3,
+    "special_abilities": {
+      "placing": true,
+      "self_alt_activation": false,
+      "credit": 2
+    },
+    "buffs": {
+      "self": [{"value": 6, "target": null, "target_type": null}],
+      "neighbor": [{"value": 2, "target": "Horde", "target_type": "faction"}],
+      "opponent": [{"value": -4, "target": null, "target_type": null}],
+      "faction": [],
+      "targeted": []
+    },
+    "tags": ["villain", "horde", "alt"]
+  },
+  "4001": {
+    "id": "4001",
+    "name": "Zodak",
+    "type": "figure",
+    "faction": "Neutral",
+    "base_might": 8,
+    "alt": false,
+    "alt_entity": "4001a",
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 18,
+    "immunity": {
+      "buff_types": [],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 2,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": true,
+      "credit": 0
+    },
+    "buffs": {
+      "self": [{"value": 1, "target": null, "target_type": null}],
+      "neighbor": [{"value": 1, "target": null, "target_type": null}],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "tags": ["neutral", "support"]
+  },
+  "4001a": {
+    "id": "4001a",
+    "name": "Zodak (Alt)",
+    "type": "figure",
+    "faction": "Neutral",
+    "base_might": 12,
+    "alt": false,
+    "alt_entity": null,
+    "might_split": [1.0, 1.0],
+    "mighty_threshold": 18,
+    "immunity": {
+      "buff_types": ["targeted_buff"],
+      "buff_targets": [],
+      "buff_values": null
+    },
+    "mobility": {
+      "type": "ground",
+      "range": 1,
+      "ignores_idle_split": false
+    },
+    "scout_vision": 3,
+    "special_abilities": {
+      "placing": false,
+      "self_alt_activation": false,
+      "credit": 0
+    },
+    "buffs": {
+      "self": [{"value": 3, "target": null, "target_type": null}],
+      "neighbor": [{"value": 2, "target": null, "target_type": null}],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "tags": ["neutral", "support", "alt"]
+  }
+}
