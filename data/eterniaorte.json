@@ -30,22 +30,27 @@
     "name": "VineDschungel",
     "display_name_en": "Vine Dschungel",
     "display_name_de": "Vine Dschungel",
-    "description": "",
+    "description": "Dicht und mühsam",
     "base_might": 0,
     "vision": 0,
     "faction": "neutral,location",
     "rarity": null,
     "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [
+      "self": [
         {
-          "value": -2,
-          "target": "evil",
-          "target_type": "faction"
+          "value": -1,
+          "target": null,
+          "target_type": null
         }
       ],
+      "neighbor": [],
+      "opponent": [
+        {
+          "value": -1,
+          "target": null,
+          "target_type": null
+        }],
+      "faction": [],
       "targeted": []
     }
   },
@@ -278,8 +283,8 @@
     "id": "6012",
     "type": "location",
     "name": "KingsPalace",
-    "display_name_en": "KingsPalace",
-    "display_name_de": "KingsPalace",
+    "display_name_en": "Kings Palace",
+    "display_name_de": "Königspalast",
     "description": "",
     "base_might": 0,
     "vision": 0,
