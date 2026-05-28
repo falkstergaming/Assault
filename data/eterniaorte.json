@@ -2,30 +2,14 @@
   "6001": {
     "id": "6001",
     "type": "location",
-    "name": "Ebene der Ewigkeit",
+    "name": "EbenederEwigkeit",
+    "display_name_en": "Ebene der Ewigkeit",
+    "display_name_de": "Ebene der Ewigkeit",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -38,36 +22,19 @@
         }
       ],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6002": {
     "id": "6002",
     "type": "location",
-    "name": "Vine Dschungel",
+    "name": "VineDschungel",
+    "display_name_en": "Vine Dschungel",
+    "display_name_de": "Vine Dschungel",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -80,36 +47,19 @@
         }
       ],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6003": {
     "id": "6003",
     "type": "location",
-    "name": "Geheimnisvolle Berge",
+    "name": "GeheimnisvolleBerge",
+    "display_name_en": "Geheimnisvolle Berge",
+    "display_name_de": "Geheimnisvolle Berge",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -122,36 +72,19 @@
         }
       ],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6004": {
     "id": "6004",
     "type": "location",
-    "name": "Immergrüner Wald",
+    "name": "ImmergrünerWald",
+    "display_name_en": "Immergrüner Wald",
+    "display_name_de": "Immergrüner Wald",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -164,36 +97,19 @@
         }
       ],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6005": {
     "id": "6005",
     "type": "location",
-    "name": "Wüste der Zeit",
+    "name": "WüstederZeit",
+    "display_name_en": "Wüste der Zeit",
+    "display_name_de": "Wüste der Zeit",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -206,36 +122,19 @@
         }
       ],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6006": {
     "id": "6006",
     "type": "location",
     "name": "Schlangengrube",
+    "display_name_en": "Schlangengrube",
+    "display_name_de": "Schlangengrube",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -248,36 +147,19 @@
         }
       ],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6007": {
     "id": "6007",
     "type": "location",
-    "name": "Stadt von Eternis",
+    "name": "StadtvonEternis",
+    "display_name_en": "Stadt von Eternis",
+    "display_name_de": "Stadt von Eternis",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [
         {
@@ -290,36 +172,19 @@
       "opponent": [],
       "faction": [],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6008": {
     "id": "6008",
     "type": "location",
-    "name": "Baum der Sterbenden Zeit",
+    "name": "BaumderSterbendenZeit",
+    "display_name_en": "Baum der Sterbenden Zeit",
+    "display_name_de": "Baum der Sterbenden Zeit",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [
         {
@@ -332,36 +197,19 @@
       "opponent": [],
       "faction": [],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6009": {
     "id": "6009",
     "type": "location",
-    "name": "Lachende Brücke",
+    "name": "LachendeBrücke",
+    "display_name_en": "Lachende Brücke",
+    "display_name_de": "Lachende Brücke",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [
         {
@@ -374,36 +222,19 @@
       "opponent": [],
       "faction": [],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6010": {
     "id": "6010",
     "type": "location",
     "name": "Limbus",
+    "display_name_en": "Limbus",
+    "display_name_de": "Limbus",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -416,36 +247,19 @@
       ],
       "faction": [],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6011": {
     "id": "6011",
     "type": "location",
     "name": "Weltraumstation",
+    "display_name_en": "Weltraumstation",
+    "display_name_de": "Weltraumstation",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [
         {
@@ -458,36 +272,19 @@
       "opponent": [],
       "faction": [],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6012": {
     "id": "6012",
     "type": "location",
     "name": "KingsPalace",
+    "display_name_en": "KingsPalace",
+    "display_name_de": "KingsPalace",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [
         {
@@ -500,36 +297,19 @@
       "opponent": [],
       "faction": [],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6013": {
     "id": "6013",
     "type": "location",
     "name": "Unterwelt",
+    "display_name_en": "Unterwelt",
+    "display_name_de": "Unterwelt",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [],
       "neighbor": [
@@ -542,36 +322,19 @@
       "opponent": [],
       "faction": [],
       "targeted": []
-    },
-    "tags": []
+    }
   },
   "6014": {
     "id": "6014",
     "type": "location",
     "name": "Gebirge",
+    "display_name_en": "Gebirge",
+    "display_name_de": "Gebirge",
+    "description": "",
     "base_might": 0,
-    "alt": false,
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "mobility": {
-      "type": "ground",
-      "range": 0,
-      "ignores_idle_split": false
-    },
-    "scout_vision": 0,
-    "special_abilities": {
-      "placing": false,
-      "self_alt_activation": false,
-      "credit": 0
-    },
+    "vision": 0,
+    "faction": "neutral,location",
+    "rarity": null,
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -584,7 +347,6 @@
         }
       ],
       "targeted": []
-    },
-    "tags": []
+    }
   }
 }
