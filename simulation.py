@@ -30,7 +30,12 @@ with open(ETERNIAORTE_PATH, "r", encoding="utf-8") as f:
 with open(EFFECTS_PATH, "r", encoding="utf-8") as f:
     effekte = json.load(f)
 
-# --- Test-Entities aus JSON (einmalig geladen) ---
+# --- Dummy-Entities (ID 0000) ---
+dummy_figure = Figure.from_dict(figuren["0000"])      # Dummy-Figur (ID 0000)
+dummy_location = Location.from_dict(orte["0000"])    # Dummy-Location (ID 0000)
+dummy_effect = Effect.from_dict(effekte["0000"])      # Dummy-Effekt (ID 0000)
+
+# --- Bestehende Test-Entities (für Kompatibilität) ---
 adam = Figure.from_dict(figuren["1110"])          # Adam (ID 1110)
 orko = Figure.from_dict(figuren["1111"])          # Orko (ID 1111)
 vine_dschungel = Location.from_dict(orte["6002"])  # Vine Dschungel (ID 6002)
@@ -51,15 +56,131 @@ def main():
     board = Board()
 
     # --- Testfunktionen (innerhalb von main() definiert) ---
+    def test_hex_id_0000():
+        """Test 1: Erstelle das Hexfeld 0000 (Avatar-Feld)."""
+        console.log("--- Test 1: Hexfeld 0000 ---", COLORS["highlight"])
+
+        # 1. HexID erstellen
+        try:
+            hex_id = HexID("0000")
+            console.log(f"✅ HexID '0000' erstellt: {hex_id.raw_id}", COLORS["highlight"])
+        except ValueError as e:
+            console.log(f"❌ Fehler bei HexID-Erstellung: {e}", COLORS["idle_opponent"])
+            return
+
+        # 2. Prüfen, ob HexID auf dem Board existiert
+        if board.is_valid_position(hex_id):
+            console.log(f"✅ HexID '0000' existiert auf dem Board.", COLORS["highlight"])
+        else:
+            console.log(f"❌ HexID '0000' existiert NICHT auf dem Board.", COLORS["idle_opponent"])
+            return
+
+        # 3. Nachbarn prüfen (sollte leer sein)
+        neighbors = board.get_optical_neighbors(hex_id)
+        if len(neighbors) == 0:
+            console.log(f"✅ HexID '0000' hat keine Nachbarn (erwartet).", COLORS["highlight"])
+        else:
+            console.log(f"❌ HexID '0000' hat Nachbarn: {neighbors} (unerwartet).", COLORS["idle_opponent"])
+
+        # 4. Sichtbarkeit prüfen
+        if board.is_visible(hex_id):
+            console.log(f"✅ HexID '0000' ist sichtbar.", COLORS["highlight"])
+        else:
+            console.log(f"❌ HexID '0000' ist NICHT sichtbar.", COLORS["idle_opponent"])
+
+    def test_load_entities():
+        """Test 2: Lade Dummy-Entities (Figur 0000, Location 0000, Effekt 0000)."""
+        console.log("--- Test 2: Entities laden ---", COLORS["highlight"])
+
+        # 1. Dummy-Figur laden
+        console.log(f"✅ Dummy-Figur geladen: {dummy_figure.name} (ID: {dummy_figure.id}, Might: {dummy_figure.base_might})", COLORS["highlight"])
+
+        # 2. Dummy-Location laden
+        console.log(f"✅ Dummy-Location geladen: {dummy_location.name} (ID: {dummy_location.id}, Buffs: {len(dummy_location.buffs['self'])})", COLORS["highlight"])
+
+        # 3. Dummy-Effekt laden
+        console.log(f"✅ Dummy-Effekt geladen: {dummy_effect.name} (ID: {dummy_effect.id}, Cost: {dummy_effect.cost})", COLORS["highlight"])
+
+    def test_place_location():
+        """Test 3: Lege Dummy-Location (0000) auf Feld 0000 (Might ohne Figur)."""
+        console.log("--- Test 3: Location auf 0000 platzieren ---", COLORS["highlight"])
+
+        hex_id = HexID("0000")
+
+        # 1. Location platzieren
+        success = board.place_entity(hex_id, dummy_location)
+        console.log(f"Location '{dummy_location.name}' auf {hex_id.raw_id} platziert: {success}", COLORS["highlight"] if success else COLORS["idle_opponent"])
+
+        if not success:
+            return
+
+        # 2. Might der Location berechnen (ohne Figur)
+        location = board.get_location_at(hex_id)
+        if location:
+            # Might = base_might + self-buffs (hier: 0 + 2 = 2)
+            might = location.calculate_might(board.get_neighbors(hex_id), opponent=None, location=None)
+            console.log(f"Might der Location (ohne Figur): {might} (erwartet: 2)", COLORS["highlight"] if might == 2 else COLORS["idle_opponent"])
+        else:
+            console.log(f"❌ Location auf {hex_id.raw_id} nicht gefunden!", COLORS["idle_opponent"])
+
+    def test_place_figure():
+        """Test 4: Stelle Dummy-Figur (0000) auf Feld 0000 (Might mit Figur + Location)."""
+        console.log("--- Test 4: Figur auf 0000 platzieren ---", COLORS["highlight"])
+
+        hex_id = HexID("0000")
+
+        # 1. Figur platzieren (überschreibt Location nicht, da verschiedene Typen)
+        success = board.place_entity(hex_id, dummy_figure)
+        console.log(f"Figur '{dummy_figure.name}' auf {hex_id.raw_id} platziert: {success}", COLORS["highlight"] if success else COLORS["idle_opponent"])
+
+        if not success:
+            return
+
+        # 2. Might der Figur berechnen (mit Location)
+        figure = board.get_figure_at(hex_id)
+        location = board.get_location_at(hex_id)
+        if figure and location:
+            # Might = base_might (5) + location.self-buffs (2) = 7
+            might = figure.calculate_might(board.get_neighbors(hex_id), opponent=None, location=location)
+            console.log(f"Might der Figur (mit Location): {might} (erwartet: 7)", COLORS["highlight"] if might == 7 else COLORS["idle_opponent"])
+        else:
+            console.log(f"❌ Figur oder Location auf {hex_id.raw_id} nicht gefunden!", COLORS["idle_opponent"])
+
+    def test_place_effect():
+        """Test 5: Lege Dummy-Effekt (0000) auf Feld 0000 (Might mit Figur + Location + Effekt)."""
+        console.log("--- Test 5: Effekt auf 0000 platzieren ---", COLORS["highlight"])
+
+        hex_id = HexID("0000")
+
+        # 1. Effekt platzieren
+        success = board.place_entity(hex_id, dummy_effect)
+        console.log(f"Effekt '{dummy_effect.name}' auf {hex_id.raw_id} platziert: {success}", COLORS["highlight"] if success else COLORS["idle_opponent"])
+
+        if not success:
+            return
+
+        # 2. Might der Figur berechnen (mit Location + Effekt)
+        figure = board.get_figure_at(hex_id)
+        location = board.get_location_at(hex_id)
+        effect = board.get_effect_at(hex_id)
+
+        if figure and location and effect:
+            # Might = base_might (5) + location.self-buffs (2) + effect.self-buffs (0) = 7
+            might = figure.calculate_might(board.get_neighbors(hex_id), opponent=None, location=location)
+            console.log(f"Might der Figur (mit Location + Effekt): {might} (erwartet: 7)", COLORS["highlight"] if might == 7 else COLORS["idle_opponent"])
+        else:
+            console.log(f"❌ Figur, Location oder Effekt auf {hex_id.raw_id} nicht gefunden!", COLORS["idle_opponent"])
+
     def test_board():
-        """Test 1: Prüft, ob Hexfelder in Gruppen (0, 1xxx, 2xxx, 8xxx) erstellt wurden."""
-        board.battle_init()  # ✅ Hexfelder erstellen (wie später im Spiel)
+        """Test 6: Prüft, ob Hexfelder in Gruppen (0, 1xxx, 2xxx, 8xxx) erstellt wurden."""
+        board.battle_init()  # Hexfelder erstellen
 
         valid_ids = [h.raw_id for h in board.get_valid_hex_ids()]
         groups = {
-            "0 (Idle)": [h for h in valid_ids if h.startswith("30")],
-            "1xxx (Spieler)": [h for h in valid_ids if h.startswith("1") or h.startswith("2")],
+            "0 (Avatar)": [h for h in valid_ids if h.startswith("00")],
+            "1xxx (Spieler)": [h for h in valid_ids if h.startswith("1")],
             "2xxx (Gegner)": [h for h in valid_ids if h.startswith("2")],
+            "3xxx (Idle)": [h for h in valid_ids if h.startswith("3")],
             "8xxx (Effekte)": [h for h in valid_ids if h.startswith("8")]
         }
 
@@ -76,72 +197,42 @@ def main():
             console.log(f"✅ Alle Gruppen valide! Gesamt: {len(valid_ids)} Hexfelder.", COLORS["highlight"])
         else:
             console.log("❌ Einige Gruppen fehlen!", COLORS["idle_opponent"])
-            
-    def test_figure_placement():
-        """Test 2: Platziert Adam (1110) auf 1111."""
-        success = board.place_entity(HexID("1111"), adam)
-        console.log(f"Figur 'Adam' auf 1111 platziert: {success}", COLORS["highlight"] if success else COLORS["idle_opponent"])
 
-    def test_location_placement():
-        """Test 3: Platziert Vine Dschungel (6002) auf 1112."""
-        success = board.place_entity(HexID("1112"), vine_dschungel)
-        console.log(f"Location 'Vine Dschungel' auf 1112 platziert: {success}", COLORS["highlight"] if success else COLORS["idle_opponent"])
+    def test_load_figures_and_factions():
+        """Test 7: Lade alle Figuren und Faction-Pools."""
+        console.log("--- Test 7: Figuren & Faction-Pools laden ---", COLORS["highlight"])
 
-    def test_figure_and_location():
-        """Test 4: Platziert Orko (1111) + Vine Dschungel (6002) auf 1112."""
-        board.place_entity(HexID("1112"), orko)
-        board.place_entity(HexID("1112"), vine_dschungel)
-        loc = board.get_location_at(HexID("1112"))
-        fig = board.get_figure_at(HexID("1112"))
-        console.log(f"Location auf 1112: {loc.name if loc else 'None'}")
-        console.log(f"Figur auf 1112: {fig.name if fig else 'None'}")
+        # 1. Alle Figuren laden
+        figures_loaded = len(figuren)
+        console.log(f"✅ {figures_loaded} Figuren geladen (inkl. Dummy-Figur 0000).", COLORS["highlight"])
 
-    def test_might_calculation():
-        """Test 5: Berechnet Orko's Might (ohne Nachbarn/Location)."""
-        neighbors = board.get_neighbors(HexID("1111"))
-        might = orko.calculate_might(neighbors, opponent=None, location=None)
-        console.log(f"Orko's Might (ohne Nachbarn/Location): {might}")
+        # 2. Faction-Pools laden
+        with open("data/factions.json", "r", encoding="utf-8") as f:
+            factions = json.load(f)
+        console.log(f"✅ Faction-Pools geladen: {list(factions.keys())}", COLORS["highlight"])
 
-    def test_might_calculation_with_location():
-        """Test 6: Berechnet Orko's Might mit Vine Dschungel auf 1112."""
-        board.place_entity(HexID("1112"), orko)
-        board.place_entity(HexID("1112"), vine_dschungel)
-        neighbors = board.get_neighbors(HexID("1112"))
-        location = board.get_location_at(HexID("1112"))
-        might = orko.calculate_might(neighbors, opponent=None, location=location)
-        console.log(f"Orko's Might (mit Vine Dschungel auf 1112): {might}")
+    def test_load_locations_and_effects():
+        """Test 8: Lade alle Locations und Effekte."""
+        console.log("--- Test 8: Locations & Effekte laden ---", COLORS["highlight"])
 
-    def test_effect_placement():
-        """Test 7: Platziert Schlangenstab (9212) auf 8001."""
-        success = board.place_entity(HexID("8001"), schlangenstab)
-        console.log(f"Effekt 'Schlangenstab' auf 8001 platziert: {success}", COLORS["highlight"] if success else COLORS["idle_opponent"])
+        # 1. Alle Locations laden
+        locations_loaded = len(orte)
+        console.log(f"✅ {locations_loaded} Locations geladen (inkl. Dummy-Location 0000).", COLORS["highlight"])
 
-    def test_idle_control():
-        """Test 8: Prüft Idle-Kontrolle (Might von Spieler/Gegner)."""
-        for idle in board.get_idle_fields():
-            player_might = sum(
-                fig.calculate_might(board.get_neighbors(hex_id), opponent=None)
-                for hex_id in board.get_idle_neighbors(idle)["player"]
-                if (fig := board.get_figure_at(hex_id))
-            )
-            opponent_might = sum(
-                fig.calculate_might(board.get_neighbors(hex_id), opponent=None)
-                for hex_id in board.get_idle_neighbors(idle)["opponent"]
-                if (fig := board.get_figure_at(hex_id))
-            )
-            controller_name = "Player" if player_might > opponent_might else "Opponent" if opponent_might > player_might else "None"
-            console.log(f"Idle {idle.raw_id}: Player: {player_might}, Opponent: {opponent_might}, Controller: {controller_name}")
+        # 2. Alle Effekte laden
+        effects_loaded = len(effekte)
+        console.log(f"✅ {effects_loaded} Effekte geladen (inkl. Dummy-Effekt 0000).", COLORS["highlight"])
 
     # --- Testbeschreibungen ---
     test_descriptions = [
-        "1: Board-Aufbau prüfen (gültige Hex-IDs)",
-        "2: Figur Adam (1110) auf 1111 platzieren",
-        "3: Location Vine Dschungel (6002) auf 1112 platzieren",
-        "4: Figur Orko (1111) + Vine Dschungel auf 1112 platzieren",
-        "5: Might-Berechnung (Orko ohne Nachbarn/Location)",
-        "6: Might-Berechnung (Orko mit Vine Dschungel auf 1112)",
-        "7: Effekt Schlangenstab (9212) auf 8001 platzieren",
-        "8: Idle-Kontrolle (Might von angrenzenden Feldern)",
+        "1: Hexfeld 0000 erstellen",
+        "2: Dummy-Entities (Figur, Location, Effekt) laden",
+        "3: Dummy-Location auf 0000 platzieren (Might ohne Figur)",
+        "4: Dummy-Figur auf 0000 platzieren (Might mit Figur + Location)",
+        "5: Dummy-Effekt auf 0000 platzieren (Might mit Figur + Location + Effekt)",
+        "6: Alle HexFelder erstellen",
+        "7: Figuren & Faction-Pools laden",
+        "8: Locations & Effekte laden",
         "C: Konsole löschen | ESC: Beenden"
     ]
 
@@ -174,28 +265,28 @@ def main():
                     console.log("Konsole gelöscht.", COLORS["primary"])
                 elif event.key == K_1:
                     console.log("[USER] Taste 1 gedrückt.", COLORS["highlight"])
-                    test_board()
+                    test_hex_id_0000()
                 elif event.key == K_2:
                     console.log("[USER] Taste 2 gedrückt.", COLORS["highlight"])
-                    test_figure_placement()
+                    test_load_entities()
                 elif event.key == K_3:
                     console.log("[USER] Taste 3 gedrückt.", COLORS["highlight"])
-                    test_location_placement()
+                    test_place_location()
                 elif event.key == K_4:
                     console.log("[USER] Taste 4 gedrückt.", COLORS["highlight"])
-                    test_figure_and_location()
+                    test_place_figure()
                 elif event.key == K_5:
                     console.log("[USER] Taste 5 gedrückt.", COLORS["highlight"])
-                    test_might_calculation()
+                    test_place_effect()
                 elif event.key == K_6:
                     console.log("[USER] Taste 6 gedrückt.", COLORS["highlight"])
-                    test_might_calculation_with_location()
+                    test_board()
                 elif event.key == K_7:
                     console.log("[USER] Taste 7 gedrückt.", COLORS["highlight"])
-                    test_effect_placement()
+                    test_load_figures_and_factions()
                 elif event.key == K_8:
                     console.log("[USER] Taste 8 gedrückt.", COLORS["highlight"])
-                    test_idle_control()
+                    test_load_locations_and_effects()
             elif event.type == MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
                 console.log(f"[USER] Mausklick bei ({x}, {y})", COLORS["highlight"])
