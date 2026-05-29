@@ -1,373 +1,317 @@
-# Assault
-Coding Assault
-# 📋 **Anforderungs-Tracking**
+# 📜 **Anforderungen & Implementierungsstand - Assault on Grayskull / Sturm auf Grayskull**
 
-*Status: ✅ Finalisiert | ⏳ Offen | ❌ Nicht relevant*  
-*Letzte Aktualisierung: 27.05.2026*
+*Letzte Aktualisierung: 29.05.2026*  
+*Status: ✅ Finalisiert für Implementierung*
 
 ---
 
-## **🎯 Grundlegendes**
+## **📁 Datei-Ablagestruktur**
 
-
-| **Anforderung**     | **Beschreibung**                               | **Status** | **Notizen** |
-| ------------------- | ---------------------------------------------- | ---------- | ----------- |
-| Titel (EN/DE)       | *Assault on Grayskull* / *Sturm auf Grayskull* | ✅          | -           |
-| Sprachunterstützung | Englisch (Standard) + Deutsch (optional)       | ✅          | -           |
-| Spielmodi           | Single Match, Best of X Factions               | ✅          | -           |
-
-
----
-
-## **🎮 Kernmechaniken**
-
-### **📌 Might-Berechnung**
-
-
-| **Anforderung**   | **Beschreibung**                                                                                                         | **Status** | **Notizen**               |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------- | ------------------------- |
-| **Definition**    | Might = `Base Might` + Summe aller Buff-Values (Prioritäten: Self → Neighbor → Opponent → Faction → Targeted → Location) | ✅          | Impl. in `base_entity.py` |
-| **Grenzen**       | Minimum: `0`, Maximum: kein festes Limit                                                                                 | ✅          | -                         |
-| **Mighty-Status** | Ab `Might > 20`: Immunitäten (z. B. gegen negative Buffs)                                                                | ✅          | -                         |
-| **Might-Split**   | Individuelle Aufteilung pro Entity (Default: `[0.5, 0.5]`), Summe kann **> 1.0** sein                                    | ✅          | -                         |
-
-
-### **📌 Alt-State**
-
-
-| **Anforderung**   | **Beschreibung**                                                         | **Status** | **Notizen**                  |
-| ----------------- | ------------------------------------------------------------------------ | ---------- | ---------------------------- |
-| **Aktivierung**   | Kostenlos, restricted (Runden-Count, Hold-Idle-Count, Effekte 5xxx/9xxx) | ✅          | -                            |
-| **Deaktivierung** | Manuell durch Spieler oder Gegner-Effekte/Spezial-Locations              | ✅          | -                            |
-| **Scope**         | **Nur für 4 Heroes** (Adam, Skeletor, Hordak, Zodak)                     | ✅          | `alt_entity` nur für diese 4 |
-
-
-### **📌 Buffs & Immunitäten**
-
-
-| **Anforderung**            | **Beschreibung**                                                                                  | **Status** | **Notizen** |
-| -------------------------- | ------------------------------------------------------------------------------------------------- | ---------- | ----------- |
-| **Buff-Typen**             | `self`, `neighbor`, `opponent`, `faction`, `targeted`                                             | ✅          | -           |
-| **Buff-Struktur**          | Jeder Buff: `value` (int), `target` (str/None), `target_type` (str/None)                          | ✅          | -           |
-| **Target-Einschränkungen** | `target_type`: `"self"`, `"faction"`, `"pool"`, `"tag"`, `"id"`                                   | ✅          | -           |
-| **Immunitäten**            | `buff_types` (Liste), `buff_targets` (Liste), `buff_values` (`"negative"`, `"positive"`, `"all"`) | ✅          | -           |
-
-
----
-
-## **💰 Assault Points (AP)**
-
-
-| **Anforderung**           | **Beschreibung**                                                      | **Status** | **Notizen**              |
-| ------------------------- | --------------------------------------------------------------------- | ---------- | ------------------------ |
-| **Konto-Modell**          | Pro Match (nicht pro Runde), Anzeige: `"AP: X"`                       | ✅          | UI in `screen.py`        |
-| **Grundbetrag pro Runde** | Runde 0: 0 AP, Runde 1–6: +1–6 AP (kumulativ)                         | ⏳          | Fehlt in `ap_manager.py` |
-| **Übertrag**              | Nicht verbrauchte AP bleiben auf dem Konto                            | ⏳          | Fehlt in `ap_manager.py` |
-| **Kredit-System**         | Factions/Figuren mit `credit: 1-2` können AP überziehen               | ⏳          | Fehlt in `ap_manager.py` |
-| **AP-Quellen**            | Idle-Kontrolle (+1 AP/Runde), Locations (+X AP), Effekte (`bonus_ap`) | ⏳          | Fehlt in `ap_manager.py` |
-| **AP-Nutzung**            | Effekte kaufen (`cost`), Effekte aktivieren (`activation_cost`)       | ⏳          | Fehlt in `ap_manager.py` |
-
-
----
-
-## **🏷️ Spiel-Entitäten**
-
-
-| **Entity-Typ**      | **Anforderung**                                                                          | **Status** | **Notizen**           |
-| ------------------- | ---------------------------------------------------------------------------------------- | ---------- | --------------------- |
-| **Figur**           | `base_might`, `might_split`, `immunity`, `mobility`, `scout_vision`, `special_abilities` | ✅          | `figure.py`           |
-| **Location**        | Wie Figur, aber `base_might: 0`, `mobility.range: 0`, `scout_vision: 0`                  | ✅          | `location.py`         |
-| **Effekt**          | Wie Figur, aber `active: bool`, `cost`, `activation_cost`, `bonus_ap`                    | ✅          | `effect.py`           |
-| **Transportmittel** | Wie Figur, aber `type: "vehicle"`                                                        | ⏳          | Fehlt in `vehicle.py` |
-| **Faction**         | `pool` (Liste der Figuren-IDs), **kein `credit**` (über Figuren gelöst)                  | ✅          | `factions.json`       |
-
-
----
-
-## **🔄 Spielablauf & Phasen**
-
-
-| **Phase**          | **Anforderung**                                                                                                                                                                | **Status** | **Notizen**                 |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------------------- |
-| **1–9 pro Runde**  | 1. Figur wählen, 2. Marsch, 3. Might-Berechnung, 4. Positionskorrektur, 5. Might-Berechnung, 6. Effekte kaufen, 7. Effekte anwenden, 8. Finale Might-Berechnung, 9. Auswertung | ⏳          | Fehlt in `round_manager.py` |
-| **Idle-Kontrolle** | Nach Phase 3, 5, 8: Vergleich der Might aller angrenzenden Figuren (max. 3 pro Seite)                                                                                          | ⏳          | Teilweise in `board.py`     |
-| **Belohnungen**    | +1 AP/Runde für gehaltenes Idol, +2 AP als Comeback-Bonus                                                                                                                      | ⏳          | Fehlt in `round_manager.py` |
-
-
----
-
-## **🏆 Siegbedingungen**
-
-
-| **Anforderung**    | **Beschreibung**                                             | **Status** | **Notizen**                 |
-| ------------------ | ------------------------------------------------------------ | ---------- | --------------------------- |
-| **Idle-Kontrolle** | Nach jeder Runde: Wer hat mehr Might auf einem Idol?         | ⏳          | Teilweise in `board.py`     |
-| **Sieg**           | Gewonnen, wenn alle Idles in einer Runde kontrolliert werden | ⏳          | Fehlt in `round_manager.py` |
-
-
----
-
-## **🎨 Optik & UI/UX**
-
-
-| **Anforderung**        | **Beschreibung**                                                                          | **Status** | **Notizen**          |
-| ---------------------- | ----------------------------------------------------------------------------------------- | ---------- | -------------------- |
-| **Immer sichtbar**     | Modus, Battle Count, Rundenanzeige, AP-Konto, Idols-Status, aktuelle Phase, Mighty-Status | ⏳          | Fehlt in `screen.py` |
-| **Spielfeld**          | Verdeckte Locations (grau/nebelartig), enthüllt durch `scout_vision`                      | ⏳          | Fehlt in `screen.py` |
-| **Effekte in der Bar** | Aktiv: hervorgehoben, deaktiviert: ausgegraut, verbraucht: durchgestrichen                | ⏳          | Fehlt in `screen.py` |
-| **Farben**             | Aus `global_constants.py` (z. B. `COLORS["background"]`, `COLORS["text"]`)                | ✅          | `screen.py`          |
-| **Hintergrundbild**    | JPG aus `interfaces/renderer/pygame/artwork/`                                             | ✅          | `screen.py`          |
-| **Audio**              | MP3 aus `interfaces/renderer/pygame/artwork/`                                             | ✅          | `audio.py`           |
-| **Zahleneingabe**      | Eingabe von Zahlen (z. B. für AP-Management) über `GameController`                        | ✅          | `game_controller.py` |
-
-
----
-
-## **📊 Technische Anforderungen**
-
-
-| **Anforderung**           | **Beschreibung**                                                                                    | **Status** | **Notizen**     |
-| ------------------------- | --------------------------------------------------------------------------------------------------- | ---------- | --------------- |
-| **Datenbanken**           | JSON-Dateien: `figurenwerk.json`, `eterniaorte.json`, `effects.json`, `factions.json`               | ✅          | Fertig          |
-| **Einheitliche Struktur** | Alle Entities haben: `id`, `name`, `type`, `base_might`, `buffs`, `immunity`, `might_split`, `tags` | ✅          | Fertig          |
-| **Code-Standards**        | Globale Konstanten in `global_constants.py`, Docstrings für alle Funktionen                         | ✅          | Fertig          |
-| **Simulationsumgebung**   | 720p-Fenster mit Konsolenausgabe (für Tests der Kernlogik)                                          | ✅          | `simulation.py` |
-
-
----
-
-## **🔧 Offene technische Aufgaben**
-
-
-| **Aufgabe**          | **Beschreibung**                                                                 | **Priorität** | **Status** |
-| -------------------- | -------------------------------------------------------------------------------- | ------------- | ---------- |
-| **Might-Calculator** | Berechnet Might für alle Entities (Prioritäten, Buffs, Immunitäten, Might-Split) | 🔴 Hoch       | ⏳          |
-| **AP-Manager**       | AP-Konto (Grundbetrag, Bonus-AP, Kredit)                                         | 🔴 Hoch       | ⏳          |
-| **Round-Manager**    | 9 Phasen pro Runde (Figur wählen, Marsch, Effekte kaufen, etc.)                  | 🔴 Hoch       | ⏳          |
-| **State Machines**   | Zustandsverwaltung für Runden und Spielablauf                                    | 🟡 Mittel     | ⏳          |
-| **UI-Erweiterung**   | Buttons, Highlighting, Mouseover-Tooltips                                        | 🟡 Mittel     | ⏳          |
-| **Vehicle-Klasse**   | Transportmittel-Implementierung                                                  | 🟢 Niedrig    | ⏳          |
-
-
----
-
-## **📅 Letzte Prüfung**
-
-- **Datum:** 27.05.2026
-- **Geprüft von:** Christian Heb
-- **Nächste Prüfung:** Offene Punkte priorisieren (🔴 Hoch)
-
----
-
-### **💡 Legende**
-
-- ✅ **Finalisiert**: Implementiert und getestet.
-- ⏳ **Offen**: Noch nicht implementiert.
-- 🔴 **Hoch**: Kritisch für lauffähigen Prototypen.
-- 🟡 **Mittel**: Wichtig, aber nicht blockierend.
-- 🟢 **Niedrig**: Kann später folgen.
-
-# Projektdokumentation
-
-# Ordnerstruktur / Architektur
-
-AssaultOnGrayskull/
+```
+Assault/
 │
-├── **core/**                          # ✅ Spiel-Logik (Python-Klassen)
-│   ├── **game/**
-│   │   └── board.py                   # Board-Klasse (battle_init, _initialize_valid_hex_ids, get_neighbors)
+├── core/
+│   ├── __init__.py
 │   │
-│   ├── **entities/**
+│   ├── entities/
 │   │   ├── __init__.py
-│   │   ├── base_entity.py             # BaseEntity, calculate_might()
-│   │   ├── figure.py                  # Figure-Klasse
-│   │   ├── location.py                # Location-Klasse
-│   │   └── effect.py                  # Effect-Klasse
+│   │   ├── base_entity.py      # Basis-Klasse (Attribute: id, base_might, buffs, alt, might_split, etc.)
+│   │   ├── buff.py             # Buff-Klasse (value, target, target_type) + Serialisierung
+│   │   ├── figure.py           # Erbt von BaseEntity + self_alt_activation
+│   │   ├── location.py         # Erbt von BaseEntity (Self-Buffs nur bei Figur-Präsenz)
+│   │   ├── effect.py           # Erbt von BaseEntity + duration, cost, activation_cost
+│   │   └── vehicle.py          # Erbt von BaseEntity + capacity
 │   │
-│   └── **utils/**
+│   ├── game/
+│   │   ├── __init__.py
+│   │   ├── board.py            # Hexfeld-Verwaltung, Nachbarn, Idle-Kontrolle
+│   │   └── hex_id.py           # HexID-Klasse (Validierung, Nachbarn)
+│   │
+│   ├── managers/
+│   │   ├── __init__.py
+│   │   ├── might_calculator.py # **Zentrale Might-Berechnung** (nutzt BaseEntity-Attribute)
+│   │   ├── ap_manager.py       # AP-Konto (Grundbetrag, Übertrag, Überziehung mit credit)
+│   │   └── round_manager.py    # Steuerung der 9 Phasen pro Runde
+│   │
+│   └── utils/
 │       ├── __init__.py
-│       ├── hex_id.py                  # HexID-Klasse
-│       └── global_constants.py        # COLORS, FONT_FAMILY, etc.
+│       └── global_constants.py # Farben, Fonts, Hexfeld-Größen, Dateipfade
 │
-├── **data/**                          # ✅ Spiel-Daten (JSON)
-│   ├── figurenwerk.json               # Figuren (Adam=1110, Orko=1111, ...)
-│   ├── eterniaorte.json               # Locations (Vine Dschungel=6002, ...)
-│   └── effects.json                   # Effekte (Schlangenstab=9212, ...)
+├── data/
+│   ├── figurenwerk.json       # Figuren (inkl. Dummy 0000)
+│   ├── eterniaorte.json       # Locations (inkl. Dummy 0000)
+│   ├── effects.json           # Effekte (inkl. Dummy 0000)
+│   ├── vehicles.json          # Vehicles (inkl. Dummy 0000)
+│   └── factions.json          # Faction-Pools (Liste der Figuren-IDs pro Faction)
 │
-├── **interfaces/**                    # ✅ UI & Controller
-│   ├── game_controller.py             # GameController (Input-Handling)
+├── interfaces/
+│   ├── game_controller.py     # Eingabe-Handling (Tasten, Zahleneingabe)
 │   │
-│   └── **renderer/**
-│       └── **pygame/**
-│           ├── **artwork/**           # ✅ UI-Ressourcen (JPG/MP3)
+│   └── renderer/
+│       └── pygame/
+│           ├── __init__.py
+│           ├── audio.py       # AudioManager (MP3-Wiedergabe)
+│           ├── screen.py       # Screen-Klasse (Hintergrund, Text-Rendering)
+│           ├── artwork/        # JPG/MP3-Dateien für UI
 │           │   ├── background.jpg
 │           │   └── music.mp3
 │           │
-│           ├── audio.py               # AudioManager (Musik/Sounds)
-│           ├── screen.py               # Screen-Klasse (Hintergrund, draw_text)
-│           └── **components/**
-│               └── console.py          # Console-Klasse (12pt Schrift)
+│           └── components/
+│               └── console.py  # Textkonsole für Log-Meldungen
 │
-├── **simulation.py**                  # ✅ Testumgebung (Tasten 1–8, Konsole)
-└── **main.py**                        # ✅ Einstiegspunkt (startet simulation_main())
+├── main.py                    # Einstiegspunkt (startet Simulation)
+└── simulation.py              # Testumgebung (720p-Fenster, Tasten 1–8 für Tests)
 
-
-# 📋 **Anforderungs-Tracking**
-
-*Status: ✅ Finalisiert | ⏳ Offen | ❌ Nicht relevant*  
-*Letzte Aktualisierung: 27.05.2026*
+└── README.md                  # Projektdokumentation (Anforderungen, Architektur)
+```
 
 ---
 
-## **🎯 Grundlegendes**
-
-
-| **Anforderung**     | **Beschreibung**                               | **Status** | **Notizen** |
-| ------------------- | ---------------------------------------------- | ---------- | ----------- |
-| Titel (EN/DE)       | *Assault on Grayskull* / *Sturm auf Grayskull* | ✅          | -           |
-| Sprachunterstützung | Englisch (Standard) + Deutsch (optional)       | ✅          | -           |
-| Spielmodi           | Single Match, Best of X Factions               | ✅          | -           |
-
+## **📜 Anforderungen**
 
 ---
 
-## **🎮 Kernmechaniken**
-
-### **📌 Might-Berechnung**
+### **🎯 Grundlegendes**
 
 
-| **Anforderung**   | **Beschreibung**                                                                                                         | **Status** | **Notizen**               |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------- | ------------------------- |
-| **Definition**    | Might = `Base Might` + Summe aller Buff-Values (Prioritäten: Self → Neighbor → Opponent → Faction → Targeted → Location) | ✅          | Impl. in `base_entity.py` |
-| **Grenzen**       | Minimum: `0`, Maximum: kein festes Limit                                                                                 | ✅          | -                         |
-| **Mighty-Status** | Ab `Might > 20`: Immunitäten (z. B. gegen negative Buffs)                                                                | ✅          | -                         |
-| **Might-Split**   | Individuelle Aufteilung pro Entity (Default: `[0.5, 0.5]`), Summe kann **> 1.0** sein                                    | ✅          | -                         |
-
-
-### **📌 Alt-State**
-
-
-| **Anforderung**   | **Beschreibung**                                                         | **Status** | **Notizen**                  |
-| ----------------- | ------------------------------------------------------------------------ | ---------- | ---------------------------- |
-| **Aktivierung**   | Kostenlos, restricted (Runden-Count, Hold-Idle-Count, Effekte 5xxx/9xxx) | ✅          | -                            |
-| **Deaktivierung** | Manuell durch Spieler oder Gegner-Effekte/Spezial-Locations              | ✅          | -                            |
-| **Scope**         | **Nur für 4 Heroes** (Adam, Skeletor, Hordak, Zodak)                     | ✅          | `alt_entity` nur für diese 4 |
-
-
-### **📌 Buffs & Immunitäten**
-
-
-| **Anforderung**            | **Beschreibung**                                                                                  | **Status** | **Notizen** |
-| -------------------------- | ------------------------------------------------------------------------------------------------- | ---------- | ----------- |
-| **Buff-Typen**             | `self`, `neighbor`, `opponent`, `faction`, `targeted`                                             | ✅          | -           |
-| **Buff-Struktur**          | Jeder Buff: `value` (int), `target` (str/None), `target_type` (str/None)                          | ✅          | -           |
-| **Target-Einschränkungen** | `target_type`: `"self"`, `"faction"`, `"pool"`, `"tag"`, `"id"`                                   | ✅          | -           |
-| **Immunitäten**            | `buff_types` (Liste), `buff_targets` (Liste), `buff_values` (`"negative"`, `"positive"`, `"all"`) | ✅          | -           |
+| **Anforderung**         | **Details**                                               | **Status** | **Notizen**                    |
+| ----------------------- | --------------------------------------------------------- | ---------- | ------------------------------ |
+| **Titel**               | *Assault on Grayskull* (EN) / *Sturm auf Grayskull* (DE). | ✅          | Zweideutigkeit gewollt.        |
+| **Sprachunterstützung** | Englisch (Standard) + Deutsch (optional).                 | ✅          | JSON-Daten unterstützen beide. |
+| **Spielmodi**           | Single Match, Best of X Factions.                         | ✅          | &nbsp;                         |
 
 
 ---
 
-## **💰 Assault Points (AP)**
+### **🎮 Kernmechaniken**
+
+---
+
+#### **🔹 1. Might-Berechnung**
+
+**Definition:**  
+Might = `base_might` + Summe aller Buff-Values (nach strikter Prioritätenreihenfolge).
 
 
-| **Anforderung**           | **Beschreibung**                                                      | **Status** | **Notizen**              |
-| ------------------------- | --------------------------------------------------------------------- | ---------- | ------------------------ |
-| **Konto-Modell**          | Pro Match (nicht pro Runde), Anzeige: `"AP: X"`                       | ✅          | UI in `screen.py`        |
-| **Grundbetrag pro Runde** | Runde 0: 0 AP, Runde 1–6: +1–6 AP (kumulativ)                         | ⏳          | Fehlt in `ap_manager.py` |
-| **Übertrag**              | Nicht verbrauchte AP bleiben auf dem Konto                            | ⏳          | Fehlt in `ap_manager.py` |
-| **Kredit-System**         | Factions/Figuren mit `credit: 1-2` können AP überziehen               | ⏳          | Fehlt in `ap_manager.py` |
-| **AP-Quellen**            | Idle-Kontrolle (+1 AP/Runde), Locations (+X AP), Effekte (`bonus_ap`) | ⏳          | Fehlt in `ap_manager.py` |
-| **AP-Nutzung**            | Effekte kaufen (`cost`), Effekte aktivieren (`activation_cost`)       | ⏳          | Fehlt in `ap_manager.py` |
+| **Priorität** | **Buff-Typ** | **Beschreibung**                                                            | **Beispiel**                              |
+| ------------- | ------------ | --------------------------------------------------------------------------- | ----------------------------------------- |
+| 1             | `base_might` | Grundstärke der Entity.                                                     | Figur: `10`, Location: `5`                |
+| 2             | `self`       | Buffs der Entity selbst (wirken nur bei Alt-State oder Figur auf Location). | `{"value": +2, "target": "Adam"}`         |
+| 3             | `neighbor`   | Buffs von angrenzenden Entities (Figuren, Locations, Effekte).              | `{"value": +1, "target_type": "faction"}` |
+| 4             | `opponent`   | Buffs von gegenüberliegender Entity.                                        | `{"value": -1, "target": "Evil"}`         |
+| 5             | `faction`    | Buffs für alle Entities der gleichen Faction.                               | `{"value": +3, "target": "Good"}`         |
+| 6             | `targeted`   | Buffs für spezifische Entities (per ID oder Name).                          | `{"value": +5, "target": "1111"}`         |
+
+
+**Might-Split:**
+
+- Jede Entity hat ein `might_split: List[float]` (Default: `[0.5, 0.5]`).
+- **Summe kann > 1.0 sein** (z. B. `[1.0, 1.0]` für volle Idle-Kontrolle).
+- **Anwendung:** Might wird nach `might_split` auf **angrenzende Idle-Felder** verteilt.
+  - Beispiel: Figur mit `might: 20` und `might_split: [0.7, 0.3]` → **Idle 3011: +14**, **Idle 3012: +6**.
+
+**Mighty-Status:**
+
+- Ab `Might >= 20` gilt eine Entity als **"Mighty"** und erhält **Immunitäten** (z. B. gegen negative Buffs).
+
+---
+
+#### **🔹 2. Alt-State**
+
+**Definition:**  
+Jede Entity hat einen **alternativen Zustand** (`alt = True/False`), der **andere Buff-Values** aktiviert.
+
+
+| **Entity-Typ** | **Aktivierungsbedingung**                       | **Kosten**                                        | **Self-Buff wirkt**      |
+| -------------- | ----------------------------------------------- | ------------------------------------------------- | ------------------------ |
+| **Figur**      | `self_alt_activation: true` + `activation_cost` | `activation_cost` (einmalig)                      | Nur wenn `alt = True`.   |
+| **Effekt**     | Kauf (`cost`) + Aktivierung (`activation_cost`) | `cost` (einmalig) + `activation_cost` (pro Runde) | Nur wenn `alt = True`.   |
+| **Location**   | **Automatisch**, wenn Figur darauf steht.       | **Keine Kosten**                                  | Ja (wenn Figur präsent). |
 
 
 ---
 
-## **🏷️ Spiel-Entitäten**
+#### **🔹 3. Buff-System**
+
+**Buff-Klasse (`core/entities/buff.py`):**
+
+```python
+@dataclass
+class Buff:
+    value: int                  # Buff-Value (positiv/negativ)
+    target: Optional[str] = None  # Ziel: "self", "Good", "Evil", ID, etc.
+    target_type: Optional[str] = None  # Typ: "self", "faction", "pool", "tag", "id"
+```
 
 
-| **Entity-Typ**      | **Anforderung**                                                                          | **Status** | **Notizen**           |
-| ------------------- | ---------------------------------------------------------------------------------------- | ---------- | --------------------- |
-| **Figur**           | `base_might`, `might_split`, `immunity`, `mobility`, `scout_vision`, `special_abilities` | ✅          | `figure.py`           |
-| **Location**        | Wie Figur, aber `base_might: 0`, `mobility.range: 0`, `scout_vision: 0`                  | ✅          | `location.py`         |
-| **Effekt**          | Wie Figur, aber `active: bool`, `cost`, `activation_cost`, `bonus_ap`                    | ✅          | `effect.py`           |
-| **Transportmittel** | Wie Figur, aber `type: "vehicle"`                                                        | ⏳          | Fehlt in `vehicle.py` |
-| **Faction**         | `pool` (Liste der Figuren-IDs), **kein `credit**` (über Figuren gelöst)                  | ✅          | `factions.json`       |
+| **Buff-Typ**      | **Aktivierungsbedingung**                                                          | **Beispiel**                                                |
+| ----------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **Self-Buff**     | Immer aktiv (Figur/Effekt: nur bei `alt = True`; Location: nur bei Figur-Präsenz). | `{"value": +2, "target": "1111", "target_type": "id"}`      |
+| **Neighbor-Buff** | Aktiv, wenn die Entity **angrenzend** zu einer anderen Entity ist.                 | `{"value": +1, "target": "Good", "target_type": "faction"}` |
+| **Opponent-Buff** | Aktiv, wenn die Entity **gegenüber** einer anderen Entity steht.                   | `{"value": -1, "target": "Evil", "target_type": "faction"}` |
+| **Faction-Buff**  | Aktiv, wenn die Entity zur **Faction/Tag** des Buffs gehört.                       | `{"value": +3, "target": "Good", "target_type": "faction"}` |
+| **Targeted-Buff** | Aktiv, wenn die Entity **explizit das Ziel** des Buffs ist (ID/Name).              | `{"value": +5, "target": "1111", "target_type": "id"}`      |
 
+
+---
+
+#### **🔹 4. AP-System (Assault Points)**
+
+**AP-Konto:**
+
+- **Pro Match** (nicht pro Runde).
+- **Grundbetrag pro Runde**: Runde 0: 0 AP, Runde 1: +1 AP, Runde 2: +2 AP, ..., Runde 6: +6 AP.
+- **Übertrag**: Nicht verbrauchte AP bleiben auf dem Konto (kumulativ).
+- **Anzeige**: `"AP: X"` (z. B. `"AP: 6"` in Runde 4 mit 2 AP Restbestand aus Runde 3).
+
+**AP-Kosten:**
+
+
+| **Aktion**           | **Kosten**        | **Entity-Typ** |
+| -------------------- | ----------------- | -------------- |
+| Figur platzieren     | `cost`            | Figur          |
+| Alt-State aktivieren | `activation_cost` | Figur/Effekt   |
+| Effekt kaufen        | `cost`            | Effekt         |
+| Effekt aktivieren    | `activation_cost` | Effekt         |
+
+
+**AP-Überziehung mit `credit`:**
+
+- Entities mit `AP_credit: X` können **X AP überziehen** (z. B. `AP: -1`, aber `credit: 2` → kann noch 1 AP ausgeben).
+
+---
+
+---
+
+### **🏷️ Spiel-Entitäten**
+
+
+| **Entity-Typ** | **Attribute**                                                                      | **Spezifika**                                                                              |
+| -------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **Figur**      | `base_might`, `might_split`, `faction`, `AP_credit`, `self_alt_activation`, `cost` | Kann `placing: true` haben (Positionen tauschen). Alt-State aktivierbar.                   |
+| **Location**   | `base_might`, `might_split`, `buffs` (Self-Buffs wirken nur bei Figur-Präsenz)     | Keine Kosten, keine Aktivierung. Self-Buffs wirken automatisch, wenn Figur darauf steht.   |
+| **Effekt**     | `base_might`, `might_split`, `cost`, `activation_cost`, `duration` (dauerhaft?)    | `cost`: Kaufkosten. `activation_cost`: Kosten pro Aktivierung (pro Runde, wenn dauerhaft). |
+| **Vehicle**    | `base_might`, `might_split`, `capacity` (Anzahl Figuren)                           | Kein Alt-State, keine Aktivierungskosten.                                                  |
+
+
+**Gemeinsame Attribute für alle Entities:**
+
+- `id`, `name`, `type`, `base_might`, `buffs`, `tags`, `might_split`, `alt`, `alt_entity`, `mighty_threshold`.
+
+---
 
 ---
 
 ## **🔄 Spielablauf & Phasen**
 
+### **Rundenablauf (9 Phasen pro Runde)**
 
-| **Phase**          | **Anforderung**                                                                                                                                                                | **Status** | **Notizen**                 |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------------------- |
-| **1–9 pro Runde**  | 1. Figur wählen, 2. Marsch, 3. Might-Berechnung, 4. Positionskorrektur, 5. Might-Berechnung, 6. Effekte kaufen, 7. Effekte anwenden, 8. Finale Might-Berechnung, 9. Auswertung | ⏳          | Fehlt in `round_manager.py` |
-| **Idle-Kontrolle** | Nach Phase 3, 5, 8: Vergleich der Might aller angrenzenden Figuren (max. 3 pro Seite)                                                                                          | ⏳          | Teilweise in `board.py`     |
-| **Belohnungen**    | +1 AP/Runde für gehaltenes Idol, +2 AP als Comeback-Bonus                                                                                                                      | ⏳          | Fehlt in `round_manager.py` |
 
+| **Phase** | **Name**           | **Aktion**                                                                     | **Might-Berechnung** | **Idle-Kontrolle** | **AP-Relevanz**                                 |
+| --------- | ------------------ | ------------------------------------------------------------------------------ | -------------------- | ------------------ | ----------------------------------------------- |
+| **0**     | Initialisierung    | Übertrage Endstand aus Vorrunde (Might-Werte, Idle-Kontrolle, AP-Restbestand). | ❌                    | ❌                  | ✅ **AP + Rundennummer** (z. B. Runde 4 → +4 AP) |
+| **1**     | Figur wählen       | Wähle Figur aus Preview-Bereich (Kosten: `cost`).                              | ❌                    | ❌                  | ✅ `cost` wird abgezogen.                        |
+| **2**     | Marsch             | Alle Figuren bewegen sich **1 Feld vor**. Neue Figur wird platziert.           | ✅ **Ja**             | ❌                  | ❌                                               |
+| **3**     | Might-Berechnung   | Berechne Might für **alle Entities** (nach Marsch).                            | ✅ **Ja**             | ✅ **Ja**           | ❌                                               |
+| **4**     | Positionskorrektur | Figuren mit `placing: true` können Positionen tauschen.                        | ✅ **Ja**             | ❌                  | ❌                                               |
+| **5**     | Might-Berechnung   | **Neuberechnung** nach Positionstausch.                                        | ✅ **Ja**             | ✅ **Ja**           | ❌                                               |
+| **6**     | Effekte kaufen     | Kaufe Effekte mit `cost` (oder erhalte automatische Belohnungen).              | ❌                    | ❌                  | ✅ `cost` wird abgezogen.                        |
+| **7**     | Effekte auslösen   | Aktiviere Effekte mit `activation_cost`.                                       | ✅ **Ja**             | ✅ **Ja**           | ✅ `activation_cost` wird abgezogen.             |
+| **8**     | Might-Berechnung   | **Finale Berechnung** nach Effektauslösung.                                    | ✅ **Ja**             | ✅ **Ja**           | ❌                                               |
+| **9**     | Auswertung         | **Wer kontrolliert welche Idle?** (Siegbedingung: Alle 3 Idle = Sieg).         | ❌                    | ✅ **Ja**           | ❌                                               |
+
+
+---
+
+### **Idle-Kontrolle**
+
+- **Idle-Felder**: `3011`, `3012`, `3013`.
+- **Angrenzende Felder**:
+  - **3011**: Spieler: `1111`, `1112`, `1213` | Gegner: `2111`, `2112`, `2213`.
+  - **3012**: Spieler: `1213`, `1114`, `1215` | Gegner: `2213`, `2114`, `2215`.
+  - **3013**: Spieler: `1215`, `1116`, `1117` | Gegner: `2215`, `2116`, `2117`.
+
+**Might-Verteilung:**
+
+- Der **gesamte Might** einer Entity wird nach `might_split` auf die **angrenzenden Idle-Felder** verteilt.
+- **Threshold-Regel**:
+  - Wenn ein Spieler an einem Idol `**Might >= 20**` erreicht, behält er dieses Idol **dauerhaft** (auch wenn der Gegner später mehr Might hat).
+  - **Falls kein Threshold gerissen wurde**: Der Spieler mit der **höheren Might** am Rundenende kontrolliert das Idol.
 
 ---
 
 ## **🏆 Siegbedingungen**
 
+- **Idle-Kontrolle**: Nach jeder Runde wird geprüft, wer welche Idle kontrolliert.
+- **Sieg**: Ein Spieler gewinnt, wenn er **alle 3 Idle in einer Runde** kontrolliert.
 
-| **Anforderung**    | **Beschreibung**                                             | **Status** | **Notizen**                 |
-| ------------------ | ------------------------------------------------------------ | ---------- | --------------------------- |
-| **Idle-Kontrolle** | Nach jeder Runde: Wer hat mehr Might auf einem Idol?         | ⏳          | Teilweise in `board.py`     |
-| **Sieg**           | Gewonnen, wenn alle Idles in einer Runde kontrolliert werden | ⏳          | Fehlt in `round_manager.py` |
+---
+
+---
+
+## **📊 Implementierungsstand**
+
+---
+
+### **✅ Finalisierte Module/Klassen**
+
+
+| **Modul/Klasse**  | **Status** | **Beschreibung**                                               | **Datei**                                          |
+| ----------------- | ---------- | -------------------------------------------------------------- | -------------------------------------------------- |
+| `BaseEntity`      | ✅          | Basis-Klasse mit allen Attributen (keine Might-Logik).         | `core/entities/base_entity.py`                     |
+| `Buff`            | ✅          | Buff-Klasse (value, target, target_type) + Serialisierung.     | `core/entities/buff.py`                            |
+| `Figure`          | ✅          | Erbt von `BaseEntity` + `self_alt_activation`.                 | `core/entities/figure.py`                          |
+| `Location`        | ✅          | Erbt von `BaseEntity` (Self-Buffs nur bei Figur-Präsenz).      | `core/entities/location.py`                        |
+| `Effect`          | ✅          | Erbt von `BaseEntity` + `duration`, `cost`, `activation_cost`. | `core/entities/effect.py`                          |
+| `Vehicle`         | ✅          | Erbt von `BaseEntity` + `capacity`.                            | `core/entities/vehicle.py`                         |
+| `HexID`           | ✅          | Hexfeld-ID mit Validierung und Nachbarn-Berechnung.            | `core/game/hex_id.py`                              |
+| `Board`           | ✅          | Hexfeld-Verwaltung, Nachbarn, Idle-Kontrolle.                  | `core/game/board.py`                               |
+| `GlobalConstants` | ✅          | Farben, Fonts, Hexfeld-Größen, Dateipfade.                     | `core/utils/global_constants.py`                   |
+| `GameController`  | ✅          | Eingabe-Handling (Tasten, Zahleneingabe).                      | `interfaces/game_controller.py`                    |
+| `Screen`          | ✅          | Pygame-Screen mit Hintergrund und Text-Rendering.              | `interfaces/renderer/pygame/screen.py`             |
+| `Console`         | ✅          | Textkonsole für Log-Meldungen.                                 | `interfaces/renderer/pygame/components/console.py` |
+| `AudioManager`    | ✅          | MP3-Wiedergabe für Hintergrundmusik.                           | `interfaces/renderer/pygame/audio.py`              |
+| `Simulation`      | ✅          | Testumgebung mit 8 Tests (Tasten 1–8).                         | `simulation.py`                                    |
+| `Main`            | ✅          | Einstiegspunkt (startet Simulation).                           | `main.py`                                          |
 
 
 ---
 
-## **🎨 Optik & UI/UX**
+### **⏳ Offene Module/Klassen (Priorisiert)**
 
 
-| **Anforderung**        | **Beschreibung**                                                                          | **Status** | **Notizen**          |
-| ---------------------- | ----------------------------------------------------------------------------------------- | ---------- | -------------------- |
-| **Immer sichtbar**     | Modus, Battle Count, Rundenanzeige, AP-Konto, Idols-Status, aktuelle Phase, Mighty-Status | ⏳          | Fehlt in `screen.py` |
-| **Spielfeld**          | Verdeckte Locations (grau/nebelartig), enthüllt durch `scout_vision`                      | ⏳          | Fehlt in `screen.py` |
-| **Effekte in der Bar** | Aktiv: hervorgehoben, deaktiviert: ausgegraut, verbraucht: durchgestrichen                | ⏳          | Fehlt in `screen.py` |
-| **Farben**             | Aus `global_constants.py` (z. B. `COLORS["background"]`, `COLORS["text"]`)                | ✅          | `screen.py`          |
-| **Hintergrundbild**    | JPG aus `interfaces/renderer/pygame/artwork/`                                             | ✅          | `screen.py`          |
-| **Audio**              | MP3 aus `interfaces/renderer/pygame/artwork/`                                             | ✅          | `audio.py`           |
-| **Zahleneingabe**      | Eingabe von Zahlen (z. B. für AP-Management) über `GameController`                        | ✅          | `game_controller.py` |
-
-
----
-
-## **📊 Technische Anforderungen**
-
-
-| **Anforderung**           | **Beschreibung**                                                                                    | **Status** | **Notizen**     |
-| ------------------------- | --------------------------------------------------------------------------------------------------- | ---------- | --------------- |
-| **Datenbanken**           | JSON-Dateien: `figurenwerk.json`, `eterniaorte.json`, `effects.json`, `factions.json`               | ✅          | Fertig          |
-| **Einheitliche Struktur** | Alle Entities haben: `id`, `name`, `type`, `base_might`, `buffs`, `immunity`, `might_split`, `tags` | ✅          | Fertig          |
-| **Code-Standards**        | Globale Konstanten in `global_constants.py`, Docstrings für alle Funktionen                         | ✅          | Fertig          |
-| **Simulationsumgebung**   | 720p-Fenster mit Konsolenausgabe (für Tests der Kernlogik)                                          | ✅          | `simulation.py` |
+| **Modul/Klasse**      | **Priorität** | **Beschreibung**                                                                     | **Abhängigkeiten**                      | **Datei**                           |
+| --------------------- | ------------- | ------------------------------------------------------------------------------------ | --------------------------------------- | ----------------------------------- |
+| `**MightCalculator**` | 🔴 Hoch       | **Zentrale Might-Berechnung** (nutzt `BaseEntity`-Attribute, `Board`, `Buff`).       | `BaseEntity`, `Board`, `Buff`           | `core/managers/might_calculator.py` |
+| `**APManager**`       | 🔴 Hoch       | AP-Konto (Grundbetrag, Übertrag, Überziehung mit `credit`).                          | `BaseEntity`                            | `core/managers/ap_manager.py`       |
+| `**RoundManager**`    | 🔴 Hoch       | Steuerung der **9 Phasen pro Runde** (Initialisierung, Marsch, Effekte, Auswertung). | `Board`, `MightCalculator`, `APManager` | `core/managers/round_manager.py`    |
+| `**IdleControl**`     | 🔴 Hoch       | Idle-Kontrolle (Might-Verteilung, Threshold-Regel).                                  | `Board`, `MightCalculator`              | `core/managers/idle_control.py`     |
+| `**EntityLoader**`    | 🟡 Mittel     | Lädt Entities aus JSON-Dateien (nutzt `BaseEntity.from_dict()`).                     | `BaseEntity`                            | `core/entities/entity_loader.py`    |
 
 
 ---
 
-## **🔧 Offene technische Aufgaben**
+### **📋 Offene JSON-Datenbanken**
 
 
-| **Aufgabe**          | **Beschreibung**                                                                 | **Priorität** | **Status** |
-| -------------------- | -------------------------------------------------------------------------------- | ------------- | ---------- |
-| **Might-Calculator** | Berechnet Might für alle Entities (Prioritäten, Buffs, Immunitäten, Might-Split) | 🔴 Hoch       | ⏳          |
-| **AP-Manager**       | AP-Konto (Grundbetrag, Bonus-AP, Kredit)                                         | 🔴 Hoch       | ⏳          |
-| **Round-Manager**    | 9 Phasen pro Runde (Figur wählen, Marsch, Effekte kaufen, etc.)                  | 🔴 Hoch       | ⏳          |
-| **State Machines**   | Zustandsverwaltung für Runden und Spielablauf                                    | 🟡 Mittel     | ⏳          |
-| **UI-Erweiterung**   | Buttons, Highlighting, Mouseover-Tooltips                                        | 🟡 Mittel     | ⏳          |
-| **Vehicle-Klasse**   | Transportmittel-Implementierung                                                  | 🟢 Niedrig    | ⏳          |
+| **Datei**          | **Status** | **Beschreibung**                                              |
+| ------------------ | ---------- | ------------------------------------------------------------- |
+| `figurenwerk.json` | ✅          | Figuren (inkl. Dummy `0000`).                                 |
+| `eterniaorte.json` | ✅          | Locations (inkl. Dummy `0000`).                               |
+| `effekte.json`     | ✅          | Effekte (inkl. Dummy `0000`).                                 |
+| `fahrzeuge.json`   | ⏳          | **Fehlt noch**: Vehicles (inkl. Dummy `0000` mit `capacity`). |
+| `factions.json`    | ✅          | Faction-Pools (Liste der Figuren-IDs pro Faction).            |
 
 
 ---
 
-## **📅 Letzte Prüfung**
+### **🎯 Nächste Schritte (Priorisiert)**
 
-- **Datum:** 27.05.2026
-- **Geprüft von:** Christian Heb
-- **Nächste Prüfung:** Offene Punkte priorisieren (🔴 Hoch)
+1. `**fahrzeuge.json` erweitern (mit Dummy-Vehicle `0000` erstellt).
+2. `**MightCalculator` implementieren** (zentrale Might-Berechnung).
+3. `**APManager` implementieren** (AP-Konto, Kostenabzug).
+4. `**RoundManager` implementieren** (Phasen 0–9).
+5. `**IdleControl` implementieren** (Might-Verteilung, Threshold-Regel).
 
 ---
 
