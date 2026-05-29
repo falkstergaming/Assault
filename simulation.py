@@ -11,6 +11,7 @@ from core.game.board import Board
 from core.entities.figure import Figure
 from core.entities.location import Location
 from core.entities.effect import Effect
+from core.entities.vehicle import Vehicle
 from core.utils.hex_id import HexID
 from core.utils.global_constants import COLORS
 from interfaces.renderer.pygame.screen import Screen
@@ -21,19 +22,25 @@ from interfaces.renderer.pygame.audio import AudioManager
 # --- JSON-Dateien laden ---
 FIGURENWERK_PATH = "data/figurenwerk.json"
 ETERNIAORTE_PATH = "data/eterniaorte.json"
-EFFECTS_PATH = "data/effects.json"
+EFFEKTE_PATH = "data/effekte.json"
+FAHRZEUGE_PATH = "data/fahrzeuge.json"
 
 with open(FIGURENWERK_PATH, "r", encoding="utf-8") as f:
     figuren = json.load(f)
 with open(ETERNIAORTE_PATH, "r", encoding="utf-8") as f:
     orte = json.load(f)
-with open(EFFECTS_PATH, "r", encoding="utf-8") as f:
+with open(EFFEKTE_PATH, "r", encoding="utf-8") as f:
     effekte = json.load(f)
+# In simulation.py:
+with open("data/fahrzeuge.json", "r", encoding="utf-8") as f:
+    vehicles = json.load(f)
+
 
 # --- Dummy-Entities (ID 0000) ---
 dummy_figure = Figure.from_dict(figuren["0000"])      # Dummy-Figur (ID 0000)
 dummy_location = Location.from_dict(orte["0000"])    # Dummy-Location (ID 0000)
 dummy_effect = Effect.from_dict(effekte["0000"])      # Dummy-Effekt (ID 0000)
+dummy_vehicle = Vehicle.from_dict(vehicles["0000"])
 
 # --- Bestehende Test-Entities (für Kompatibilität) ---
 adam = Figure.from_dict(figuren["1110"])          # Adam (ID 1110)

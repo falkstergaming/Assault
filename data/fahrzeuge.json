@@ -1,0 +1,29 @@
+{
+  "0000": {
+    "id": "0000",
+    "type": "vehicle",
+    "name": "DummyVehicle",
+    "display_name_en": "Dummy Vehicle",
+    "display_name_de": "Dummy-Fahrzeug",
+    "description": "Test-Vehikel für Simulationen",
+    "base_might": 0,
+    "capacity": 2,
+    "faction": "neutral",
+    "rarity": "test",
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 20,
+    "cost": 0,
+    "activation_cost": 0,
+    "placing": false,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1
+  }
+}

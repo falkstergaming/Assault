@@ -1541,10 +1541,10 @@
     "range": "melee",
     "vision": 1,
     "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
+    "AP_credit": 1,
+    "self_alt_activation": true,
     "alt_state": true,
-    "alt_activation_cost": 5,
+    "alt_activation_cost": 1,
     "faction": "Zodak,main,neutral",
     "rarity": null,
     "buffs": {
@@ -1555,8 +1555,8 @@
       "targeted": []
     },
     "might_split": [
-      0.5,
-      0.5
+      1.0,
+      1.0
     ],
     "mighty_threshold": 0,
     "immunity": {

@@ -47,7 +47,7 @@ class Board:
         - AI-Felder (2xxx): 2111, 2112, 2213, 2114, 2215, 2116, 2117
         - Preview-Spieler (4xxx): 4000-4007
         - Preview-Gegner (5xxx): 5000-5007
-        - Avatare (0xxx): 0000, 0001
+        - Avatare (0xxx): 0000, 0001, 0002
         - Back-Spieler (6xxx): 6000-6007
         - Back-Gegner (7xxx): 7000-7007
         - Spezial-Spieler (8xxx): 8000-8007
@@ -77,7 +77,7 @@ class Board:
         hex_ids.update(HexID(f"50{num:02d}") for num in range(0, 8))
 
         # --- Avatare (0xxx) ---
-        hex_ids.update({HexID("0000"), HexID("0001")})
+        hex_ids.update({HexID("0000"), HexID("0001"), HexID("0002")})
 
         # --- Back-Spieler (6xxx): 6000-6007 ---
         hex_ids.update(HexID(f"60{num:02d}") for num in range(0, 8))

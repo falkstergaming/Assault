@@ -27,11 +27,10 @@ class Buff:
         )
 
 
-
 class BaseEntity:
     """
     Basis-Klasse für alle Entities (Figuren, Locations, Effekte, Vehicles).
-    Minimalistische Version mit gemeinsamen Attributen.
+    Final mit Alt-State, Kosten, und Buff-Logik.
     """
 
     def __init__(
@@ -46,15 +45,20 @@ class BaseEntity:
         description: Optional[str] = None,
         faction: Optional[str] = None,
         rarity: Optional[str] = None,
-        mobility: str = "ground",  # "ground", "flying", "ether"
-        range: str = "melee",      # "melee", "ranged"
+        mobility: str = "ground",
+        range: str = "melee",
         vision: int = 1,
         placing: bool = False,
-        AP_credit: int = 0,
         buffs: Optional[Dict[str, List[Buff]]] = None,
         tags: Optional[List[str]] = None,
         might_split: Optional[List[float]] = None,
-        # Standardwerte für might_split (nur für Figuren relevant)
+        # Alt-State Attribute
+        alt: bool = False,
+        alt_entity: Optional[str] = None,
+        mighty_threshold: int = 20,
+        # Kostenattribute
+        cost: int = 0,
+        activation_cost: int = 0,
     ):
         self.id = id
         self.name = name
@@ -71,7 +75,6 @@ class BaseEntity:
         self.range = range
         self.vision = vision
         self.placing = placing
-        self.AP_credit = AP_credit
         
         # Buffs und Tags
         self.buffs = buffs if buffs is not None else {
@@ -83,14 +86,21 @@ class BaseEntity:
         }
         self.tags = tags if tags is not None else []
         
-        # Might-Split (Standard für Figuren: [0.5, 0.5])
+        # Might-Split (Standard für alle Entities: [0.5, 0.5])
         self.might_split = might_split if might_split is not None else [0.5, 0.5]
+        
+        # Alt-State Attribute
+        self.alt = alt
+        self.alt_entity = alt_entity
+        self.mighty_threshold = mighty_threshold
+        
+        # Kostenattribute
+        self.cost = cost
+        self.activation_cost = activation_cost
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'BaseEntity':
-        """
-        Erstellt eine BaseEntity aus einem Dictionary (JSON-Deserialisierung).
-        """
+        """Erstellt eine BaseEntity aus einem Dictionary (JSON-Deserialisierung)."""
         buffs = {}
         if "buffs" in data:
             for buff_type, buff_list in data["buffs"].items():
@@ -110,16 +120,18 @@ class BaseEntity:
             range=data.get("range", "melee"),
             vision=data.get("vision", 1),
             placing=data.get("placing", False),
-            AP_credit=data.get("AP_credit", 0),
             buffs=buffs,
             tags=data.get("tags", []),
-            might_split=data.get("might_split", [0.5, 0.5])
+            might_split=data.get("might_split", [0.5, 0.5]),
+            alt=data.get("alt", False),
+            alt_entity=data.get("alt_entity"),
+            mighty_threshold=data.get("mighty_threshold", 20),
+            cost=data.get("cost", 0),
+            activation_cost=data.get("activation_cost", 0)
         )
 
     def to_dict(self) -> Dict[str, Any]:
-        """
-        Konvertiert die Entity in ein Dictionary (JSON-Serialisierung).
-        """
+        """Konvertiert die Entity in ein Dictionary (JSON-Serialisierung)."""
         buffs = {}
         for buff_type, buff_list in self.buffs.items():
             buffs[buff_type] = [b.to_dict() for b in buff_list]
@@ -138,10 +150,14 @@ class BaseEntity:
             "range": self.range,
             "vision": self.vision,
             "placing": self.placing,
-            "AP_credit": self.AP_credit,
             "buffs": buffs,
             "tags": self.tags,
-            "might_split": self.might_split
+            "might_split": self.might_split,
+            "alt": self.alt,
+            "alt_entity": self.alt_entity,
+            "mighty_threshold": self.mighty_threshold,
+            "cost": self.cost,
+            "activation_cost": self.activation_cost
         }
 
     def save_to_json(self, file_path: Union[str, Path]) -> None:
@@ -156,118 +172,76 @@ class BaseEntity:
             data = json.load(f)
         return BaseEntity.from_dict(data)
 
+    # --- Alt-State ---
+    def activate_alt_state(self) -> bool:
+        """Aktiviert/deaktiviert den Alt-State. Gibt True zurück, wenn erfolgreich."""
+        self.alt = not self.alt
+        return True
+
+    def is_alt_active(self) -> bool:
+        """Prüft, ob der Alt-State aktiv ist."""
+        return self.alt
+
     # --- Might-Berechnung ---
-    def calculate_might(self, neighbor_entities: List['BaseEntity'], opponent=None, location=None) -> int:
+    def calculate_might(self, neighbor_entities: List['BaseEntity'] = None, opponent=None, location=None, hex_id: Optional[str] = None) -> int:
         """
-        Berechnet den Might-Wert der Entity inkl. aller Buffs, Immunitäten und Might-Split.
-        Folgt der strikten Prioritäten-Reihenfolge:
-        1. Base Might
-        2. Self-Buffs
-        3. Neighbor-Buffs
-        4. Opponent-Buffs
-        5. Faction-Buffs
-        6. Targeted-Buffs
-        7. Location-Buffs (falls location übergeben)
+        Berechnet den Might-Wert der Entity inkl. aller Buffs.
+        Self-Buffs wirken nur, wenn:
+        - Figur/Effekt: alt_state aktiv ist (self.alt = True)
+        - Location: Eine Figur auf der Location steht
         """
-        from core.utils.global_constants import MIN_MIGHT
-
         might = self.base_might
+        neighbor_entities = neighbor_entities or []
 
-        # 1. Self-Buffs
-        for buff in self.buffs.get("self", []):
-            might += buff.value  # ✅ buff.value statt buff["value"]
+        # 1. Self-Buffs (nur wenn Alt-State aktiv ODER Location mit Figur)
+        should_apply_self_buffs = (
+            self.alt or 
+            (self.type == "location" and hex_id and self._is_figure_on_location(hex_id))
+        )
+        if should_apply_self_buffs:
+            for buff in self.buffs["self"]:
+                might += buff.value
 
-        # 2. Neighbor-Buffs (jetzt mit Entities)
+        # 2. Neighbor-Buffs (von angrenzenden Entities)
         for neighbor in neighbor_entities:
-            if hasattr(neighbor, 'buffs'):  # ✅ Prüft, ob das Objekt Buffs hat (alle Entities haben buffs)
-                for buff in neighbor.buffs.get("neighbor", []):
-                    # Prüfe Target-Einschränkungen (falls vorhanden)
-                    if buff.get("target_type") is None or buff.get("target_type") == "self" or buff.get("target") == self.faction:
-                        might += buff.value  # ✅ buff.value statt buff["value"]
+            for buff in neighbor.buffs["neighbor"]:
+                if (buff.target_type == "faction" and buff.target and buff.target in (self.faction or "")) or \
+                   (buff.target_type == "tag" and buff.target in self.tags) or \
+                   (buff.target_type == "id" and buff.target == self.id):
+                    might += buff.value
 
         # 3. Opponent-Buffs (von gegenüberliegender Entity)
         if opponent:
             for buff in opponent.buffs["opponent"]:
-                if self._matches_buff_target(buff):
-                    if not self._is_immune(buff):
-                        might += buff.value
+                might += buff.value
 
-        # 4. Faction-Buffs (globale Buffs auf Faction/Tag)
+        # 4. Faction-Buffs (globale Buffs für die Faction)
         for buff in self.buffs["faction"]:
-            if self._matches_buff_target(buff):
-                if not self._is_immune(buff):
-                    might += buff.value
+            if buff.target_type == "faction" and buff.target and buff.target in (self.faction or ""):
+                might += buff.value
 
-        # 5. Targeted-Buffs (spezifische Buffs)
+        # 5. Targeted-Buffs (spezifische Buffs für diese Entity)
         for buff in self.buffs["targeted"]:
-            if self._matches_buff_target(buff):
-                if not self._is_immune(buff):
-                    might += buff.value
+            might += buff.value
 
-        # 6. Location-Buffs (falls auf einer Location)
-        if location:
+        # 6. Location-Buffs (wenn Figur auf Location steht)
+        if location and self.type == "figure":
             for buff in location.buffs["self"]:
-                if self._matches_buff_target(buff):
-                    if not self._is_immune(buff):
-                        might += buff.value
+                might += buff.value
 
-        # Minimum: 0
-        return max(MIN_MIGHT, might)
+        return max(0, might)
 
-    def _is_immune(self, buff: Buff) -> bool:
-        """
-        Prüft, ob die Entity immun gegen einen Buff ist.
-        """
-        # 1. Immunität gegen Buff-Typ
-        if buff.target_type in self.immunity.buff_types:
-            return True
-
-        # 2. Immunität gegen Buff-Target
-        if buff.target in self.immunity.buff_targets:
-            return True
-
-        # 3. Immunität gegen Buff-Value (negativ/positiv)
-        if self.immunity.buff_values == "negative" and buff.value < 0:
-            return True
-        if self.immunity.buff_values == "positive" and buff.value > 0:
-            return True
-        if self.immunity.buff_values == "all":
-            return True
-
-        return False
-
-    def _matches_buff_target(self, buff: Buff) -> bool:
-        """
-        Prüft, ob ein Buff auf diese Entity zutrifft.
-        """
-        if buff.target is None and buff.target_type is None:
-            return True  # Buff wirkt auf alle
-
-        if buff.target_type == "self":
-            return True  # Selbst-Referenz
-
-        if buff.target_type == "faction":
-            return buff.target in self.tags or buff.target == self.name
-
-        if buff.target_type == "tag":
-            return buff.target in self.tags
-
-        if buff.target_type == "id":
-            return buff.target == self.id
-
+    def _is_figure_on_location(self, hex_id: str) -> bool:
+        """Hilfsfunktion: Prüft, ob eine Figur auf dieser Location steht (nur für Locations relevant)."""
+        # Diese Methode würde in einer echten Implementierung das Board abfragen
+        # Hier nur ein Platzhalter
         return False
 
     def is_mighty(self, current_might: Optional[int] = None) -> bool:
-        """
-        Prüft, ob die Entity "Mighty" ist.
-        """
+        """Prüft, ob die Entity 'Mighty' ist."""
         if current_might is None:
-            current_might = self.calculate_might(neighbors=[], opponent=None)
+            current_might = self.calculate_might()
         return current_might >= self.mighty_threshold
-
-    def activate_alt_state(self) -> None:
-        """Aktiviert/deaktiviert den Alt-State (falls freigeschaltet)."""
-        self.alt = not self.alt
 
     def get_might_split(self) -> List[float]:
         """Gibt den Might-Split zurück."""
