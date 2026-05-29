@@ -7,8 +7,11 @@ Nutzt Farben aus global_constants.
 import pygame
 import os
 from pathlib import Path
+from typing import List
 from core.utils.global_constants import COLORS
 from core.utils.global_constants import FONT_CONSOLE
+from interfaces.renderer.pygame.components.button import Button  # ✅ Importiere Button
+
 
 class Screen:
     """
@@ -31,6 +34,7 @@ class Screen:
         pygame.display.set_caption("Sturm auf Grayskull")
         self.background = None
         self.font = pygame.font.SysFont(*FONT_CONSOLE)  # ✅ Font einmal erstellen
+        self.buttons: List[Button] = []  # ✅ Liste für Buttons
         self._load_background()
 
     def _load_background(self) -> None:
@@ -47,6 +51,10 @@ class Screen:
                     break  # Nimmt das erste JPG
                 except Exception as e:
                     print(f"Fehler beim Laden von {jpg_file}: {e}")
+    
+    def add_button(self, button: Button):
+        """Fügt einen Button zur Screen hinzu."""
+        self.buttons.append(button)
 
     def render(self) -> None:
         """Rendert den Hintergrund (oder Farbe aus global_constants)."""
@@ -54,6 +62,10 @@ class Screen:
             self.screen.blit(self.background, (0, 0))
         else:
             self.screen.fill(COLORS["background"])  # Fallback: Farbe aus global_constants
+
+        # ✅ Buttons rendern
+        for button in self.buttons:
+            button.render(self.screen)
 
     def draw_text(self, text: str, x: int, y: int, color: tuple = COLORS["text"]):
         """Zeichnet Text auf dem Bildschirm mit globaler Farbe."""
@@ -63,3 +75,10 @@ class Screen:
     def get_surface(self) -> pygame.Surface:
         """Gibt die Pygame-Oberfläche zurück (für Rendering durch andere Komponenten)."""
         return self.screen
+    
+    def handle_event(self, event: pygame.event.Event) -> bool:
+        """Behandelt Events für alle Buttons. Gibt True zurück, wenn ein Button geklickt wurde."""        
+        for button in self.buttons:
+         if button.handle_event(event):
+            return True
+        return False
