@@ -83,6 +83,254 @@ Assault/
 
 ---
 
+# **📜  0. Spielerlebnis**
+
+
+## **🎮 Match-Ablauf & Programmstart**
+
+### **📌 Startsequenz**
+
+1. **Spielstart**:
+  - Spieler startet das Spiel über `main.py`.
+  - **Hintergrund**: Initialisierung der Spiel-Engine (Pygame, Board, Entities).
+  - **Launch-Phase**:
+    - **Automatisierte Tests** werden während des Starts durchgeführt (z. B. Board-Initialisierung, Entity-Loading).
+    - **Ladebildschirm**: Optional (aktuell nicht nötig, da Ladezeit kurz).
+2. **Spielerauswahl**:
+  - **Anzahl der Spieler**: Immer **2 Spieler** (Hotseat oder gegen KI).
+  - **Spielmodus**:
+    - **Mensch vs. Mensch** (Hotseat).
+    - **Mensch vs. Computer** (KI-Gegner).
+    - **Computer vs. Computer** (für Simulationen und Balancing-Daten).
+  - **Zweck von Computer vs. Computer**:
+    - Ermöglicht **automatisierte Matches** zur Datenerfassung für **Balancing**.
+    - Wichtig für **Winrate-Analysen** pro Faction/Figur.
+3. **Modus-Auswahl**:
+  - **Single Match**: Ein einzelnes Match entscheidet über Sieg/Verlust.
+  - **Best of X Factions**:
+    - **Win Condition**: Spieler muss mit **X verschiedenen Factions** gewinnen (X = 1, 2, 3, oder 4).
+    - **Beispiel**:
+      - **X = 1**: Single Match (1 Faction reicht).
+      - **X = 2**: Spieler muss mit **2 verschiedenen Factions** gewinnen.
+      - **X = 4**: Spieler muss mit **allen 4 Factions** gewinnen (Maximalvariante).
+  - **Faction-Wahl**:
+    - Beide Spieler wählen **jeweils eine Faction** aus den 4 verfügbaren Factions:
+      - **Adam** (Good)
+      - **Skeletor** (Evil)
+      - **Hordak** (Evil, Horde)
+      - **Zodak** (Neutral)
+    - **Gleiche Faction erlaubt?**
+      - **Ja, standardmäßig erlaubt** (wichtig für Simulationen!).
+      - Optional: Einstellung, um **gleiche Factions zu verbieten** (z. B. für Balancing-Tests).
+4. **Faction-Auswahl**:
+  - Nach der Modus-Auswahl wählen beide Spieler ihre Faction.
+  - **Faction-Themes**:
+    - **Musik**: Jede Faction hat ein **eigenes Musikthema** (MP3-Datei).
+    - **Hintergrundbild**: Optional anpassbar pro Faction.
+    - **Farbschema**: Nutzt `FACTION_COLORS` aus `global_constants.py` (z. B. Blau für Adam, Rot für Skeletor).
+5. **Match-Start**:
+  - Nach der Faction-Auswahl beginnt das **erste Match** (Runden 0–6).
+  - **Siegbedingung pro Match**: Wer nach **7 Runden** (Runde 0–6) mehr Idle kontrolliert, gewinnt das Match.
+6. **Spielende**:
+  - Nach jedem Match wird geprüft, ob die **Siegbedingung für das gesamte Spiel** erfüllt ist:
+    - **Single Match (X=1)**: Sieg nach **1 Match**.
+    - **Best of X Factions (X=2,3,4)**: Spiel endet, wenn ein Spieler mit **X verschiedenen Factions** gewonnen hat.
+  - **Faction-Sperre**:
+    - Wenn ein Spieler mit einer Faction gewonnen hat, **kann diese Faction nicht nochmal gewählt werden** (gilt für beide Spieler).
+    - **Ausnahme**: Bei **Computer vs. Computer** (Simulationen) kann diese Regel deaktiviert werden.
+
+---
+
+## **📊 Match-Export & Datenanalyse**
+
+### **📌 Export-Datei pro Match**
+
+- **Zweck**: Erfassung von **Balancing-Daten** (Winrates pro Faction/Figur).
+- **Dateiformat**: **JSON oder CSV** (noch zu definieren).
+- **Speicherort**: `data/matches/` (neuer Ordner).
+
+### **📌 Struktur der Export-Datei**
+
+```json
+{
+  "metadata": {
+    "timestamp": "2026-05-29T12:00:00Z",
+    "match_id": "unique_id_12345",
+    "game_mode": "Best of 4 Factions",
+    "players": [
+      {
+        "type": "human",
+        "faction": "Adam",
+        "difficulty": null  // Nur für KI
+      },
+      {
+        "type": "ai",
+        "faction": "Skeletor",
+        "difficulty": "random"  // oder "refined" (später)
+      }
+    ],
+    "duration": "00:05:23"  // Spielzeit
+  },
+  "results": {
+    "winner": "player1",
+    "win_condition": "2 Factions",
+    "factions_used": ["Adam", "Zodak"],
+    "battles": [
+      {
+        "battle_id": 1,
+        "player1_faction": "Adam",
+        "player2_faction": "Skeletor",
+        "winner": "player1",
+        "rounds": 7,
+        "idle_control": {
+          "3011": "player1",
+          "3012": "player1",
+          "3013": "player2"
+        },
+        "figures_played": {
+          "player1": ["1110", "1111", "1112"],  // IDs der gespielten Figuren
+          "player2": ["2110", "2111", "2112"]
+        },
+        "might_history": [
+          {"round": 0, "player1_might": [10, 5, 0], "player2_might": [8, 6, 0]},
+          {"round": 1, "player1_might": [12, 7, 0], "player2_might": [9, 4, 0]},
+          // ... bis Runde 6
+        ]
+      },
+      {
+        "battle_id": 2,
+        "player1_faction": "Zodak",
+        "player2_faction": "Hordak",
+        "winner": "player1",
+        // ... weitere Battle-Daten
+      }
+    ],
+    "figure_stats": {
+      "1110": {"wins": 5, "losses": 2, "winrate": 0.714},
+      "1111": {"wins": 3, "losses": 1, "winrate": 0.750},
+      // ... für alle gespielten Figuren
+    },
+    "faction_stats": {
+      "Adam": {"wins": 2, "losses": 0, "winrate": 1.0},
+      "Skeletor": {"wins": 0, "losses": 2, "winrate": 0.0},
+      // ... für alle Factions
+    }
+  }
+}
+```
+
+### **📌 Anforderungen an den Export**
+
+- **Header**: Metadaten (Timestamp, Spieler, Modus, Schwierigkeit).
+- **Match-Daten**:
+  - **Battles**: Liste aller gespielten Matches (inkl. Runden, Idle-Kontrolle, gespielte Figuren).
+  - **Figure Stats**: Winrate pro Figur (für Balancing).
+  - **Faction Stats**: Winrate pro Faction (für Balancing).
+- **Automatisierung**:
+  - Export **automatisch nach jedem Match** (oder nach Spielende).
+  - **Dateiname**: `match_{timestamp}_{match_id}.json` (z. B. `match_20260529_120000_12345.json`).
+
+---
+
+## **🎨 Spielerlebnis & UI**
+
+### **📌 Menü & Einstellungen**
+
+
+| **Anforderung**       | **Details**                                                           | **Status** | **Notizen**                   |
+| --------------------- | --------------------------------------------------------------------- | ---------- | ----------------------------- |
+| **Sprachauswahl**     | Deutsch/Englisch (Standard: Englisch).                                | ✅          | In `settings.ini` speichern.  |
+| **Musik-Einstellung** | An/Aus + Lautstärke (Schieberegler).                                  | ✅          | In `settings.ini` speichern.  |
+| **Hintergrundmusik**  | Titelmusik (Startbildschirm) + Faction-Themes (nach Faction-Auswahl). | ⏳          | MP3-Dateien in `artwork/`.    |
+| **Hintergrundbild**   | Statisches Bild (keine Animation).                                    | ✅          | JPG in `artwork/`.            |
+| **Faction-Themes**    | **Musik + Farbschema** ändern sich je nach gewählter Faction.         | ⏳          | Nutzt `FACTION_COLORS`.       |
+| **Settings-Datei**    | `settings.ini` (speichert Sprache, Musik-Einstellungen, etc.).        | ✅          | Wird beim Spielstart geladen. |
+
+
+### **📌 Faction-Themes**
+
+- **Musik**:
+  - **Titelmusik**: Wird beim Startbildschirm abgespielt.
+  - **Faction-Themes**:
+    - **Adam**: `artwork/music/adam_theme.mp3`
+    - **Skeletor**: `artwork/music/skeletor_theme.mp3`
+    - **Hordak**: `artwork/music/hordak_theme.mp3`
+    - **Zodak**: `artwork/music/zodak_theme.mp3`
+  - **Wechsel**: Musik wechselt **sofort nach Faction-Auswahl**.
+- **Farbschema**:
+  - Definiert in `global_constants.py` als `FACTION_COLORS`:
+    ```python
+    FACTION_COLORS = {
+        "Adam": (0, 100, 200),      # Blau
+        "Skeletor": (200, 0, 0),   # Rot
+        "Hordak": (150, 0, 150),   # Lila
+        "Zodak": (100, 100, 100)   # Grau
+    }
+    ```
+  - Wird für **UI-Highlighting** (z. B. Rahmen, Text) genutzt.
+
+---
+
+## **🤖 KI-Gegner (für Simulationen)**
+
+
+| **Anforderung**            | **Details**                                                            | **Status** | **Notizen**                    |
+| -------------------------- | ---------------------------------------------------------------------- | ---------- | ------------------------------ |
+| **KI-Schwierigkeitsgrade** | `random` (zufällig), `maxed` (high) oder `refined` (optimiert, später).| ⏳          | `random` für erste Tests.      |
+| **KI-Entscheidungen**      | **Zufällig**: Faction-Wahl, Figurenauswahl, Effekte, Züge.             | ✅          | Keine Strategie in Phase 1.    |
+| **Simulationen**           | **Computer vs. Computer**: Automatisierte Matches für Balancing-Daten. | ⏳          | Export der Ergebnisse in JSON. |
+
+
+---
+
+## **📌 Zusammenfassung der Spiel-Anforderungen**
+
+### **🎮 Spiel-Ablauf**
+
+1. **Spielerauswahl**: 2 Spieler (Mensch/Mensch, Mensch/KI, KI/KI).
+2. **Modus-Auswahl**: Single Match oder Best of X Factions (X = 1–4).
+3. **Faction-Auswahl**: 4 Factions (Adam, Skeletor, Hordak, Zodak), gleiche Faction **standardmäßig erlaubt**.
+4. **Match-Start**: Runden 0–6, Siegbedingung pro Match.
+5. **Spielende**: Prüfe Siegbedingung für das gesamte Spiel (Single Match oder Best of X).
+
+### **📊 Daten-Export**
+
+- **Automatischer Export** nach jedem Match/Spiel.
+- **Inhalt**: Metadaten, Match-Daten, Figure Stats, Faction Stats.
+- **Zweck**: Balancing-Analyse (Winrates pro Faction/Figur).
+
+### **🎨 Spielerlebnis**
+
+- **Sprachauswahl** (DE/EN) + **Musik-Einstellungen** (An/Aus, Lautstärke).
+- **Faction-Themes**: Musik + Farbschema wechseln je nach gewählter Faction.
+- **Settings-Datei**: `settings.ini` für Persistenz.
+
+### **🤖 KI & Simulationen**
+
+- **KI-Schwierigkeit**: `random` (Standard) oder `refined` (später).
+- **Computer vs. Computer**: Für automatisierte Balancing-Tests.
+
+---
+
+## **📅 Nächste Schritte**
+
+1. **Match-Ablauf implementieren**:
+  - Spielerauswahl (Mensch/KI).
+  - Modus-Auswahl (Single Match / Best of X).
+  - Faction-Auswahl (mit Faction-Themes).
+2. **Export-Funktionalität**:
+  - JSON-Export für Matches (Metadaten + Statistiken).
+  - Automatische Generierung nach Spielende.
+3. **UI-Anpassungen**:
+  - Menü für Sprache/Musik.
+  - Faction-Themes (Musik + Farbschema).
+4. **KI-Implementierung**:
+  - Level easy `random`-Modus für erste Tests.
+  - Level normal `maxed`-Modus später.
+  - Level hard `refined`-Modus später.
+
+---
+
 ### **🎮 Kernmechaniken**
 
 ---
@@ -243,7 +491,8 @@ class Buff:
 ## **🏆 Siegbedingungen**
 
 - **Idle-Kontrolle**: Nach jeder Runde wird geprüft, wer welche Idle kontrolliert.
-- **Sieg**: Ein Spieler gewinnt, wenn er **alle 3 Idle in einer Runde** kontrolliert.
+- **Match-Sieg**: Ein Spieler gewinnt, wenn er **alle 3 Idle in einer Runde** kontrolliert.
+- **Spiel-Sieg**: Ein Spieler mit so vielen Factions gewinnt, wie vereinbart wurde (min 1, max 4)
 
 ---
 
