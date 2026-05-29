@@ -1,15 +1,9 @@
-"""
-Base Entity Class für Sturm auf Grayskull.
-Enthält gemeinsame Attribute und Methoden für alle Entities (Figuren, Locations, Effekte, Vehicles).
-Inkl. JSON-Ladefunktionalität.
-"""
-
 from typing import List, Dict, Optional, Union, Any
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 import json
 from pathlib import Path
 
-# --- Buff-Struktur ---
+
 @dataclass
 class Buff:
     """Repräsentiert einen Buff mit Wert, Ziel und Ziel-Typ."""
@@ -18,7 +12,6 @@ class Buff:
     target_type: Optional[str] = None  # Typ: "self", "faction", "pool", "tag", "id"
 
     def to_dict(self) -> Dict[str, Any]:
-        """Konvertiert Buff in Dictionary für JSON-Serialisierung."""
         return {
             "value": self.value,
             "target": self.target,
@@ -27,40 +20,17 @@ class Buff:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'Buff':
-        """Erstellt Buff aus Dictionary (JSON-Deserialisierung)."""
         return cls(
             value=data.get("value", 0),
             target=data.get("target"),
             target_type=data.get("target_type")
         )
 
-# --- Immunitäts-Struktur ---
-@dataclass
-class Immunity:
-    """Repräsentiert Immunitäten gegen bestimmte Buffs."""
-    buff_types: List[str] = field(default_factory=list)  # ["targeted_buff", "faction_buff"]
-    buff_targets: List[str] = field(default_factory=list)  # ["Spy", "Felslinge", "Evil"]
-    buff_values: Optional[str] = None  # "negative", "positive", None
-
-    def to_dict(self) -> Dict[str, Any]:
-        return {
-            "buff_types": self.buff_types,
-            "buff_targets": self.buff_targets,
-            "buff_values": self.buff_values
-        }
-
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'Immunity':
-        return cls(
-            buff_types=data.get("buff_types", []),
-            buff_targets=data.get("buff_targets", []),
-            buff_values=data.get("buff_values")
-        )
 
 class BaseEntity:
     """
     Basis-Klasse für alle Entities (Figuren, Locations, Effekte, Vehicles).
-    Enthält gemeinsame Attribute und Methoden für Might-Berechnung, Buffs, Immunitäten, etc.
+    Minimalistische Version mit gemeinsamen Attributen.
     """
 
     def __init__(
@@ -69,15 +39,40 @@ class BaseEntity:
         name: str,
         type: str,
         base_might: int = 0,
-        immunity: Optional[Immunity] = None,
-        buffs: Optional[Dict[str, List[Buff]]] = None,
+        # Gemeinsame Attribute für alle Entities
+        display_name_en: Optional[str] = None,
+        display_name_de: Optional[str] = None,
+        description: Optional[str] = None,
+        faction: Optional[str] = None,
+        rarity: Optional[str] = None,
+        mobility: str = "ground",  # "ground", "flying", "ether"
+        range: str = "melee",      # "melee", "ranged"
         vision: int = 1,
+        placing: bool = False,
+        AP_credit: int = 0,
+        buffs: Optional[Dict[str, List[Buff]]] = None,
+        tags: Optional[List[str]] = None,
+        might_split: Optional[List[float]] = None,
+        # Standardwerte für might_split (nur für Figuren relevant)
     ):
         self.id = id
         self.name = name
         self.type = type
         self.base_might = base_might
-        self.immunity = immunity if immunity is not None else Immunity()
+        
+        # Gemeinsame Attribute
+        self.display_name_en = display_name_en
+        self.display_name_de = display_name_de
+        self.description = description
+        self.faction = faction
+        self.rarity = rarity
+        self.mobility = mobility
+        self.range = range
+        self.vision = vision
+        self.placing = placing
+        self.AP_credit = AP_credit
+        
+        # Buffs und Tags
         self.buffs = buffs if buffs is not None else {
             "self": [],
             "neighbor": [],
@@ -85,7 +80,10 @@ class BaseEntity:
             "faction": [],
             "targeted": []
         }
-        self.vision = vision
+        self.tags = tags if tags is not None else []
+        
+        # Might-Split (Standard für Figuren: [0.5, 0.5])
+        self.might_split = might_split if might_split is not None else [0.5, 0.5]
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'BaseEntity':
@@ -97,25 +95,24 @@ class BaseEntity:
             for buff_type, buff_list in data["buffs"].items():
                 buffs[buff_type] = [Buff.from_dict(b) for b in buff_list]
 
-
-        # vision kann aus 'vision' oder 'vision' stammen
-        vision = data.get("vision", data.get("vision", 1))
-
-
-
         return cls(
             id=data.get("id", ""),
             name=data.get("name", ""),
             type=data.get("type", "figure"),
             base_might=data.get("base_might", 0),
-            alt=data.get("alt", False),
-            alt_entity=data.get("alt_entity"),
-            might_split=data.get("might_split", [0.5, 0.5]),
-            mighty_threshold=data.get("mighty_threshold", 20),
-            immunity=Immunity.from_dict(data.get("immunity", {})),
+            display_name_en=data.get("display_name_en"),
+            display_name_de=data.get("display_name_de"),
+            description=data.get("description"),
+            faction=data.get("faction"),
+            rarity=data.get("rarity"),
+            mobility=data.get("mobility", "ground"),
+            range=data.get("range", "melee"),
+            vision=data.get("vision", 1),
+            placing=data.get("placing", False),
+            AP_credit=data.get("AP_credit", 0),
             buffs=buffs,
             tags=data.get("tags", []),
-            scout_vision=vision,
+            might_split=data.get("might_split", [0.5, 0.5])
         )
 
     def to_dict(self) -> Dict[str, Any]:
@@ -126,27 +123,24 @@ class BaseEntity:
         for buff_type, buff_list in self.buffs.items():
             buffs[buff_type] = [b.to_dict() for b in buff_list]
 
-        # mobility als String speichern, wenn es ein einfacher Typ ist
-        mobility_dict = self.mobility.to_dict()
-        mobility_value = mobility_dict["type"] if mobility_dict["type"] in ["ground", "flying", "special"] and mobility_dict["range"] == 1 and not mobility_dict["ignores_idle_split"] else mobility_dict
-
         return {
             "id": self.id,
             "name": self.name,
             "type": self.type,
             "base_might": self.base_might,
-            "alt": self.alt,
-            "alt_entity": self.alt_entity,
-            "might_split": self.might_split,
-            "mighty_threshold": self.mighty_threshold,
-            "immunity": self.immunity.to_dict(),
+            "display_name_en": self.display_name_en,
+            "display_name_de": self.display_name_de,
+            "description": self.description,
+            "faction": self.faction,
+            "rarity": self.rarity,
+            "mobility": self.mobility,
+            "range": self.range,
+            "vision": self.vision,
+            "placing": self.placing,
+            "AP_credit": self.AP_credit,
             "buffs": buffs,
             "tags": self.tags,
-            "mobility": mobility_value,
-            "vision": self.scout_vision,
-            "placing": self.special_abilities.placing,
-            "AP_credit": self.special_abilities.credit,
-            "self_alt_activation": self.special_abilities.self_alt_activation
+            "might_split": self.might_split
         }
 
     def save_to_json(self, file_path: Union[str, Path]) -> None:
