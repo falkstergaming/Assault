@@ -57,57 +57,6 @@ class Immunity:
             buff_values=data.get("buff_values")
         )
 
-# --- Mobility-Struktur ---
-@dataclass
-class Mobility:
-    """Repräsentiert Bewegungs-Eigenschaften."""
-    type: str = "ground"  # "ground", "flying", "special"
-    range: int = 1        # Anzahl Hexfelder pro Marsch
-    ignores_idle_split: bool = False  # Ignoriert Might-Teilung bei 2 Idles?
-
-    def to_dict(self) -> Dict[str, Any]:
-        return {
-            "type": self.type,
-            "range": self.range,
-            "ignores_idle_split": self.ignores_idle_split
-        }
-
-    @classmethod
-    def from_dict(cls, data: Union[Dict[str, Any], str, None]) -> 'Mobility':
-        # Falls data ein String ist (z. B. "ground"), konvertiere es in ein Dictionary
-        if isinstance(data, str):
-            return cls(type=data, range=1, ignores_idle_split=False)
-        elif data is None:
-            return cls(type="ground", range=1, ignores_idle_split=False)
-        return cls(
-            type=data.get("type", "ground"),
-            range=data.get("range", 1),
-            ignores_idle_split=data.get("ignores_idle_split", False)
-        )
-
-# --- Special Abilities-Struktur ---
-@dataclass
-class SpecialAbilities:
-    """Repräsentiert spezielle Fähigkeiten."""
-    placing: bool = False           # Darf Positionen anderer Figuren ändern?
-    self_alt_activation: bool = False  # Kann Alt-State selbst aktivieren?
-    credit: int = 0                # Kredit für AP-Überziehung
-
-    def to_dict(self) -> Dict[str, Any]:
-        return {
-            "placing": self.placing,
-            "self_alt_activation": self.self_alt_activation,
-            "credit": self.credit
-        }
-
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'SpecialAbilities':
-        return cls(
-            placing=data.get("placing", False),
-            self_alt_activation=data.get("self_alt_activation", False),
-            credit=data.get("credit", 0)
-        )
-
 class BaseEntity:
     """
     Basis-Klasse für alle Entities (Figuren, Locations, Effekte, Vehicles).
@@ -120,25 +69,14 @@ class BaseEntity:
         name: str,
         type: str,
         base_might: int = 0,
-        alt: bool = False,
-        alt_entity: Optional[str] = None,
-        might_split: List[float] = None,
-        mighty_threshold: int = 20,
         immunity: Optional[Immunity] = None,
         buffs: Optional[Dict[str, List[Buff]]] = None,
-        tags: List[str] = None,
-        mobility: Optional[Mobility] = None,
-        scout_vision: int = 1,
-        special_abilities: Optional[SpecialAbilities] = None
+        vision: int = 1,
     ):
         self.id = id
         self.name = name
         self.type = type
         self.base_might = base_might
-        self.alt = alt
-        self.alt_entity = alt_entity
-        self.might_split = might_split if might_split is not None else [0.5, 0.5]
-        self.mighty_threshold = mighty_threshold
         self.immunity = immunity if immunity is not None else Immunity()
         self.buffs = buffs if buffs is not None else {
             "self": [],
@@ -147,10 +85,7 @@ class BaseEntity:
             "faction": [],
             "targeted": []
         }
-        self.tags = tags if tags is not None else []
-        self.mobility = mobility if mobility is not None else Mobility()
-        self.scout_vision = scout_vision
-        self.special_abilities = special_abilities if special_abilities is not None else SpecialAbilities()
+        self.vision = vision
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'BaseEntity':
@@ -162,20 +97,11 @@ class BaseEntity:
             for buff_type, buff_list in data["buffs"].items():
                 buffs[buff_type] = [Buff.from_dict(b) for b in buff_list]
 
-        # mobility kann ein String, None oder Dictionary sein
-        mobility_data = data.get("mobility", {})
-        mobility = Mobility.from_dict(mobility_data)
 
-        # scout_vision kann aus 'vision' oder 'scout_vision' stammen
-        scout_vision = data.get("scout_vision", data.get("vision", 1))
+        # vision kann aus 'vision' oder 'vision' stammen
+        vision = data.get("vision", data.get("vision", 1))
 
-        # special_abilities aus den neuen Attributen erstellen
-        special_abilities_data = {
-            "placing": data.get("placing", False),
-            "self_alt_activation": data.get("self_alt_activation", False),
-            "credit": data.get("AP_credit", 0)
-        }
-        special_abilities = SpecialAbilities.from_dict(special_abilities_data)
+
 
         return cls(
             id=data.get("id", ""),
@@ -189,9 +115,7 @@ class BaseEntity:
             immunity=Immunity.from_dict(data.get("immunity", {})),
             buffs=buffs,
             tags=data.get("tags", []),
-            mobility=mobility,
-            scout_vision=scout_vision,
-            special_abilities=special_abilities
+            scout_vision=vision,
         )
 
     def to_dict(self) -> Dict[str, Any]:

@@ -28,15 +28,7 @@
       "opponent": [],
       "faction": [],
       "targeted": []
-    },
-    "might_split": [0.5, 0.5],
-    "mighty_threshold": 20,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    },
-    "tags": ["test", "dummy"]
+    }
   },
   "9211": {
     "id": "9211",
