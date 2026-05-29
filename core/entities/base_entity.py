@@ -27,6 +27,7 @@ class Buff:
         )
 
 
+
 class BaseEntity:
     """
     Basis-Klasse für alle Entities (Figuren, Locations, Effekte, Vehicles).
