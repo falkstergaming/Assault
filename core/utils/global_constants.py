@@ -88,7 +88,45 @@ COLORS = {
     "idle_opponent": (255, 0, 0),   # Rot für Gegner-Idle
     "idle_neutral": (200, 200, 0),  # Gelb für neutrale Idles
 }
+# Faction-Farben (RGB)
+FACTION_COLORS = {
+    "Adam": {
+        "primary": (96, 145, 116),      # 🟩 Moos-Neon Grün
+        "secondary": (255, 215, 0),    # Gold
+    },
+    "Skeletor": {
+        "primary": (125, 98, 150),      # 🟪 Dusty Retro Violet
+        "secondary": (0, 0, 0),        # Schwarz
+    },
+    "Hordak": {
+        "primary": (154, 86, 92),      # 🟥 Ancient Crimson (Rot)
+        "secondary": (192, 192, 192),  # Silber
+    },
+    "Zodak": {
+        "primary": (190, 125, 84),     # 🟧 Faded Sunset Orange
+        "secondary": (128, 128, 128),  # Grau
+    }
+}
 
+# Faction-Themes (Musik & Hintergrund)
+FACTION_THEMES = {
+    "Adam": {
+        "music": "artwork/music/adam_theme.mp3",
+        "background": "artwork/background_adam.jpg"
+    },
+    "Skeletor": {
+        "music": "artwork/music/skeletor_theme.mp3",
+        "background": "artwork/background_skeletor.jpg"
+    },
+    "Hordak": {
+        "music": "artwork/music/hordak_theme.mp3",
+        "background": "artwork/background_hordak.jpg"
+    },
+    "Zodak": {
+        "music": "artwork/music/zodak_theme.mp3",
+        "background": "artwork/background_zodak.jpg"
+    }
+}
 ## Fonts
 FONT_FAMILY = "Eurostile"  # Standard-Schriftart für das gesamte Spiel
 FONT_TITLE = (FONT_FAMILY, 24)      # Titel (z. B. "Sturm auf Grayskull")

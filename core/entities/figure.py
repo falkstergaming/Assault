@@ -1,5 +1,7 @@
 from core.entities.base_entity import BaseEntity
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, TYPE_CHECKING
+if TYPE_CHECKING:
+    from core.game.board import Board  # Nur für Typ-Hints, nicht zur Laufzeit
 
 class Figure(BaseEntity):
     """Repräsentiert eine Figur im Spiel."""

@@ -3,11 +3,19 @@ Board-Modul für Sturm auf Grayskull.
 Verwaltet das Spielfeld mit expliziten Hex-IDs, dynamischer Sichtbarkeit,
 und VOLLSTÄNDIGEN Nachbarn-Beziehungen (für Zeichnen und Spiel-Logik).
 """
-
-from typing import List, Dict, Set, Optional, TypeVar
 from core.utils.hex_id import HexID
+from typing import List, Dict, Set, Optional, TypeVar, TYPE_CHECKING
+from core.entities.base_entity import BaseEntity
+from core.entities.figure import Figure      # ✅ Importiere die Klassen
+from core.entities.location import Location  # ✅
+from core.entities.effect import Effect        # ✅
 
-T = TypeVar('T')  # Generischer Typ für Entities
+if TYPE_CHECKING:  # Vermeidet Zirkelimports zur Laufzeit
+    from core.entities.figure import Figure
+    from core.entities.location import Location
+    from core.entities.effect import Effect
+
+T = TypeVar('T', BaseEntity, Figure, Location, Effect)  # Generischer Typ für Entities
 
 class Board:
     """
@@ -25,10 +33,10 @@ class Board:
         self._logical_neighbors: Dict[HexID, List[HexID]] = self._initialize_logical_neighbors()  # Für Spiel-Logik (Marsch)
         self._optical_neighbors: Dict[HexID, List[HexID]] = self._initialize_optical_neighbors()  # Für UI-Rendering
 
-        # Dictionaries für Entities auf dem Board
-        self._figures: Dict[HexID, 'Figure'] = {}
-        self._locations: Dict[HexID, 'Location'] = {}
-        self._effects: Dict[HexID, 'Effect'] = {}
+        # Speichere Entities nach Typ pro Hexfeld
+        self._figures: Dict[str, BaseEntity] = {}      # {hex_id: Figure}
+        self._locations: Dict[str, BaseEntity] = {}   # {hex_id: Location}
+        self._effects: Dict[str, BaseEntity] = {}     # {hex_id: Effect}
 
         # Idol-Kontrolle (für Siegbedingungen)
         self._idle_control: Dict[HexID, Optional[str]] = {
@@ -270,18 +278,14 @@ class Board:
         return self._visibility.get(hex_id, False)
 
     # --- Nachbarn-Abfrage ---
-    def get_neighbors(self, hex_id: HexID) -> List['BaseEntity']:
-        """
-        Gibt alle Entities (Figuren, Locations, Effekte) auf den Nachbar-Feldern zurück.
-        Filtert None-Werte (leere Felder) heraus.
-        """
-        # ✅ Korrigiert: _logical_neighbors ist ein Dictionary (HexID -> Liste von HexIDs)
-        neighbor_ids = self._logical_neighbors.get(hex_id.raw_id, [])  # ✅ Dictionary-Zugriff!
+    def get_neighbors(self, hex_id: HexID) -> List[BaseEntity]:
+        """Gibt alle Entities (Figuren, Locations, Effekte) auf den Nachbar-Feldern zurück."""
+        neighbor_ids = self._logical_neighbors.get(hex_id, [])  # ✅ HexID-Objekt als Key!
         neighbors = []
         for nid in neighbor_ids:
-            entity = self.get_entity_at(HexID(nid))  # ✅ HexID-Objekt aus String erstellen
-            if entity is not None:
-                neighbors.append(entity)
+            # Hole alle Entities auf dem Nachbar-Feld
+            entities = self.get_entities_at(nid)
+            neighbors.extend(entities)
         return neighbors
 
     def get_optical_neighbors(self, hex_id: HexID) -> List[HexID]:
@@ -318,24 +322,20 @@ class Board:
             return None  # Kein gegenüberliegendes Feld für andere Bereiche
 
     # --- Platzierung von Entities ---
-    def place_entity(self, hex_id: HexID, entity: T) -> bool:
-        """
-        Platziert eine Entity auf einem Hexfeld.
-        Prüft, ob das Feld gültig und frei ist.
-        """
+    def place_entity(self, hex_id: HexID, entity: BaseEntity) -> bool:
+        """Platziert eine Entity auf einem Hexfeld. Erlaubt 1 Figur + 1 Location + 1 Effekt pro Feld."""
         if not self.is_valid_position(hex_id):
-            return False
-        if self._is_occupied(hex_id):
             return False
 
         if entity.type == "figure":
-            self._figures[hex_id] = entity
+            self._figures[hex_id.raw_id] = entity
         elif entity.type == "location":
-            self._locations[hex_id] = entity
+            self._locations[hex_id.raw_id] = entity
         elif entity.type == "effect":
-            self._effects[hex_id] = entity
+            self._effects[hex_id.raw_id] = entity
         else:
-            return False
+            return False  # Unbekannter Typ
+
         return True
 
     def remove_entity(self, hex_id: HexID, entity_type: str) -> Optional[T]:
@@ -357,24 +357,27 @@ class Board:
         )
 
     # --- Abfrage von Entities ---
-    def get_figure_at(self, hex_id: HexID) -> Optional['Figure']:
-        """Gibt die Figur auf einem Hexfeld zurück."""
-        return self._figures.get(hex_id)
+    def get_figure_at(self, hex_id: HexID) -> Optional[BaseEntity]:
+        return self._figures.get(hex_id.raw_id)
 
-    def get_location_at(self, hex_id: HexID) -> Optional['Location']:
-        """Gibt die Location auf einem Hexfeld zurück."""
-        return self._locations.get(hex_id)
+    def get_location_at(self, hex_id: HexID) -> Optional[BaseEntity]:
+        return self._locations.get(hex_id.raw_id)
 
-    def get_effect_at(self, hex_id: HexID) -> Optional['Effect']:
-        """Gibt den Effekt auf einem Hexfeld zurück."""
-        return self._effects.get(hex_id)
+    def get_effect_at(self, hex_id: HexID) -> Optional[BaseEntity]:
+        return self._effects.get(hex_id.raw_id)
 
-    def get_entity_at(self, hex_id: HexID) -> Optional[T]:
+    def get_entity_at(self, hex_id: HexID) -> Optional[BaseEntity]:
         """
-        Gibt die Entity (Figur, Location oder Effekt) auf einem Hexfeld zurück.
-        Priorität: Figur > Location > Effekt.
+        Gibt die erste Entity auf einem Hexfeld zurück (für Abwärtskompatibilität).
+        Falls mehrere Entities vorhanden sind, wird die Priorität: Figur > Location > Effekt verwendet.
         """
-        return self._figures.get(hex_id) or self._locations.get(hex_id) or self._effects.get(hex_id)
+        if hex_id.raw_id in self._figures:
+            return self._figures[hex_id.raw_id]
+        elif hex_id.raw_id in self._locations:
+            return self._locations[hex_id.raw_id]
+        elif hex_id.raw_id in self._effects:
+            return self._effects[hex_id.raw_id]
+        return None
 
     # --- Idol-Kontrolle ---
     def get_idle_fields(self) -> List[HexID]:
@@ -401,15 +404,15 @@ class Board:
         for idle_id in self._idle_control:
             self._idle_control[idle_id] = None
 
-    def get_all_figures(self) -> List['Figure']:
+    def get_all_figures(self) -> List[Figure]:
         """Gibt alle Figuren auf dem Board zurück."""
         return list(self._figures.values())
 
-    def get_all_locations(self) -> List['Location']:
+    def get_all_locations(self) -> List[Location]:
         """Gibt alle Locations auf dem Board zurück."""
         return list(self._locations.values())
 
-    def get_all_effects(self) -> List['Effect']:
+    def get_all_effects(self) -> List[Effect]:
         """Gibt alle Effekte auf dem Board zurück."""
         return list(self._effects.values())
 
