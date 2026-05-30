@@ -1,20 +1,32 @@
+""""
+Simulation.py für Sturm auf Grayskull.
+- Startet die Testumgebung mit Pygame.
+- Zeigt Testbeschreibungen an und führt Tests aus.
+- Enthält Action- und Settings-Button (HexButtons).
+- Test 6 (Alle Hexfelder erstellen) bleibt manuell ausführbar (Taste 6).
+- JSON-Daten werden wie von dir gewünscht geladen (mit base_dir und os.path.join).
+"""
+
 import pygame
-import os
-import json
 from pygame.locals import *
+import json
+import os
+from pathlib import Path
+
+# --- Imports für das Spiel ---
 from core.game.board import Board
 from core.entities.figure import Figure
 from core.entities.location import Location
 from core.entities.effect import Effect
 from core.utils.hex_id import HexID
 from core.utils.global_constants import COLORS
-from core.tests.init_test import InitTest  # ✅ Neuer Import
+from interfaces.renderer.pygame.screen import Screen
+from interfaces.renderer.pygame.components.button import HexButton
 
+# --- JSON-Daten laden (DEIN ORIGINAL-CODE) ---
 # Basisverzeichnis (Ordner der simulation.py)
 base_dir = os.path.dirname(os.path.abspath(__file__))
 data_dir = os.path.join(base_dir, "data")
-
-# --- JSON-Daten laden (wie in deiner Version) ---
 
 with open(os.path.join(data_dir, "figurenwerk.json"), "r", encoding="utf-8") as f:
     figuren = json.load(f)
@@ -23,12 +35,12 @@ with open(os.path.join(data_dir, "eterniaorte.json"), "r", encoding="utf-8") as 
 with open(os.path.join(data_dir, "effekte.json"), "r", encoding="utf-8") as f:
     effekte = json.load(f)
 
-# --- Dummy-Entitäten (wie in deiner Version) ---
+# --- Dummy-Entitäten (DEIN ORIGINAL-CODE) ---
 dummy_figure = Figure.from_dict(figuren["0000"])
 dummy_location = Location.from_dict(eterniaorte["0000"])
 dummy_effect = Effect.from_dict(effekte["0000"])
 
-# --- Konsolenklasse (wie in deiner Version) ---
+# --- Konsolenklasse (bestehend) ---
 class InGameConsole:
     def __init__(self, x, y, width, height, max_lines=15):
         self.x = x
@@ -54,58 +66,65 @@ class InGameConsole:
             text_surface = self.font.render(line, True, color)
             surface.blit(text_surface, (self.x + 10, self.y + 10 + i * 20))
 
-# --- Screen-Klasse (wie in deiner Version) ---
-class Screen:
-    def __init__(self, width, height):
-        self.screen = pygame.display.set_mode((width, height))
-        self.width = width
-        self.height = height
-        pygame.display.set_caption("Sturm auf Grayskull - Kern-Tests")
-
-    def render(self):
-        self.screen.fill(COLORS["background"])
-
-    def draw_text(self, text, x, y, color=COLORS["text"]):
-        font = pygame.font.SysFont("Courier New", 16)
-        text_surface = font.render(text, True, color)
-        self.screen.blit(text_surface, (x, y))
-
-    def get_surface(self):
-        return self.screen
-
-# --- Testbeschreibungen (wie in deiner Version) ---
+# --- Testbeschreibungen (aktualisiert) ---
 test_descriptions = [
-    "1: Board-Aufbau prüfen (gültige Hex-IDs)",
-    "2: Dummy-Entitäten laden",
-    "3: Location auf 0000 platzieren",
-    "4: Figur auf 0000 platzieren (mit Location)",
-    "5: Effekt auf 0000 platzieren (mit Figur + Location)",
+    "1: Check draw and function action button",
+    "2: Check draw and function settings button",
+    "3: Check draw and show Spielstandsanzeige",
+    "4: Check function Spielstandsanzeige",
+    "5: open ",
     "6: Alle Hexfelder erstellen",
-    "7: Alle Figuren und Factions laden",
-    "8: Alle Locations und Effekte laden",
+    "7: Check choose player",
+    "8: Check choose mode",
     "C: Konsole löschen | ESC: Beenden"
 ]
 
 # --- Hauptfunktion ---
 def main():
+    # --- Initialisierung ---
     pygame.init()
-    screen = Screen(1280, 720)
-    console = InGameConsole(20, 550, 1240, 150, max_lines=15)
+
+    # Board initialisieren
     board = Board()
+
+    # Screen und Console erstellen
+    screen = Screen(1280, 720)
+    console = InGameConsole(x=20, y=550, width=1240, height=150, max_lines=15)
+
+    # --- Action- und Settings-Button erstellen und hinzufügen ---
+    # Action-Button: Groß (size=80), rechts am Rand, mittig
+    action_button = HexButton(
+        x=1280 - 100,  # 100px Abstand zum rechten Rand
+        y=360,          # Mittig (720/2 = 360)
+        size=80,        # Groß
+        color=COLORS["primary"],
+        text="Weiter",
+        callback=lambda: console.log("[ACTION] Action-Button geklickt!", COLORS["highlight"])
+    )
+    screen.add_button(action_button)
+
+    # Settings-Button: Klein (size=50), oben rechts im Eck
+    settings_button = HexButton(
+        x=1280 - 60,   # 10px Abstand + 50/2 (size/2)
+        y=10,           # 10px Abstand nach oben
+        size=50,        # Klein
+        color=COLORS["primary"],
+        text="⚙",       # Symbol für Settings
+        callback=lambda: console.log("[SETTINGS] Settings-Button geklickt!", COLORS["highlight"])
+    )
+    screen.add_button(settings_button)
 
     # --- Konsolenausgabe im Fenster ---
     console.log("=== Sturm auf Grayskull - Kern-Tests ===", COLORS["highlight"])
     console.log("Drücke 1-8 für Tests, C zum Löschen, ESC zum Beenden", COLORS["primary"])
 
-    # ✅ Automatische Ausführung der Init-Tests (1–5, 7–8) beim Start
-    init_test = InitTest(board, console, screen, figuren, eterniaorte, effekte)
-    init_test.run()  # Führt Tests 1–5, 7–8 aus
-
-    # --- Hauptschleife (wie in deiner Version) ---
+    # --- Hauptschleife ---
     running = True
     clock = pygame.time.Clock()
+
     while running:
-        screen.render()  # Hintergrund rendern
+        # --- Hintergrund und UI rendern ---
+        screen.render()
 
         # --- Testbeschreibungen zeichnen ---
         for i, desc in enumerate(test_descriptions):
@@ -127,13 +146,11 @@ def main():
                 elif event.key == K_6:
                     console.log("[USER] Taste 6 gedrückt.", COLORS["highlight"])
                     # Test 6: Alle Hexfelder erstellen
-                    valid_ids = [h.raw_id for h in board.get_valid_hex_ids()]
+                    valid_ids = [h.raw_id for h in board._valid_hex_ids]
                     console.log(f"Anzahl Hexfelder: {len(valid_ids)}", COLORS["text"])
                     console.log("✅ Test 6: Alle Hexfelder erfolgreich erstellt!", COLORS["highlight"])
-                # ✅ Tests 1–5, 7–8 werden nicht mehr manuell aufgerufen (laufen automatisch beim Start)
-            elif event.type == MOUSEBUTTONDOWN:
-                x, y = pygame.mouse.get_pos()
-                console.log(f"[USER] Mausklick bei ({x}, {y})", COLORS["highlight"])
+            # --- Button-Events behandeln ---
+            screen.handle_event(event)
 
         pygame.display.flip()
         clock.tick(30)

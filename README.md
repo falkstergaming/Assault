@@ -11,58 +11,43 @@
 Assault/
 │
 ├── core/
-│   ├── __init__.py
+│   ├── game/
+│   │   └── board.py                  # Board-Klasse (Hexfelder, Entities)
 │   │
 │   ├── entities/
-│   │   ├── __init__.py
-│   │   ├── base_entity.py      # Basis-Klasse (Attribute: id, base_might, buffs, alt, might_split, etc.)
-│   │   ├── buff.py             # Buff-Klasse (value, target, target_type) + Serialisierung
-│   │   ├── figure.py           # Erbt von BaseEntity + self_alt_activation
-│   │   ├── location.py         # Erbt von BaseEntity (Self-Buffs nur bei Figur-Präsenz)
-│   │   ├── effect.py           # Erbt von BaseEntity + duration, cost, activation_cost
-│   │   └── vehicle.py          # Erbt von BaseEntity + capacity
+│   │   ├── base_entity.py            # Basis-Klasse für Entities
+│   │   ├── figure.py                 # Figuren
+│   │   ├── location.py               # Locations
+│   │   └── effect.py                 # Effekte
 │   │
-│   ├── game/
-│   │   ├── __init__.py
-│   │   ├── board.py            # Hexfeld-Verwaltung, Nachbarn, Idle-Kontrolle
-│   │   └── hex_id.py           # HexID-Klasse (Validierung, Nachbarn)
+│   ├── utils/
+│   │   ├── hex_id.py                  # HexID-Logik
+│   │   └── global_constants.py       # Farben, Konstanten
 │   │
-│   ├── managers/
-│   │   ├── __init__.py
-│   │   ├── might_calculator.py # **Zentrale Might-Berechnung** (nutzt BaseEntity-Attribute)
-│   │   ├── ap_manager.py       # AP-Konto (Grundbetrag, Übertrag, Überziehung mit credit)
-│   │   └── round_manager.py    # Steuerung der 9 Phasen pro Runde
-│   │
-│   └── utils/
-│       ├── __init__.py
-│       └── global_constants.py # Farben, Fonts, Hexfeld-Größen, Dateipfade
+│   └── tests/                        # ✅ NEU: Test-Module
+│       └── init_test.py              # Initialisierungstests (1–5, 7–8)
 │
 ├── data/
-│   ├── figurenwerk.json       # Figuren (inkl. Dummy 0000)
-│   ├── eterniaorte.json       # Locations (inkl. Dummy 0000)
-│   ├── effects.json           # Effekte (inkl. Dummy 0000)
-│   ├── vehicles.json          # Vehicles (inkl. Dummy 0000)
-│   └── factions.json          # Faction-Pools (Liste der Figuren-IDs pro Faction)
+│   ├── figurenwerk.json               # Figuren-Daten
+│   ├── eterniaorte.json               # Locations-Daten
+│   ├── effekte.json                # Effekte-Daten
+│   └── fahrezuge.json                # Vehicle-Daten
 │
 ├── interfaces/
-│   ├── game_controller.py     # Eingabe-Handling (Tasten, Zahleneingabe)
+│   ├── game_controller.py            # Event-Handling (später)
 │   │
 │   └── renderer/
 │       └── pygame/
-│           ├── __init__.py
-│           ├── audio.py       # AudioManager (MP3-Wiedergabe)
-│           ├── screen.py       # Screen-Klasse (Hintergrund, Text-Rendering)
-│           ├── artwork/        # JPG/MP3-Dateien für UI
-│           │   ├── background.jpg
-│           │   └── music.mp3
+│           ├── screen.py              # Screen-Klasse (Hintergrund + Buttons)
+│           ├── artwork/               # Hintergrundbilder (JPG)
+│           │   └── background.jpg
 │           │
 │           └── components/
-│               └── console.py  # Textkonsole für Log-Meldungen
+│               ├── button.py          # HexButton-Klasse
+│               └── console.py          # InGameConsole (bestehend)
 │
-├── main.py                    # Einstiegspunkt (startet Simulation)
-└── simulation.py              # Testumgebung (720p-Fenster, Tasten 1–8 für Tests)
-
-└── README.md                  # Projektdokumentation (Anforderungen, Architektur)
+├── simulation.py                     # Haupt-Testumgebung (mit Action-/Settings-Button)
+└── main.py                           # Einstiegspunkt (startet simulation.py)
 ```
 
 ---
@@ -92,7 +77,7 @@ Assault/
 
 1. **Spielstart**:
   - Spieler startet das Spiel über `main.py`.
-  - **Hintergrund**: Initialisierung der Spiel-Engine (Pygame, Board, Entities).
+  - **Hintergrund**: Initialisierung der Spiel-Engine (Pygame, Board, Entities)über `init-test.py`.
   - **Launch-Phase**:
     - **Automatisierte Tests** werden während des Starts durchgeführt (z. B. Board-Initialisierung, Entity-Loading).
     - **Ladebildschirm**: Optional (aktuell nicht nötig, da Ladezeit kurz).

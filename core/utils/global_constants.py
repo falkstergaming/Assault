@@ -2,6 +2,13 @@
 Globale Konstanten für Sturm auf Grayskull.
 Alle Konstanten sind hier zentral definiert, um Wartbarkeit zu erhöhen.
 """
+# Hexfeld-Geometrie für die Wabenstruktur
+HEX_SIZE = {
+    "width": 80,    # eventuell kleiner machen
+    "height": 80
+}
+HEX_SPACING = 10     # Größerer Abstand zwischen den Hexfeldern
+
 
 # --- Might & Buffs ---
 DEFAULT_MIGHT_SPLIT = [0.5, 0.5]  # Standard-Might-Aufteilung für Felder mit 2 Idles
