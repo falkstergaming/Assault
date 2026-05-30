@@ -21,16 +21,16 @@ Assault/
 │   │   └── effect.py                 # Effekte
 │   │
 │   ├── utils/
-│   │   ├── hex_id.py                  # HexID-Logik
+│   │   ├── hex_id.py                 # HexID-Logik
 │   │   └── global_constants.py       # Farben, Konstanten
 │   │
 │   └── tests/                        # ✅ NEU: Test-Module
 │       └── init_test.py              # Initialisierungstests (1–5, 7–8)
 │
 ├── data/
-│   ├── figurenwerk.json               # Figuren-Daten
-│   ├── eterniaorte.json               # Locations-Daten
-│   ├── effekte.json                # Effekte-Daten
+│   ├── figurenwerk.json              # Figuren-Daten
+│   ├── eterniaorte.json              # Locations-Daten
+│   ├── effekte.json                  # Effekte-Daten
 │   └── fahrezuge.json                # Vehicle-Daten
 │
 ├── interfaces/
@@ -44,7 +44,7 @@ Assault/
 │           │
 │           └── components/
 │               ├── button.py          # HexButton-Klasse
-│               └── console.py          # InGameConsole (bestehend)
+│               └── console.py         # InGameConsole (bestehend)
 │
 ├── simulation.py                     # Haupt-Testumgebung (mit Action-/Settings-Button)
 └── main.py                           # Einstiegspunkt (startet simulation.py)
