@@ -16,16 +16,23 @@ Assault/
 │   │
 │   ├── entities/
 │   │   ├── base_entity.py            # Basis-Klasse für Entities
+│   │   ├── entity_loader.py          # Laden Entities
+│   │   ├── buff.py                   # Buffs definition und methoden
 │   │   ├── figure.py                 # Figuren
 │   │   ├── location.py               # Locations
-│   │   └── effect.py                 # Effekte
+│   │   ├── vehicle.py                # Vehicle
+│   │   └── effect.py                 # Effects
+│   │
+│   ├── managers/
+│   │   ├── might_calculator.py       # Zentrales Berechnungstool Might
 │   │
 │   ├── utils/
 │   │   ├── hex_id.py                 # HexID-Logik
-│   │   └── global_constants.py       # Farben, Konstanten
+│   │   ├── settings.py               # Settings
+│   │   └── global_constants.py       # Farben, Konstanten, Pfade
 │   │
 │   └── tests/                        # ✅ NEU: Test-Module
-│       └── init_test.py              # Initialisierungstests (1–5, 7–8)
+│       └── init_test.py              # Initialisierungstests (1–6: test entities 0000 auf hex id 0000, 7–8)
 │
 ├── data/
 │   ├── figurenwerk.json              # Figuren-Daten
@@ -44,8 +51,11 @@ Assault/
 │           │
 │           └── components/
 │               ├── button.py          # HexButton-Klasse
-│               └── console.py         # InGameConsole (bestehend)
+│               ├── console.py         # InGameConsole (bestehend)
+│               ├── game_status.py     # Anzeige
+│               └── settings_menu.py   # Kontextmenü Settings (funktional)
 │
+├── setting.ini                       # Einstellungen Sprache und Lautstärke
 ├── simulation.py                     # Haupt-Testumgebung (mit Action-/Settings-Button)
 └── main.py                           # Einstiegspunkt (startet simulation.py)
 ```
