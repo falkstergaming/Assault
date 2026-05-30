@@ -1,7 +1,7 @@
 """
 GameStatusDisplay - Komponente für die Spielstandsanzeige.
 Zeigt Modus, Match-Zähler, Runden-Zähler, Phase und Spielerstats an.
-Reserviert die oberen 10% des Bildschirms.
+Reserviert die oberen 15% des Bildschirms mit 25px Rand und 10% Platz links/rechts.
 """
 
 import pygame
@@ -13,7 +13,7 @@ class GameStatusDisplay:
     """
     Anzeige für den aktuellen Spielstand.
     
-    Position: Obere 10% des Screens
+    Position: Obere 15% des Screens, 25px Abstand zum Rand, 10% Platz links/rechts
     Inhalt:
     - Modus (String), Match-Count (Int), Round-Count (Int), Phase (String)
     - Spieler: idle_count, might, matches_won
@@ -33,8 +33,11 @@ class GameStatusDisplay:
         """
         self.width = width
         self.height = height
-        self.status_height = int(height * 0.1)  # 10% der Höhe
-        self.y = 0  #Beginnt ganz oben
+        self.status_height = int(height * 0.15)  # 15% der Höhe
+        self.y = 25  # 25px Abstand zum oberen Rand
+        self.margin_left = int(width * 0.1)  # 10% Platz links
+        self.display_width = width - 2 * self.margin_left  # 80% der Breite
+        self.x = self.margin_left
         
         # Standardwerte
         self.game_data = {
@@ -58,10 +61,7 @@ class GameStatusDisplay:
         self.title_font = pygame.font.SysFont("Arial", 20, bold=True)
         self.stat_font = pygame.font.SysFont("Courier New", 16)
         
-        # Abstände
-        self.margin = 10
-        self.settings_button_width = 60  # Platz für Settings-Button rechts
-        self.action_button_width = 100  # Platz für Action-Button rechts
+
 
     def update(self, **kwargs) -> None:
         """
@@ -88,27 +88,21 @@ class GameStatusDisplay:
         Args:
             surface: Pygame-Oberfläche zum Zeichnen
         """
-        # Hintergrund der Statusleiste
+        # Hintergrund der Statusleiste (mit Randabstand)
         status_rect = pygame.Rect(
-            0, 
-            self.y, 
-            self.width, 
+            self.x,
+            self.y,
+            self.display_width,
             self.status_height
         )
         pygame.draw.rect(surface, COLORS["background"], status_rect)
         pygame.draw.rect(surface, COLORS["primary"], status_rect, 1)
         
-        # Berechne verfügbare Breite (ohne Button-Bereiche links/rechts)
-        # Links: 10px Margin, Rechts: Platz für Buttons
-        left_margin = self.margin
-        right_margin = self.margin + self.settings_button_width + self.action_button_width
-        available_width = self.width - left_margin - right_margin
-        
         # --- Titel "SPIELSTAND" zentriert oben ---
         title_text = "SPIELSTAND"
         title_surface = self.title_font.render(title_text, True, COLORS["highlight"])
-        title_x = self.width // 2 - title_surface.get_width() // 2
-        surface.blit(title_surface, (title_x, self.y + 5))
+        title_x = self.x + self.display_width // 2 - title_surface.get_width() // 2
+        surface.blit(title_surface, (title_x, self.y + 10))
         
         # --- Erste Zeile: Modus, Match, Runde, Phase ---
         line1_parts = [
@@ -119,8 +113,8 @@ class GameStatusDisplay:
         ]
         line1_text = " | ".join(line1_parts)
         line1_surface = self.stat_font.render(line1_text, True, COLORS["text"])
-        line1_x = left_margin + 10
-        line1_y = self.y + 30
+        line1_x = self.x + 20
+        line1_y = self.y + 40
         surface.blit(line1_surface, (line1_x, line1_y))
         
         # --- Zweite Zeile: SpielerStats ---
@@ -128,8 +122,8 @@ class GameStatusDisplay:
                       f"Might={self.game_data['player']['might']} | "
                       f"Siege={self.game_data['player']['matches_won']}")
         player_surface = self.stat_font.render(player_text, True, COLORS["text"])
-        player_x = left_margin + 10
-        player_y = line1_y + 20
+        player_x = self.x + 20
+        player_y = line1_y + 25
         surface.blit(player_surface, (player_x, player_y))
         
         # --- Dritte Zeile: GegnerStats ---
@@ -137,6 +131,6 @@ class GameStatusDisplay:
                        f"Might={self.game_data['opponent']['might']} | "
                        f"Siege={self.game_data['opponent']['matches_won']}")
         opponent_surface = self.stat_font.render(opponent_text, True, COLORS["text"])
-        opponent_x = left_margin + 10
-        opponent_y = player_y + 20
+        opponent_x = self.x + 20
+        opponent_y = player_y + 25
         surface.blit(opponent_surface, (opponent_x, opponent_y))

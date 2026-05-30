@@ -23,6 +23,7 @@ from core.utils.global_constants import COLORS
 from interfaces.renderer.pygame.screen import Screen
 from interfaces.renderer.pygame.components.button import HexButton
 from interfaces.renderer.pygame.components.game_status import GameStatusDisplay
+from core.tests.init_test import InitTest
 
 # --- JSON-Daten laden (DEIN ORIGINAL-CODE) ---
 # Basisverzeichnis (Ordner der simulation.py)
@@ -88,7 +89,10 @@ def main():
     # Bildschirmdimensionen
     SCREEN_WIDTH = 1280
     SCREEN_HEIGHT = 720
-    STATUS_HEIGHT = int(SCREEN_HEIGHT * 0.1)  # 10% für Spielstand
+    STATUS_HEIGHT = int(SCREEN_HEIGHT * 0.15)  # 15% für Spielstand
+    CONSOLE_HEIGHT = int(SCREEN_HEIGHT * 0.15)  # 15% für Konsole
+    MARGIN_VERTICAL = 25  # 25px Abstand zum Rand
+    MARGIN_HORIZONTAL = int(SCREEN_WIDTH * 0.1)  # 10% Platz links/rechts
 
     # Board initialisieren
     board = Board()
@@ -99,8 +103,14 @@ def main():
     # Spielstandsanzeige erstellen
     game_status = GameStatusDisplay(SCREEN_WIDTH, SCREEN_HEIGHT)
     
-    # Console nach unten verschieben (unter der Statusleiste)
-    console = InGameConsole(x=20, y=STATUS_HEIGHT + 10, width=1240, height=150, max_lines=15)
+    # Console: 15% Höhe, 25px Abstand zum unteren Rand, 10% Rand links/rechts
+    console = InGameConsole(
+        x=MARGIN_HORIZONTAL,
+        y=SCREEN_HEIGHT - CONSOLE_HEIGHT - MARGIN_VERTICAL,
+        width=SCREEN_WIDTH - 2 * MARGIN_HORIZONTAL,
+        height=CONSOLE_HEIGHT,
+        max_lines=15
+    )
 
     # --- Action- und Settings-Button erstellen und hinzufügen ---
     # Action-Button: Groß (size=80), rechts am Rand, mittig
@@ -114,13 +124,13 @@ def main():
     )
     screen.add_button(action_button)
 
-    # Settings-Button: Klein (size=50), oben rechts im Eck (unter der Statusleiste)
+    # Settings-Button: Klein (size=50), oben rechts im Eck (unter der Statusleiste mit Rand)
     settings_button = HexButton(
-        x=SCREEN_WIDTH - 60,   # 10px Abstand + 50/2 (size/2)
-        y=STATUS_HEIGHT + 10,   # Unter der Statusleiste
-        size=50,                # Klein
+        x=SCREEN_WIDTH - MARGIN_HORIZONTAL - 25,  # 10% Rand + 25px
+        y=STATUS_HEIGHT + MARGIN_VERTICAL,       # Unter der Statusleiste + 25px
+        size=50,                                 # Klein
         color=COLORS["primary"],
-        text="⚙",               # Symbol für Settings
+        text="⚙",                                  # Symbol für Settings
         callback=lambda: console.log("[SETTINGS] Settings-Button geklickt!", COLORS["highlight"])
     )
     screen.add_button(settings_button)
@@ -128,6 +138,10 @@ def main():
     # --- Konsolenausgabe im Fenster ---
     console.log("=== Sturm auf Grayskull - Kern-Tests ===", COLORS["highlight"])
     console.log("Drücke 1-8 für Tests, C zum Löschen, ESC zum Beenden", COLORS["primary"])
+
+    # --- Init-Tests vorbereiten ---
+    init_test = InitTest(board, console, screen, figuren, eterniaorte, effekte)
+    init_tests_executed = False
 
     # --- Hauptschleife ---
     running = True
@@ -142,10 +156,15 @@ def main():
 
         # --- Testbeschreibungen zeichnen (unter der Statusleiste) ---
         for i, desc in enumerate(test_descriptions):
-            screen.draw_text(desc, 20, STATUS_HEIGHT + 20 + i * 25, COLORS["text"])
+            screen.draw_text(desc, MARGIN_HORIZONTAL, STATUS_HEIGHT + MARGIN_VERTICAL + 20 + i * 25, COLORS["text"])
 
         # --- Konsolenausgabe rendern ---
         console.render(screen.get_surface())
+
+        # --- Init-Tests ausführen (einmalig, zwischen Console und Eingabe) ---
+        if not init_tests_executed:
+            init_test.run()
+            init_tests_executed = True
 
         # --- Eingabe verarbeiten ---
         for event in pygame.event.get():
@@ -163,26 +182,26 @@ def main():
                     valid_ids = [h.raw_id for h in board._valid_hex_ids]
                     console.log(f"Anzahl Hexfelder: {len(valid_ids)}", COLORS["text"])
                     console.log("✅ Test 6: Alle Hexfelder erfolgreich erstellt!", COLORS["highlight"])
-            # --- Tasten 3 und 4 für Spielstandsanzeige-Tests ---
-            elif event.key == K_3:
-                console.log("[USER] Taste 3 gedrückt: Spielstandsanzeige draw test", COLORS["highlight"])
-                console.log(f"Aktueller Spielstand: Modus={game_status.game_data['modus']}, "
-                          f"Match={game_status.game_data['match_count']}, "
-                          f"Runde={game_status.game_data['round_count']}, "
-                          f"Phase={game_status.game_data['phase']}", COLORS["text"])
-                console.log("✅ Test 3: Spielstandsanzeige wird angezeigt!", COLORS["highlight"])
-            elif event.key == K_4:
-                console.log("[USER] Taste 4 gedrückt: Spielstandsanzeige function test", COLORS["highlight"])
-                # Aktualisiere Spielstandsdaten
-                game_status.update(
-                    modus="Best of 4",
-                    match_count="2/4",
-                    round_count=3,
-                    phase="Marsch",
-                    player={"idle_count": 2, "might": 45, "matches_won": 1},
-                    opponent={"idle_count": 1, "might": 30, "matches_won": 0}
-                )
-                console.log("✅ Test 4: Spielstandsanzeige aktualisiert mit Testdaten!", COLORS["highlight"])
+                # --- Tasten 3 und 4 für Spielstandsanzeige-Tests ---
+                elif event.key == K_3:
+                    console.log("[USER] Taste 3 gedrückt: Spielstandsanzeige draw test", COLORS["highlight"])
+                    console.log(f"Aktueller Spielstand: Modus={game_status.game_data['modus']}, "
+                            f"Match={game_status.game_data['match_count']}, "
+                            f"Runde={game_status.game_data['round_count']}, "
+                            f"Phase={game_status.game_data['phase']}", COLORS["text"])
+                    console.log("✅ Test 3: Spielstandsanzeige wird angezeigt!", COLORS["highlight"])
+                elif event.key == K_4:
+                    console.log("[USER] Taste 4 gedrückt: Spielstandsanzeige function test", COLORS["highlight"])
+                    # Aktualisiere Spielstandsdaten
+                    game_status.update(
+                        modus="Best of 4",
+                        match_count="2/4",
+                        round_count=3,
+                        phase="Marsch",
+                        player={"idle_count": 2, "might": 45, "matches_won": 1},
+                        opponent={"idle_count": 1, "might": 30, "matches_won": 0}
+                    )
+                    console.log("✅ Test 4: Spielstandsanzeige aktualisiert mit Testdaten!", COLORS["highlight"])
             # --- Button-Events behandeln ---
             screen.handle_event(event)
 
