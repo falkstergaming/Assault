@@ -2,24 +2,27 @@ from core.game.board import Board
 from core.entities.figure import Figure
 from core.entities.location import Location
 from core.entities.effect import Effect
+from core.entities.vehicle import Vehicle
 from core.utils.hex_id import HexID
 from core.utils.global_constants import COLORS
 
 class InitTest:
     """Führt alle Initialisierungstests (1–5, 7–8) aus und nutzt deine bestehende Console/Screen."""
 
-    def __init__(self, board: Board, console, screen, figuren, eterniaorte, effekte):
+    def __init__(self, board: Board, console, screen, figuren, eterniaorte, effekte, fahrzeuge=None):
         self.board = board
         self.console = console
         self.screen = screen
         self.figuren = figuren
         self.eterniaorte = eterniaorte
         self.effekte = effekte
+        self.fahrzeuge = fahrzeuge if fahrzeuge else {}
 
         # Lade die Dummy-Entitäten aus den übergebene JSON-Daten
         self.dummy_figure = Figure.from_dict(figuren["0000"])
         self.dummy_location = Location.from_dict(eterniaorte["0000"])
         self.dummy_effect = Effect.from_dict(effekte["0000"])
+        self.dummy_vehicle = Vehicle.from_dict(self.fahrzeuge.get("0000", {"id": "0000", "name": "DummyVehicle", "type": "vehicle", "base_might": 0}))
 
     def load_dummy_entities(self):
         """Lädt die Dummy-Entitäten aus den JSON-Dateien (Fallback, falls benötigt)."""
@@ -30,7 +33,7 @@ class InitTest:
         self.dummy_effect = Effect.from_dict({"id": "0000", "name": "DummyEffect", "type": "effect", "base_might": 0, "buffs": {"self": []}})
 
     def run(self):
-        """Führt alle Tests (1–5, 7–8) aus und gibt Ergebnisse in der Konsole aus."""
+        """Führt alle Tests (1–6, 7–8) aus und gibt Ergebnisse in der Konsole aus."""
         self.console.log("=== INITIALISIERUNGSTESTS ===", COLORS["highlight"])
 
         # Test 1: Board-Aufbau
@@ -47,6 +50,9 @@ class InitTest:
 
         # Test 5: Effekt auf 0000 platzieren (mit Figur + Location)
         self._test_place_effect()
+
+        # Test 6: Vehicle auf 0000 platzieren (mit Figur + Location + Effekt)
+        self._test_place_vehicle()
 
         # Test 7: Alle Figuren laden
         self._test_load_all_figures()
@@ -136,6 +142,33 @@ class InitTest:
                 self.console.log("❌ Test 5: Figur, Location oder Effekt nicht gefunden!", COLORS["idle_opponent"])
         else:
             self.console.log("❌ Test 5: Platzierung fehlgeschlagen!", COLORS["idle_opponent"])
+
+    def _test_place_vehicle(self):
+        """Test 6: Platziert Vehicle auf 0000 (mit Figur + Location + Effekt)."""
+        self.console.log("\n--- Test 6: Vehicle auf 0000 platzieren (mit Figur + Location + Effekt) ---", COLORS["primary"])
+        hex_id = HexID("0000")
+        success = self.board.place_entity(hex_id, self.dummy_vehicle)
+        self.console.log(f"Vehicle platziert: {success}", COLORS["highlight"] if success else COLORS["idle_opponent"])
+        if success:
+            figure = self.board.get_figure_at(hex_id)
+            location = self.board.get_location_at(hex_id)
+            effect = self.board.get_effect_at(hex_id)
+            vehicle = self.board.get_vehicle_at(hex_id)
+            if figure and location and effect and vehicle:
+                location_self_buffs = sum(buff.value for buff in location.buffs["self"])
+                figure_self_buffs = sum(buff.value for buff in figure.buffs["self"]) if figure.alt else 0
+                effect_self_buffs = sum(buff.value for buff in effect.buffs["self"]) if effect.alt else 0
+                might = (figure.base_might + location.base_might + effect.base_might + vehicle.base_might +
+                         location_self_buffs + figure_self_buffs + effect_self_buffs)
+                expected = (self.dummy_figure.base_might + self.dummy_location.base_might + self.dummy_effect.base_might + self.dummy_vehicle.base_might +
+                            location_self_buffs + figure_self_buffs + effect_self_buffs)
+                self.console.log(f"Might (mit Location + Effekt + Vehicle): {might} (erwartet: {expected})",
+                                COLORS["highlight"] if might == expected else COLORS["idle_opponent"])
+                self.console.log("✅ Test 6: Vehicle platziert!", COLORS["highlight"])
+            else:
+                self.console.log("❌ Test 6: Eine oder mehrere Entitäten nicht gefunden!", COLORS["idle_opponent"])
+        else:
+            self.console.log("❌ Test 6: Platzierung fehlgeschlagen!", COLORS["idle_opponent"])
 
     def _test_load_all_figures(self):
         """Test 7: Lädt alle Figuren aus figurenwerk.json."""

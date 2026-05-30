@@ -18,29 +18,34 @@ from core.game.board import Board
 from core.entities.figure import Figure
 from core.entities.location import Location
 from core.entities.effect import Effect
+from core.entities.vehicle import Vehicle
 from core.utils.hex_id import HexID
-from core.utils.global_constants import COLORS
+from core.utils.global_constants import COLORS, FIGURES_JSON, LOCATIONS_JSON, EFFECTS_JSON, VEHICLE_JSON, VEHICLE_JSON
 from interfaces.renderer.pygame.screen import Screen
 from interfaces.renderer.pygame.components.button import HexButton
 from interfaces.renderer.pygame.components.game_status import GameStatusDisplay
 from core.tests.init_test import InitTest
 
-# --- JSON-Daten laden (DEIN ORIGINAL-CODE) ---
+# --- JSON-Daten laden (mit globalen Konstanten) ---
 # Basisverzeichnis (Ordner der simulation.py)
 base_dir = os.path.dirname(os.path.abspath(__file__))
-data_dir = os.path.join(base_dir, "data")
 
-with open(os.path.join(data_dir, "figurenwerk.json"), "r", encoding="utf-8") as f:
+with open(os.path.join(base_dir, FIGURES_JSON), "r", encoding="utf-8") as f:
     figuren = json.load(f)
-with open(os.path.join(data_dir, "eterniaorte.json"), "r", encoding="utf-8") as f:
+with open(os.path.join(base_dir, LOCATIONS_JSON), "r", encoding="utf-8") as f:
     eterniaorte = json.load(f)
-with open(os.path.join(data_dir, "effekte.json"), "r", encoding="utf-8") as f:
+with open(os.path.join(base_dir, EFFECTS_JSON), "r", encoding="utf-8") as f:
     effekte = json.load(f)
+with open(os.path.join(base_dir, VEHICLE_JSON), "r", encoding="utf-8") as f:
+    fahrzeuge = json.load(f)
+with open(os.path.join(base_dir, VEHICLE_JSON), "r", encoding="utf-8") as f:
+    fahrzeuge = json.load(f)
 
 # --- Dummy-Entitäten (DEIN ORIGINAL-CODE) ---
 dummy_figure = Figure.from_dict(figuren["0000"])
 dummy_location = Location.from_dict(eterniaorte["0000"])
 dummy_effect = Effect.from_dict(effekte["0000"])
+dummy_vehicle = Vehicle.from_dict(fahrzeuge["0000"])
 
 # --- Konsolenklasse (bestehend) ---
 class InGameConsole:
@@ -140,7 +145,7 @@ def main():
     console.log("Drücke 1-8 für Tests, C zum Löschen, ESC zum Beenden", COLORS["primary"])
 
     # --- Init-Tests vorbereiten ---
-    init_test = InitTest(board, console, screen, figuren, eterniaorte, effekte)
+    init_test = InitTest(board, console, screen, figuren, eterniaorte, effekte, fahrzeuge)
     init_tests_executed = False
 
     # --- Hauptschleife ---

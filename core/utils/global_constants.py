@@ -155,8 +155,9 @@ HEX_FIELD_SIZE = (80, 80)  # Breite, Höhe (Pixel) - Platzhalter für Rendering
 
 # --- Dateipfade ---
 DATA_DIR = "data/"
-FIGURES_JSON = f"{DATA_DIR}figures.json"
-LOCATIONS_JSON = f"{DATA_DIR}locations.json"
-EFFECTS_JSON = f"{DATA_DIR}effects.json"
+FIGURES_JSON = f"{DATA_DIR}figurenwerk.json"
+LOCATIONS_JSON = f"{DATA_DIR}eterniaorte.json"
+EFFECTS_JSON = f"{DATA_DIR}effekte.json"
+VEHICLE_JSON = f"{DATA_DIR}fahrzeuge.json"
 FACTIONS_JSON = f"{DATA_DIR}factions.json"
 SETTINGS_INI = "settings.ini"

@@ -9,13 +9,15 @@ from core.entities.base_entity import BaseEntity
 from core.entities.figure import Figure      # ✅ Importiere die Klassen
 from core.entities.location import Location  # ✅
 from core.entities.effect import Effect        # ✅
+from core.entities.vehicle import Vehicle      # ✅ Vehicle-Unterstützung
 
 if TYPE_CHECKING:  # Vermeidet Zirkelimports zur Laufzeit
     from core.entities.figure import Figure
     from core.entities.location import Location
     from core.entities.effect import Effect
+    from core.entities.vehicle import Vehicle
 
-T = TypeVar('T', BaseEntity, Figure, Location, Effect)  # Generischer Typ für Entities
+T = TypeVar('T', BaseEntity, Figure, Location, Effect, Vehicle)  # Generischer Typ für Entities
 
 class Board:
     """
@@ -37,6 +39,7 @@ class Board:
         self._figures: Dict[str, BaseEntity] = {}      # {hex_id: Figure}
         self._locations: Dict[str, BaseEntity] = {}   # {hex_id: Location}
         self._effects: Dict[str, BaseEntity] = {}     # {hex_id: Effect}
+        self._vehicles: Dict[str, BaseEntity] = {}     # {hex_id: Vehicle}
 
         # Idol-Kontrolle (für Siegbedingungen)
         self._idle_control: Dict[HexID, Optional[str]] = {
@@ -323,7 +326,7 @@ class Board:
 
     # --- Platzierung von Entities ---
     def place_entity(self, hex_id: HexID, entity: BaseEntity) -> bool:
-        """Platziert eine Entity auf einem Hexfeld. Erlaubt 1 Figur + 1 Location + 1 Effekt pro Feld."""
+        """Platziert eine Entity auf einem Hexfeld. Erlaubt 1 Figur + 1 Location + 1 Effekt + 1 Vehicle pro Feld."""
         if not self.is_valid_position(hex_id):
             return False
 
@@ -333,6 +336,8 @@ class Board:
             self._locations[hex_id.raw_id] = entity
         elif entity.type == "effect":
             self._effects[hex_id.raw_id] = entity
+        elif entity.type == "vehicle":
+            self._vehicles[hex_id.raw_id] = entity
         else:
             return False  # Unbekannter Typ
 
@@ -346,6 +351,8 @@ class Board:
             return self._locations.pop(hex_id, None)
         elif entity_type == "effect":
             return self._effects.pop(hex_id, None)
+        elif entity_type == "vehicle":
+            return self._vehicles.pop(hex_id, None)
         return None
 
     def _is_occupied(self, hex_id: HexID) -> bool:
@@ -353,7 +360,8 @@ class Board:
         return (
             hex_id in self._figures or
             hex_id in self._locations or
-            hex_id in self._effects
+            hex_id in self._effects or
+            hex_id in self._vehicles
         )
 
     # --- Abfrage von Entities ---
@@ -366,10 +374,13 @@ class Board:
     def get_effect_at(self, hex_id: HexID) -> Optional[BaseEntity]:
         return self._effects.get(hex_id.raw_id)
 
+    def get_vehicle_at(self, hex_id: HexID) -> Optional[BaseEntity]:
+        return self._vehicles.get(hex_id.raw_id)
+
     def get_entity_at(self, hex_id: HexID) -> Optional[BaseEntity]:
         """
         Gibt die erste Entity auf einem Hexfeld zurück (für Abwärtskompatibilität).
-        Falls mehrere Entities vorhanden sind, wird die Priorität: Figur > Location > Effekt verwendet.
+        Falls mehrere Entities vorhanden sind, wird die Priorität: Figur > Location > Effekt > Vehicle verwendet.
         """
         if hex_id.raw_id in self._figures:
             return self._figures[hex_id.raw_id]
@@ -377,6 +388,8 @@ class Board:
             return self._locations[hex_id.raw_id]
         elif hex_id.raw_id in self._effects:
             return self._effects[hex_id.raw_id]
+        elif hex_id.raw_id in self._vehicles:
+            return self._vehicles[hex_id.raw_id]
         return None
 
     # --- Idol-Kontrolle ---
@@ -401,6 +414,7 @@ class Board:
         self._figures.clear()
         self._locations.clear()
         self._effects.clear()
+        self._vehicles.clear()
         for idle_id in self._idle_control:
             self._idle_control[idle_id] = None
 
@@ -415,6 +429,10 @@ class Board:
     def get_all_effects(self) -> List[Effect]:
         """Gibt alle Effekte auf dem Board zurück."""
         return list(self._effects.values())
+
+    def get_all_vehicles(self) -> List[Vehicle]:
+        """Gibt alle Vehicles auf dem Board zurück."""
+        return list(self._vehicles.values())
 
     def is_field_occupied(self, hex_id: HexID) -> bool:
         """Prüft, ob ein Feld belegt ist."""
