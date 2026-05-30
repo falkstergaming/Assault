@@ -246,23 +246,186 @@ def main():
                     board_renderer.toggle_visibility()
                     status = "AKTIVIERT" if board_renderer.is_visible else "DEAKTIVIERT"
                     console.log(f"Board-Rendering (000x-3xxx): {status}", COLORS["highlight"])
+                # --- Taste 9: Toggle board (000x - 3xxx) ---
+                elif event.key == K_9:
+                    console.log("[USER] Taste 9 gedrückt: Toggle board (000x - 3xxx)", COLORS["highlight"])
+                    board_renderer.toggle_visibility()
+                    status = "AKTIVIERT" if board_renderer.is_visible else "DEAKTIVIERT"
+                    console.log(f"Board-Rendering (000x-3xxx): {status}", COLORS["highlight"])
                 # --- Taste 4: Toggle extra Hexfields (4xxx - 9xxx) ---
                 elif event.key == K_4:
                     console.log("[USER] Taste 4 gedrückt: Toggle extra Hexfields (4xxx - 9xxx)", COLORS["highlight"])
-                    console.log("⚠️ Test 4: Funktion noch nicht implementiert", COLORS["text"])
+                    board_renderer.toggle_extra_fields()
+                    # Neu erstellen der Buttons mit den neuen Einstellungen
+                    board_renderer.create_hex_buttons()
+                    status = "AKTIVIERT" if board_renderer.show_extra_fields else "DEAKTIVIERT"
+                    console.log(f"Extra Hexfields (4xxx-7xxx): {status}", COLORS["highlight"])
                 # --- Tasten 5-8: Platzhalter ---
                 elif event.key == K_5:
                     console.log("[USER] Taste 5 gedrückt: Fülle mit Faction Standard Entities", COLORS["highlight"])
-                    console.log("⚠️ Test 5: Funktion noch nicht implementiert", COLORS["text"])
+                    # Lege auf alle 1xxx und 2xxx die location 6666
+                    # Stelle auf alle 1xxx die figure 1999 und auf 2xxx überall die figur 2999
+                    location_6666 = Location.from_dict(eterniaorte["6666"])
+                    figure_1999 = Figure.from_dict(figuren["1999"])
+                    figure_2999 = Figure.from_dict(figuren["2999"])
+                    
+                    # 1xxx Felder
+                    player_fields = ["1111", "1112", "1213", "1114", "1215", "1116", "1117"]
+                    # 2xxx Felder
+                    opponent_fields = ["2111", "2112", "2213", "2114", "2215", "2116", "2117"]
+                    
+                    # Board zurücksetzen (falls vorherige Entities vorhanden)
+                    board.clear_board()
+                    
+                    # Alle Felder mit Location 6666 füllen
+                    all_fields = player_fields + opponent_fields
+                    for field_id in all_fields:
+                        hex_id = HexID(field_id)
+                        board.place_entity(hex_id, location_6666)
+                    console.log(f"✅ {len(all_fields)} Locations (6666) auf 1xxx und 2xxx platziert", COLORS["highlight"])
+                    
+                    # 1xxx Felder mit Figur 1999 füllen
+                    for field_id in player_fields:
+                        hex_id = HexID(field_id)
+                        board.place_entity(hex_id, figure_1999)
+                    console.log(f"✅ {len(player_fields)} Figuren (1999) auf 1xxx platziert", COLORS["highlight"])
+                    
+                    # 2xxx Felder mit Figur 2999 füllen
+                    for field_id in opponent_fields:
+                        hex_id = HexID(field_id)
+                        board.place_entity(hex_id, figure_2999)
+                    console.log(f"✅ {len(opponent_fields)} Figuren (2999) auf 2xxx platziert", COLORS["highlight"])
+                    
+                    # Might für Spieler und Gegner berechnen und Spielstand aktualisieren
+                    from core.managers.might_calculator import MightCalculator
+                    might_calc = MightCalculator(board)
+                    
+                    player_might = sum(might_calc.calculate_might_for_hex(HexID(field)) for field in player_fields)
+                    opponent_might = sum(might_calc.calculate_might_for_hex(HexID(field)) for field in opponent_fields)
+                    
+                    # Idle-Count berechnen (wie viele Idles vom Spieler kontrolliert werden)
+                    player_idle_count = sum(1 for idle_id in ["3011", "3012", "3013"] 
+                                            if board.get_idle_controller(HexID(idle_id)) == "player")
+                    opponent_idle_count = sum(1 for idle_id in ["3011", "3012", "3013"] 
+                                            if board.get_idle_controller(HexID(idle_id)) == "opponent")
+                    
+                    game_status.update(
+                        player={"idle_count": player_idle_count, "might": int(player_might)},
+                        opponent={"idle_count": opponent_idle_count, "might": int(opponent_might)}
+                    )
+                    
+                    console.log(f"✅ Spieler Might: {int(player_might)} | Gegner Might: {int(opponent_might)}", COLORS["highlight"])
+                    console.log("✅ Test 5: Faction Standard Entities platziert und Spielstand aktualisiert!", COLORS["highlight"])
                 elif event.key == K_6:
                     console.log("[USER] Taste 6 gedrückt: Trigger calc might", COLORS["highlight"])
-                    console.log("⚠️ Test 6: Funktion noch nicht implementiert", COLORS["text"])
+                    # Might für jedes Hexfeld berechnen (mit Idle-Split)
+                    # Aber für Spielstand: Summe der Might pro Feld (ohne Split)
+                    player_fields = ["1111", "1112", "1213", "1114", "1215", "1116", "1117"]
+                    opponent_fields = ["2111", "2112", "2213", "2114", "2215", "2116", "2117"]
+                    all_fields = player_fields + opponent_fields
+                    
+                    from core.managers.might_calculator import MightCalculator
+                    might_calc = MightCalculator(board)
+                    
+                    # Might für jedes Feld berechnen und anzeigen
+                    console.log("--- Might pro Hexfeld ---", COLORS["highlight"])
+                    for field in all_fields:
+                        hex_id = HexID(field)
+                        might = might_calc.calculate_might_for_hex(hex_id)
+                        split = might_calc.get_might_split(hex_id)
+                        console.log(f"{field}: Might={might:.1f}, Split={split}", COLORS["text"])
+                    
+                    # Spieler und Gegner Might summieren (ohne Split)
+                    player_might = sum(might_calc.calculate_might_for_hex(HexID(field)) for field in player_fields)
+                    opponent_might = sum(might_calc.calculate_might_for_hex(HexID(field)) for field in opponent_fields)
+                    
+                    # Idle-Count berechnen
+                    player_idle_count = sum(1 for idle_id in ["3011", "3012", "3013"] 
+                                            if board.get_idle_controller(HexID(idle_id)) == "player")
+                    opponent_idle_count = sum(1 for idle_id in ["3011", "3012", "3013"] 
+                                            if board.get_idle_controller(HexID(idle_id)) == "opponent")
+                    
+                    # Spielstand aktualisieren
+                    game_status.update(
+                        player={"idle_count": player_idle_count, "might": int(player_might)},
+                        opponent={"idle_count": opponent_idle_count, "might": int(opponent_might)}
+                    )
+                    
+                    console.log(f"✅ Spieler Might (Summe): {int(player_might)} | Gegner Might (Summe): {int(opponent_might)}", COLORS["highlight"])
+                    console.log("✅ Test 6: Might pro Hexfeld berechnet und Spielstand aktualisiert!", COLORS["highlight"])
                 elif event.key == K_7:
                     console.log("[USER] Taste 7 gedrückt: Trigger idle might", COLORS["highlight"])
-                    console.log("⚠️ Test 7: Funktion noch nicht implementiert", COLORS["text"])
+                    # Idle Might berechnen: Summe der Might-Werte der angrenzenden Felder
+                    # mit Split 0.5 (50%) und auf 0 Nachkommastellen gerundet
+                    from core.managers.might_calculator import MightCalculator
+                    might_calc = MightCalculator(board)
+                    
+                    console.log("--- Idle Might Berechnung ---", COLORS["highlight"])
+                    
+                    # Idle-Felder: 3011, 3012, 3013
+                    for idle_id in ["3011", "3012", "3013"]:
+                        idle_hex_id = HexID(idle_id)
+                        idle_neighbors = board.get_idle_neighbors(idle_hex_id)
+                        
+                        # Spieler-Seite (1xxx Felder) - get_idle_neighbors gibt HexID-Objekte zurück
+                        player_fields = idle_neighbors.get("player", [])
+                        player_might_sum = sum(might_calc.calculate_might_for_hex(f) for f in player_fields)
+                        player_idle_might = round(player_might_sum * 0.5)  # 50% Split, auf 0 Nachkommastellen gerundet
+                        
+                        # Gegner-Seite (2xxx Felder)
+                        opponent_fields = idle_neighbors.get("opponent", [])
+                        opponent_might_sum = sum(might_calc.calculate_might_for_hex(f) for f in opponent_fields)
+                        opponent_idle_might = round(opponent_might_sum * 0.5)  # 50% Split, auf 0 Nachkommastellen gerundet
+                        
+                        # Controller bestimmen (wer mehr Might hat)
+                        controller = "player" if player_idle_might > opponent_idle_might else "opponent" if opponent_idle_might > player_idle_might else "none"
+                        
+                        # Anzeigen
+                        console.log(f"Idle {idle_id}: Spieler={player_idle_might}, Gegner={opponent_idle_might} → {controller}", COLORS["text"])
+                    
+                    console.log("✅ Test 7: Idle Might berechnet!", COLORS["highlight"])
                 elif event.key == K_8:
                     console.log("[USER] Taste 8 gedrückt: Check Idle Controll", COLORS["highlight"])
-                    console.log("⚠️ Test 8: Funktion noch nicht implementiert", COLORS["text"])
+                    # Idle-Kontrolle basierend auf Might-Werten setzen
+                    from core.managers.might_calculator import MightCalculator
+                    might_calc = MightCalculator(board)
+                    
+                    console.log("--- Idle Kontrolle setzen ---", COLORS["highlight"])
+                    
+                    # Idle-Felder: 3011, 3012, 3013
+                    for idle_id in ["3011", "3012", "3013"]:
+                        idle_hex_id = HexID(idle_id)
+                        idle_neighbors = board.get_idle_neighbors(idle_hex_id)
+                        
+                        # Spieler-Seite (1xxx Felder)
+                        player_fields = idle_neighbors.get("player", [])
+                        player_might_sum = sum(might_calc.calculate_might_for_hex(f) for f in player_fields)
+                        player_idle_might = round(player_might_sum * 0.5)
+                        
+                        # Gegner-Seite (2xxx Felder)
+                        opponent_fields = idle_neighbors.get("opponent", [])
+                        opponent_might_sum = sum(might_calc.calculate_might_for_hex(f) for f in opponent_fields)
+                        opponent_idle_might = round(opponent_might_sum * 0.5)
+                        
+                        # Controller bestimmen und setzen
+                        if player_idle_might > opponent_idle_might:
+                            board.set_idle_control(idle_hex_id, "player")
+                            controller = "player"
+                        elif opponent_idle_might > player_idle_might:
+                            board.set_idle_control(idle_hex_id, "opponent")
+                            controller = "opponent"
+                        else:
+                            board.set_idle_control(idle_hex_id, None)
+                            controller = "none"
+                        
+                        console.log(f"Idle {idle_id}: Spieler={player_idle_might}, Gegner={opponent_idle_might} → {controller}", COLORS["text"])
+                    
+                    # Board-Renderer aktivieren, falls nicht bereits aktiv
+                    if not board_renderer.is_visible:
+                        board_renderer.toggle_visibility()
+                        console.log("Board-Rendering aktiviert zur Anzeige der Idle-Kontrolle", COLORS["highlight"])
+                    
+                    console.log("✅ Test 8: Idle Kontrolle gesetzt! (Rahmen in BoardRenderer sichtbar)", COLORS["highlight"])
             # --- Button-Events behandeln ---
             screen.handle_event(event)
             # Board-Button Events

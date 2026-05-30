@@ -82,10 +82,11 @@ class GameStatusDisplay:
             opponent: Dict mit idle_count, might, matches_won
         """
         for key, value in kwargs.items():
-            if key in self.game_data:
-                self.game_data[key] = value
-            elif key in ["player", "opponent"] and isinstance(value, dict):
+            if key in ["player", "opponent"] and isinstance(value, dict):
+                # Merge das übergebene Dict mit den bestehenden Daten
                 self.game_data[key].update(value)
+            elif key in self.game_data:
+                self.game_data[key] = value
 
     def render(self, surface: pygame.Surface) -> None:
         """

@@ -138,8 +138,8 @@ class InitTest:
                 hex_might = self.might_calculator.calculate_might_for_hex(hex_id)
                 # Erwartet: Figur + Location + Effekt base_might (+ Selbst-Buffs)
                 location_self_buffs = sum(buff.value for buff in location.buffs["self"])
-                figure_self_buffs = sum(buff.value for buff in figure.buffs["self"]) if figure.alt else 0
-                effect_self_buffs = sum(buff.value for buff in effect.buffs["self"]) if effect.alt else 0
+                figure_self_buffs = sum(buff.value for buff in figure.buffs["self"]) if figure.alt_state else 0
+                effect_self_buffs = sum(buff.value for buff in effect.buffs["self"]) if effect.alt_state else 0
                 expected = (self.dummy_figure.base_might + self.dummy_location.base_might + self.dummy_effect.base_might +
                             location_self_buffs + figure_self_buffs + effect_self_buffs)
                 self.console.log(f"Might des Hexfelds 0000: {hex_might} (erwartet: {expected})",
@@ -166,8 +166,8 @@ class InitTest:
                 hex_might = self.might_calculator.calculate_might_for_hex(hex_id)
                 # Erwartet: Figur + Location + Effekt + Vehicle base_might (+ Selbst-Buffs)
                 location_self_buffs = sum(buff.value for buff in location.buffs["self"])
-                figure_self_buffs = sum(buff.value for buff in figure.buffs["self"]) if figure.alt else 0
-                effect_self_buffs = sum(buff.value for buff in effect.buffs["self"]) if effect.alt else 0
+                figure_self_buffs = sum(buff.value for buff in figure.buffs["self"]) if figure.alt_state else 0
+                effect_self_buffs = sum(buff.value for buff in effect.buffs["self"]) if effect.alt_state else 0
                 expected = (self.dummy_figure.base_might + self.dummy_location.base_might + 
                            self.dummy_effect.base_might + self.dummy_vehicle.base_might +
                             location_self_buffs + figure_self_buffs + effect_self_buffs)

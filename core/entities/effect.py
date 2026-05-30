@@ -28,11 +28,11 @@ class Effect(BaseEntity):
     def activate(self, has_enough_ap: bool = True) -> bool:
         if not has_enough_ap:
             return False
-        self.alt = True
+        self.alt_state = True
         return True
 
     def deactivate(self) -> None:
-        self.alt = False
+        self.alt_state = False
 
     def is_active(self) -> bool:
-        return self.alt
+        return self.alt_state

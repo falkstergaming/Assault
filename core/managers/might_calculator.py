@@ -126,16 +126,17 @@ class MightCalculator:
     def _get_opponent_buffs(self, hex_id: HexID, entities: List[BaseEntity]) -> float:
         """
         Berechnet Opponent-Buffs von der gegenüberliegenden Entity.
+        Opponent-Buffs wirken einmal pro Feld (nicht pro Entity).
         """
         opponent = self.board.get_opponent_entity(hex_id)
         if opponent is None:
             return 0.0
         
+        # Opponent-Buffs wirken auf das Feld, nicht pro Entity
+        # Summiere alle opponent-Buff-Werte der gegenüberliegenden Entity
         buff_value = 0.0
-        for entity in entities:
-            for buff in opponent.buffs.get("opponent", []):
-                # Opponent-Buffs wirken auf alle Entities (ohne Target-Prüfung laut README)
-                buff_value += buff.value
+        for buff in opponent.buffs.get("opponent", []):
+            buff_value += buff.value
         
         return buff_value
 
@@ -190,10 +191,10 @@ class MightCalculator:
         Prüft, ob Self-Buffs für die Entity gelten.
         
         Self-Buffs wirken, wenn:
-        - Die Entity im Alt-State ist (entity.alt == True)
+        - Die Entity im Alt-State ist (entity.alt_state == True)
         - ODER die Entity eine Location ist und eine Figur darauf steht
         """
-        if entity.alt:
+        if entity.alt_state:
             return True
         if entity.type == "location":
             return self.board.get_figure_at(hex_id) is not None

@@ -28,7 +28,7 @@ class Figure(BaseEntity):
     def activate_alt_state(self, has_enough_ap: bool = True) -> bool:
         if not self.self_alt_activation and not has_enough_ap:
             return False
-        self.alt = not self.alt
+        self.alt_state = not self.alt_state
         return True
 
     def can_activate_alt_state(self) -> bool:

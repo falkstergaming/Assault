@@ -60,6 +60,37 @@ class BoardRenderer:
         "1215": {"x": 1.0, "y": 2.2},    # unten
         "1116": {"x": 1.6, "y": 4.3},     # oben
         "1117": {"x": 2.2, "y": 2.2},    # unten
+        
+        # Preview-Spieler (4xxx)
+        "4001": {"x": -2.0, "y": 4.3},     # oben
+        "4002": {"x": -1.4, "y": 6.4},     # unten
+        "4003": {"x": -0.8, "y": 8.5},     # oben
+        "4004": {"x": -0.2, "y": 6.4},     # unten
+        "4005": {"x": 0.4, "y": 8.5},      # oben
+        "4006": {"x": 1.0, "y": 6.4},      # unten
+        "4007": {"x": 1.6, "y": 8.5},      # oben
+        "4008": {"x": 2.2, "y": 6.4},      # unten
+        
+        # Preview-Gegner (5xxx)
+        "5001": {"x": -2.0, "y": -4.3},    # oben
+        "5002": {"x": -1.4, "y": -6.4},    # unten
+        "5003": {"x": -0.8, "y": -8.5},    # oben
+        "5004": {"x": -0.2, "y": -6.4},    # unten
+        "5005": {"x": 0.4, "y": -8.5},     # oben
+        "5006": {"x": 1.0, "y": -6.4},     # unten
+        "5007": {"x": 1.6, "y": -8.5},     # oben
+        "5008": {"x": 2.2, "y": -6.4},     # unten
+        
+        # Back-Spieler (6xxx)
+        "6001": {"x": -3.7, "y": 4.3},     # unten
+        "6002": {"x": -4.3, "y": 6.4},     # oben
+        "6003": {"x": -3.7, "y": 8.5},     # unten
+        "6004": {"x": -4.3, "y": 6.4},     # oben (Duplikat?)
+        
+        # Back-Gegner (7xxx)
+        "7002": {"x": -3.7, "y": -4.3},    # unten
+        "7003": {"x": -4.3, "y": -6.4},    # oben
+        "7004": {"x": -3.7, "y": -8.5},    # unten
     }
 
     def __init__(self, board: Board, screen_width: int = 1280, screen_height: int = 720):
@@ -76,6 +107,7 @@ class BoardRenderer:
         self.screen_height = screen_height
         self.hex_buttons: Dict[str, HexButton] = {}
         self.is_visible = False
+        self.show_extra_fields = False  # Für 4xxx-9xxx Felder
         
         # Berechne Board-Zentrum
         self.board_center_x = screen_width // 2
@@ -92,6 +124,10 @@ class BoardRenderer:
     def toggle_visibility(self) -> None:
         """Schaltet die Sichtbarkeit des Boards um."""
         self.is_visible = not self.is_visible
+
+    def toggle_extra_fields(self) -> None:
+        """Schaltet die Anzeige der extra Felder (4xxx-9xxx) um."""
+        self.show_extra_fields = not self.show_extra_fields
 
     def set_factions(self, player_faction: str, opponent_faction: str) -> None:
         """Setzt die Factions für die Anzeige auf 0001/0002."""
@@ -147,12 +183,12 @@ class BoardRenderer:
         elif hex_id.area == 3:
             return COLORS.get("idle_neutral", (200, 200, 0))
         
-        # Spieler-Felder (1xxx)
-        elif hex_id.area == 1:
+        # Spieler-Felder (1xxx, 4xxx, 6xxx, 8xxx)
+        elif hex_id.area in [1, 4, 6, 8]:
             return FACTION_COLORS.get(self.player_faction, {}).get("primary", (0, 255, 0))
         
-        # Gegner-Felder (2xxx)
-        elif hex_id.area == 2:
+        # Gegner-Felder (2xxx, 5xxx, 7xxx, 9xxx)
+        elif hex_id.area in [2, 5, 7, 9]:
             return FACTION_COLORS.get(self.opponent_faction, {}).get("primary", (128, 0, 128))
         
         # Default
@@ -180,9 +216,14 @@ class BoardRenderer:
     def create_hex_buttons(self) -> None:
         """Erstellt HexButtons für alle relevanten Board-Felder."""
         for hex_id in self.board._valid_hex_ids:
-            # Nur 000x, 1xxx, 2xxx, 3xxx Felder rendern
+            # Standardmäßig: 000x, 1xxx, 2xxx, 3xxx Felder rendern
             if hex_id.area not in [0, 1, 2, 3]:
-                continue
+                # Extra Felder (4xxx-9xxx) nur wenn aktiviert
+                if not self.show_extra_fields:
+                    continue
+                # Nur 4xxx-7xxx für jetzt (8xxx, 9xxx haben keine Positionen)
+                if hex_id.area not in [4, 5, 6, 7]:
+                    continue
             
             # Nur wenn Position definiert ist
             if hex_id.raw_id not in self.BOARD_POSITIONS:
