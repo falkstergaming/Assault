@@ -28,6 +28,7 @@ from interfaces.renderer.pygame.components.button import HexButton
 from interfaces.renderer.pygame.components.game_status import GameStatusDisplay
 from interfaces.renderer.pygame.components.settings_menu import SettingsMenu
 from core.tests.init_test import InitTest
+from interfaces.renderer.pygame.components.board_renderer import BoardRenderer
 
 # --- JSON-Daten laden (mit globalen Konstanten) ---
 # Basisverzeichnis (Ordner der simulation.py)
@@ -86,6 +87,7 @@ test_descriptions = [
     "6: Alle Hexfelder erstellen",
     "7: Check choose player",
     "8: Check choose mode",
+    "9: Board an/aus",
     "C: Konsole löschen | ESC: Beenden"
 ]
 
@@ -107,6 +109,10 @@ def main():
 
     # Board initialisieren
     board = Board()
+
+    # BoardRenderer erstellen (erst später aktiviert mit Taste 9)
+    board_renderer = BoardRenderer(board, SCREEN_WIDTH, SCREEN_HEIGHT)
+    board_renderer.create_hex_buttons()
 
     # Screen und Console erstellen
     screen = Screen(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -167,7 +173,7 @@ def main():
 
     # --- Konsolenausgabe im Fenster ---
     console.log("=== Sturm auf Grayskull - Kern-Tests ===", COLORS["highlight"])
-    console.log("Drücke 1-8 für Tests, C zum Löschen, ESC zum Beenden", COLORS["primary"])
+    console.log("Drücke 1-8 für Tests, 9 für Board an/aus, C zum Löschen, ESC zum Beenden", COLORS["primary"])
 
     # --- Init-Tests vorbereiten ---
     init_test = InitTest(board, console, screen, figuren, eterniaorte, effekte, fahrzeuge)
@@ -180,6 +186,9 @@ def main():
     while running:
         # --- Hintergrund und UI rendern ---
         screen.render()
+
+        # --- Board rendern (falls aktiviert mit Taste 9) ---
+        board_renderer.render(screen.get_surface())
 
         # --- Settings-Menü rendern (falls aktiv) ---
         settings_menu.render(screen.get_surface())
@@ -239,8 +248,15 @@ def main():
                         opponent={"idle_count": 1, "might": 30, "matches_won": 0}
                     )
                     console.log("✅ Test 4: Spielstandsanzeige aktualisiert mit Testdaten!", COLORS["highlight"])
+                elif event.key == K_9:
+                        console.log("[USER] Taste 9 gedrückt: Board an/aus", COLORS["highlight"])
+                        board_renderer.toggle_visibility()
+                        status = "AKTIVIERT" if board_renderer.is_visible else "DEAKTIVIERT"
+                        console.log(f"Board-Rendering: {status}", COLORS["highlight"])
             # --- Button-Events behandeln ---
             screen.handle_event(event)
+            # Board-Button Events
+            board_renderer.handle_event(event)
 
         pygame.display.flip()
         clock.tick(30)
