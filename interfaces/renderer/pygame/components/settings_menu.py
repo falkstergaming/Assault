@@ -7,6 +7,7 @@ import pygame
 from pygame.locals import *
 from typing import Optional, Callable
 from core.utils.global_constants import COLORS
+from core.utils.translations import TRANSLATIONS, get_translation
 from core.utils.settings import Settings
 
 
@@ -148,29 +149,33 @@ class SettingsMenu:
         if not self.is_active:
             return
 
+        # Sprache festlegen
+        lang = self.settings.language if self.settings else "en"
+        t = TRANSLATIONS.get(lang, TRANSLATIONS["en"])
+
         # Menü-Hintergrund
         menu_rect = pygame.Rect(self.x, self.y, self.width, self.height)
         pygame.draw.rect(surface, COLORS["background"], menu_rect)
         pygame.draw.rect(surface, COLORS["primary"], menu_rect, 2)
 
         # Titel
-        title = self.font_title.render("Settings", True, COLORS["highlight"])
+        title = self.font_title.render(t["settings"], True, COLORS["highlight"])
         surface.blit(title, (self.x + self.padding, self.y + 5))
 
         # --- Sprache ---
         lang_y = self.y + self.padding + self.line_height
-        lang_label = self.font.render("Language:", True, COLORS["text"])
+        lang_label = self.font.render(f"{t['language']}:", True, COLORS["text"])
         surface.blit(lang_label, (self.x + self.padding, lang_y))
 
-        # Sprachauswahl (Deutsch/Englisch)
-        lang_value = "German" if self.settings.language == "de" else "English"
+        # Sprachauswahl
+        lang_value = t["german"] if self.settings.language == "de" else t["english"]
         lang_value_text = self.font.render(lang_value, True, COLORS["highlight"])
         lang_value_x = self.x + self.width - self.padding - lang_value_text.get_width()
         surface.blit(lang_value_text, (lang_value_x, lang_y))
 
         # --- Musik-Lautstärke ---
         music_y = lang_y + self.line_height + 5
-        music_label = self.font.render("Music Volume:", True, COLORS["text"])
+        music_label = self.font.render(f"{t['music_volume']}:", True, COLORS["text"])
         surface.blit(music_label, (self.x + self.padding, music_y))
         self._draw_slider(surface, self.x + self.padding, music_y + self.line_height - 5, 
                          self.settings.music_volume, "music")
@@ -179,7 +184,7 @@ class SettingsMenu:
 
         # --- Effekt-Lautstärke ---
         effect_y = music_y + self.line_height + 10
-        effect_label = self.font.render("Effect Volume:", True, COLORS["text"])
+        effect_label = self.font.render(f"{t['effect_volume']}:", True, COLORS["text"])
         surface.blit(effect_label, (self.x + self.padding, effect_y))
         self._draw_slider(surface, self.x + self.padding, effect_y + self.line_height - 5,
                          self.settings.effect_volume, "effect")

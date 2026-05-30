@@ -161,3 +161,5 @@ EFFECTS_JSON = f"{DATA_DIR}effekte.json"
 VEHICLE_JSON = f"{DATA_DIR}fahrzeuge.json"
 FACTIONS_JSON = f"{DATA_DIR}factions.json"
 SETTINGS_INI = "settings.ini"
+
+

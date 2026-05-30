@@ -5,8 +5,12 @@ Reserviert die oberen 15% des Bildschirms mit 25px Rand und 10% Platz links/rech
 """
 
 import pygame
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, TYPE_CHECKING
 from core.utils.global_constants import COLORS
+from core.utils.translations import TRANSLATIONS, get_translation
+
+if TYPE_CHECKING:
+    from core.utils.settings import Settings
 
 
 class GameStatusDisplay:
@@ -23,13 +27,14 @@ class GameStatusDisplay:
     [Leer für Buttons][   SPIELSTAND   ][Leer für Buttons]
     """
 
-    def __init__(self, width: int, height: int):
+    def __init__(self, width: int, height: int, settings: Optional['Settings'] = None):
         """
         Initialisiert die Spielstandsanzeige.
         
         Args:
             width: Bildschirmbreite
             height: Bildschirmhöhe
+            settings: Settings-Instanz für Sprachauswahl
         """
         self.width = width
         self.height = height
@@ -38,6 +43,7 @@ class GameStatusDisplay:
         self.margin_left = int(width * 0.1)  # 10% Platz links
         self.display_width = width - 2 * self.margin_left  # 80% der Breite
         self.x = self.margin_left
+        self.settings = settings
         
         # Standardwerte
         self.game_data = {
@@ -98,38 +104,47 @@ class GameStatusDisplay:
         pygame.draw.rect(surface, COLORS["background"], status_rect)
         pygame.draw.rect(surface, COLORS["primary"], status_rect, 1)
         
-        # --- Titel "SPIELSTAND" zentriert oben ---
-        title_text = "SPIELSTAND"
-        title_surface = self.title_font.render(title_text, True, COLORS["highlight"])
-        title_x = self.x + self.display_width // 2 - title_surface.get_width() // 2
-        surface.blit(title_surface, (title_x, self.y + 10))
+        # --- Sprache festlegen ---
+        lang = self.settings.language if self.settings else "en"
+        t = TRANSLATIONS.get(lang, TRANSLATIONS["en"])
+        
+        # --- Titel ---
+        # Game Title (klein, oben links)
+        game_title_surface = self.title_font.render(t["game_title"], True, COLORS["highlight"])
+        game_title_x = self.x + 10
+        surface.blit(game_title_surface, (game_title_x, self.y + 5))
+        
+        # Stats Title (zentriert)
+        stats_title_surface = self.title_font.render(t["stats_title"], True, COLORS["highlight"])
+        stats_title_x = self.x + self.display_width // 2 - stats_title_surface.get_width() // 2
+        surface.blit(stats_title_surface, (stats_title_x, self.y + 30))
         
         # --- Erste Zeile: Modus, Match, Runde, Phase ---
         line1_parts = [
-            f"Modus: {self.game_data['modus']}",
-            f"Match: {self.game_data['match_count']}",
-            f"Runde: {self.game_data['round_count']}",
-            f"Phase: {self.game_data['phase']}"
+            f"{t['mode']}: {self.game_data['modus']}",
+            f"{t['match']}: {self.game_data['match_count']}",
+            f"{t['round']}: {self.game_data['round_count']}",
+            f"{t['phase']}: {self.game_data['phase']}"
         ]
         line1_text = " | ".join(line1_parts)
         line1_surface = self.stat_font.render(line1_text, True, COLORS["text"])
         line1_x = self.x + 20
-        line1_y = self.y + 40
+        line1_y = self.y + 55
         surface.blit(line1_surface, (line1_x, line1_y))
         
         # --- Zweite Zeile: SpielerStats ---
-        player_text = (f"Spieler: Idle={self.game_data['player']['idle_count']} | "
-                      f"Might={self.game_data['player']['might']} | "
-                      f"Siege={self.game_data['player']['matches_won']}")
+        player_text = (f"{t['player']}: {t['idle']}={self.game_data['player']['idle_count']} | "
+                      f"{t['might']}={self.game_data['player']['might']} | "
+                      f"{t['wins']}={self.game_data['player']['matches_won']}")
         player_surface = self.stat_font.render(player_text, True, COLORS["text"])
         player_x = self.x + 20
         player_y = line1_y + 25
         surface.blit(player_surface, (player_x, player_y))
         
         # --- Dritte Zeile: GegnerStats ---
-        opponent_text = (f"Gegner:  Idle={self.game_data['opponent']['idle_count']} | "
-                       f"Might={self.game_data['opponent']['might']} | "
-                       f"Siege={self.game_data['opponent']['matches_won']}")
+        opponent_text = (f"{t['opponent']}:  {t['idle']}={self.game_data['opponent']['idle_count']} | "
+                       f"{t['might']}={self.game_data['opponent']['might']} | "
+                       f"{t['wins']}={self.game_data['opponent']['matches_won']}")
         opponent_surface = self.stat_font.render(opponent_text, True, COLORS["text"])
         opponent_x = self.x + 20
         opponent_y = player_y + 25

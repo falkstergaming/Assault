@@ -21,6 +21,7 @@ from core.entities.effect import Effect
 from core.entities.vehicle import Vehicle
 from core.utils.hex_id import HexID
 from core.utils.global_constants import COLORS, FIGURES_JSON, LOCATIONS_JSON, EFFECTS_JSON, VEHICLE_JSON
+from core.utils.translations import TRANSLATIONS
 from core.utils.settings import Settings
 from interfaces.renderer.pygame.screen import Screen
 from interfaces.renderer.pygame.components.button import HexButton
@@ -110,15 +111,24 @@ def main():
     # Screen und Console erstellen
     screen = Screen(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-    # Settings-Menü erstellen (noch nicht aktiv)
+    # Settings-Menü erstellen (noch nicht aktiv) - rechtsbündig mit Button, unter dem Button
     settings_menu = SettingsMenu(
-        x=SCREEN_WIDTH - MARGIN_HORIZONTAL - 250,
-        y=STATUS_HEIGHT + MARGIN_VERTICAL,
+        x=SCREEN_WIDTH - 25 - 250,  # 25px Abstand zum rechten Rand (1280 - 25 - 250 = 1005)
+        y=25 + 50 + 5,              # Unter dem Settings-Button (25 + 50 + 5px Abstand)
         settings=settings
     )
-    
-    # Spielstandsanzeige erstellen
-    game_status = GameStatusDisplay(SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    # Settings-Menü erstellen (unter der Spielstandsanzeige, linksbündig mit Spielstand)
+    # Spielstand: x=128, width=1024 → endet bei 1152
+    # Menü: width=250 → beginnt bei 1152-250-5=897 (5px Abstand zum Spielstand)
+    settings_menu = SettingsMenu(
+        x=1152 - 250 - 5,         # Linksbündig: 1152-250-5=897 (5px Abstand zum Spielstand)
+        y=STATUS_HEIGHT + 25 + 5,   # Unter der Spielstandsanzeige (108 + 25 + 5 = 138)
+        settings=settings
+    )
+
+    # Spielstandsanzeige erstellen (mit Settings für Sprachauswahl)
+    game_status = GameStatusDisplay(SCREEN_WIDTH, SCREEN_HEIGHT, settings=settings)
     
     # Console: 15% Höhe, 25px Abstand zum unteren Rand, 10% Rand links/rechts
     console = InGameConsole(
@@ -131,23 +141,26 @@ def main():
 
     # --- Action- und Settings-Button erstellen und hinzufügen ---
     # Action-Button: Groß (size=80), rechts am Rand, mittig
+    # Text je nach Sprache: EN="Action", DE="Weiter"
     action_button = HexButton(
         x=SCREEN_WIDTH - 100,  # 100px Abstand zum rechten Rand
         y=SCREEN_HEIGHT // 2,   # Mittig
         size=80,                # Groß
         color=COLORS["primary"],
-        text="Action",
+        text=TRANSLATIONS[settings.language]["action"],
         callback=lambda: console.log("[ACTION] Action-Button geklickt!", COLORS["highlight"])
     )
     screen.add_button(action_button)
 
-    # Settings-Button: Klein (size=50), oben rechts im Eck (unter der Statusleiste mit Rand)
+    # Settings-Button: Klein (size=50), oben rechts mit 25px Abstand zu Rand
+    # hex_id=None und text="⚙" um sicherzustellen, dass nur das Symbol angezeigt wird
     settings_button = HexButton(
-        x=SCREEN_WIDTH - MARGIN_HORIZONTAL - 25,  # 10% Rand + 25px
-        y=STATUS_HEIGHT + MARGIN_VERTICAL,       # Unter der Statusleiste + 25px
-        size=50,                                 # Klein
+        x=SCREEN_WIDTH - 25 - 50,  # 25px Abstand zum rechten Rand (1280 - 25 - 50 = 1205)
+        y=25,                      # 25px Abstand zum oberen Rand
+        size=50,                  # Klein
         color=COLORS["primary"],
-        text="⚙",                                  # Symbol für Settings
+        text="⚙",                # Nur das Steuerrad-Symbol (kein numerischer Wert)
+        hex_id=None,              # Keine hex_id - verhindert, dass "0" oder ID angezeigt wird
         callback=lambda: settings_menu.toggle()
     )
     screen.add_button(settings_button)
