@@ -20,10 +20,12 @@ from core.entities.location import Location
 from core.entities.effect import Effect
 from core.entities.vehicle import Vehicle
 from core.utils.hex_id import HexID
-from core.utils.global_constants import COLORS, FIGURES_JSON, LOCATIONS_JSON, EFFECTS_JSON, VEHICLE_JSON, VEHICLE_JSON
+from core.utils.global_constants import COLORS, FIGURES_JSON, LOCATIONS_JSON, EFFECTS_JSON, VEHICLE_JSON
+from core.utils.settings import Settings
 from interfaces.renderer.pygame.screen import Screen
 from interfaces.renderer.pygame.components.button import HexButton
 from interfaces.renderer.pygame.components.game_status import GameStatusDisplay
+from interfaces.renderer.pygame.components.settings_menu import SettingsMenu
 from core.tests.init_test import InitTest
 
 # --- JSON-Daten laden (mit globalen Konstanten) ---
@@ -99,11 +101,21 @@ def main():
     MARGIN_VERTICAL = 25  # 25px Abstand zum Rand
     MARGIN_HORIZONTAL = int(SCREEN_WIDTH * 0.1)  # 10% Platz links/rechts
 
+    # Einstellungen laden
+    settings = Settings()
+
     # Board initialisieren
     board = Board()
 
     # Screen und Console erstellen
     screen = Screen(SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    # Settings-Menü erstellen (noch nicht aktiv)
+    settings_menu = SettingsMenu(
+        x=SCREEN_WIDTH - MARGIN_HORIZONTAL - 250,
+        y=STATUS_HEIGHT + MARGIN_VERTICAL,
+        settings=settings
+    )
     
     # Spielstandsanzeige erstellen
     game_status = GameStatusDisplay(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -136,7 +148,7 @@ def main():
         size=50,                                 # Klein
         color=COLORS["primary"],
         text="⚙",                                  # Symbol für Settings
-        callback=lambda: console.log("[SETTINGS] Settings-Button geklickt!", COLORS["highlight"])
+        callback=lambda: settings_menu.toggle()
     )
     screen.add_button(settings_button)
 
@@ -156,6 +168,9 @@ def main():
         # --- Hintergrund und UI rendern ---
         screen.render()
 
+        # --- Settings-Menü rendern (falls aktiv) ---
+        settings_menu.render(screen.get_surface())
+
         # --- Spielstandsanzeige rendern (ganz oben) ---
         game_status.render(screen.get_surface())
 
@@ -173,6 +188,10 @@ def main():
 
         # --- Eingabe verarbeiten ---
         for event in pygame.event.get():
+            # --- Settings-Menü Events behandeln ---
+            if settings_menu.handle_event(event):
+                continue  # Event wurde vom Settings-Menü verbraucht
+
             if event.type == QUIT:
                 running = False
             elif event.type == KEYDOWN:
