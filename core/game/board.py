@@ -282,14 +282,33 @@ class Board:
 
     # --- Nachbarn-Abfrage ---
     def get_neighbors(self, hex_id: HexID) -> List[BaseEntity]:
-        """Gibt alle Entities (Figuren, Locations, Effekte) auf den Nachbar-Feldern zurück."""
+        """Gibt alle Entities (Figuren, Locations, Effekte, Vehicles) auf den Nachbar-Feldern zurück."""
         neighbor_ids = self._logical_neighbors.get(hex_id, [])  # ✅ HexID-Objekt als Key!
         neighbors = []
         for nid in neighbor_ids:
             # Hole alle Entities auf dem Nachbar-Feld
-            entities = self.get_entities_at(nid)
+            entities = self.get_entities_on_hex(nid)
             neighbors.extend(entities)
         return neighbors
+
+    def get_neighbor_entities(self, hex_id: HexID) -> List[BaseEntity]:
+        """
+        Gibt alle Entities auf den logischen Nachbar-Feldern zurück.
+        Alias für get_neighbors() zur Kompatibilität mit MightCalculator.
+        """
+        return self.get_neighbors(hex_id)
+
+    def get_opponent_entity(self, hex_id: HexID) -> Optional[BaseEntity]:
+        """
+        Gibt die Entity vom gegenüberliegenden Feld zurück.
+        Nur relevant für Spieler- (1xxx) und Gegner-Felder (2xxx).
+        """
+        opponent_field = self.get_opponent_field(hex_id)
+        if opponent_field is None:
+            return None
+        # Es kann nur eine Entity pro Typ geben, wir geben die erste zurück
+        # (Priorität: Figur > Location > Effekt > Vehicle)
+        return self.get_entity_at(opponent_field)
 
     def get_optical_neighbors(self, hex_id: HexID) -> List[HexID]:
         """
@@ -376,6 +395,19 @@ class Board:
 
     def get_vehicle_at(self, hex_id: HexID) -> Optional[BaseEntity]:
         return self._vehicles.get(hex_id.raw_id)
+
+    def get_entities_on_hex(self, hex_id: HexID) -> List[BaseEntity]:
+        """Gibt alle Entities (Figuren, Locations, Effekte, Vehicles) auf einem Hexfeld zurück."""
+        entities = []
+        if hex_id.raw_id in self._figures:
+            entities.append(self._figures[hex_id.raw_id])
+        if hex_id.raw_id in self._locations:
+            entities.append(self._locations[hex_id.raw_id])
+        if hex_id.raw_id in self._effects:
+            entities.append(self._effects[hex_id.raw_id])
+        if hex_id.raw_id in self._vehicles:
+            entities.append(self._vehicles[hex_id.raw_id])
+        return entities
 
     def get_entity_at(self, hex_id: HexID) -> Optional[BaseEntity]:
         """

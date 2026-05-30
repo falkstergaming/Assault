@@ -3,6 +3,7 @@ from core.entities.figure import Figure
 from core.entities.location import Location
 from core.entities.effect import Effect
 from core.entities.vehicle import Vehicle
+from core.managers.might_calculator import MightCalculator
 from core.utils.hex_id import HexID
 from core.utils.global_constants import COLORS
 
@@ -17,6 +18,7 @@ class InitTest:
         self.eterniaorte = eterniaorte
         self.effekte = effekte
         self.fahrzeuge = fahrzeuge if fahrzeuge else {}
+        self.might_calculator = MightCalculator(board)
 
         # Lade die Dummy-Entitäten aus den übergebene JSON-Daten
         self.dummy_figure = Figure.from_dict(figuren["0000"])
@@ -79,7 +81,7 @@ class InitTest:
             self.console.log("❌ Test 2: Dummy-Entitäten fehlen!", COLORS["idle_opponent"])
 
     def _test_place_location(self):
-        """Test 3: Platziert Location auf 0000."""
+        """Test 3: Platziert Location auf 0000 und prüft Might für das Hexfeld."""
         self.console.log("\n--- Test 3: Location auf 0000 platzieren ---", COLORS["primary"])
         hex_id = HexID("0000")
         success = self.board.place_entity(hex_id, self.dummy_location)
@@ -87,9 +89,11 @@ class InitTest:
         if success:
             location = self.board.get_location_at(hex_id)
             if location:
-                might = location.base_might
-                self.console.log(f"Might der Location: {might} (erwartet: {self.dummy_location.base_might})",
-                                COLORS["highlight"] if might == self.dummy_location.base_might else COLORS["idle_opponent"])
+                # Might für das Hexfeld berechnen (neue Methode)
+                hex_might = self.might_calculator.calculate_might_for_hex(hex_id)
+                expected = self.dummy_location.base_might
+                self.console.log(f"Might des Hexfelds 0000: {hex_might} (erwartet: {expected})",
+                                COLORS["highlight"] if hex_might == expected else COLORS["idle_opponent"])
                 self.console.log("✅ Test 3: Location platziert!", COLORS["highlight"])
             else:
                 self.console.log("❌ Test 3: Location nicht gefunden!", COLORS["idle_opponent"])
@@ -97,7 +101,7 @@ class InitTest:
             self.console.log("❌ Test 3: Platzierung fehlgeschlagen!", COLORS["idle_opponent"])
 
     def _test_place_figure(self):
-        """Test 4: Platziert Figur auf 0000 (mit Location)."""
+        """Test 4: Platziert Figur auf 0000 (mit Location) und prüft Hexfeld-Might."""
         self.console.log("\n--- Test 4: Figur auf 0000 platzieren (mit Location) ---", COLORS["primary"])
         hex_id = HexID("0000")
         success = self.board.place_entity(hex_id, self.dummy_figure)
@@ -106,11 +110,13 @@ class InitTest:
             figure = self.board.get_figure_at(hex_id)
             location = self.board.get_location_at(hex_id)
             if figure and location:
+                # Might für das Hexfeld berechnen (neue Methode)
+                hex_might = self.might_calculator.calculate_might_for_hex(hex_id)
+                # Erwartet: Figur + Location base_might (+ Location self-buffs)
                 location_self_buffs = sum(buff.value for buff in location.buffs["self"])
-                might = figure.base_might + location.base_might + location_self_buffs
                 expected = self.dummy_figure.base_might + self.dummy_location.base_might + location_self_buffs
-                self.console.log(f"Might der Figur (mit Location): {might} (erwartet: {expected})",
-                                COLORS["highlight"] if might == expected else COLORS["idle_opponent"])
+                self.console.log(f"Might des Hexfelds 0000: {hex_might} (erwartet: {expected})",
+                                COLORS["highlight"] if hex_might == expected else COLORS["idle_opponent"])
                 self.console.log("✅ Test 4: Figur platziert!", COLORS["highlight"])
             else:
                 self.console.log("❌ Test 4: Figur oder Location nicht gefunden!", COLORS["idle_opponent"])
@@ -118,7 +124,7 @@ class InitTest:
             self.console.log("❌ Test 4: Platzierung fehlgeschlagen!", COLORS["idle_opponent"])
 
     def _test_place_effect(self):
-        """Test 5: Platziert Effekt auf 0000 (mit Figur + Location)."""
+        """Test 5: Platziert Effekt auf 0000 (mit Figur + Location) und prüft Hexfeld-Might."""
         self.console.log("\n--- Test 5: Effekt auf 0000 platzieren (mit Figur + Location) ---", COLORS["primary"])
         hex_id = HexID("0000")
         success = self.board.place_entity(hex_id, self.dummy_effect)
@@ -128,15 +134,16 @@ class InitTest:
             location = self.board.get_location_at(hex_id)
             effect = self.board.get_effect_at(hex_id)
             if figure and location and effect:
+                # Might für das Hexfeld berechnen (neue Methode)
+                hex_might = self.might_calculator.calculate_might_for_hex(hex_id)
+                # Erwartet: Figur + Location + Effekt base_might (+ Selbst-Buffs)
                 location_self_buffs = sum(buff.value for buff in location.buffs["self"])
                 figure_self_buffs = sum(buff.value for buff in figure.buffs["self"]) if figure.alt else 0
                 effect_self_buffs = sum(buff.value for buff in effect.buffs["self"]) if effect.alt else 0
-                might = (figure.base_might + location.base_might + effect.base_might +
-                         location_self_buffs + figure_self_buffs + effect_self_buffs)
                 expected = (self.dummy_figure.base_might + self.dummy_location.base_might + self.dummy_effect.base_might +
                             location_self_buffs + figure_self_buffs + effect_self_buffs)
-                self.console.log(f"Might (mit Location + Effekt): {might} (erwartet: {expected})",
-                                COLORS["highlight"] if might == expected else COLORS["idle_opponent"])
+                self.console.log(f"Might des Hexfelds 0000: {hex_might} (erwartet: {expected})",
+                                COLORS["highlight"] if hex_might == expected else COLORS["idle_opponent"])
                 self.console.log("✅ Test 5: Effekt platziert!", COLORS["highlight"])
             else:
                 self.console.log("❌ Test 5: Figur, Location oder Effekt nicht gefunden!", COLORS["idle_opponent"])
@@ -144,7 +151,7 @@ class InitTest:
             self.console.log("❌ Test 5: Platzierung fehlgeschlagen!", COLORS["idle_opponent"])
 
     def _test_place_vehicle(self):
-        """Test 6: Platziert Vehicle auf 0000 (mit Figur + Location + Effekt)."""
+        """Test 6: Platziert Vehicle auf 0000 (mit Figur + Location + Effekt) und prüft Hexfeld-Might."""
         self.console.log("\n--- Test 6: Vehicle auf 0000 platzieren (mit Figur + Location + Effekt) ---", COLORS["primary"])
         hex_id = HexID("0000")
         success = self.board.place_entity(hex_id, self.dummy_vehicle)
@@ -155,15 +162,17 @@ class InitTest:
             effect = self.board.get_effect_at(hex_id)
             vehicle = self.board.get_vehicle_at(hex_id)
             if figure and location and effect and vehicle:
+                # Might für das Hexfeld berechnen (neue Methode)
+                hex_might = self.might_calculator.calculate_might_for_hex(hex_id)
+                # Erwartet: Figur + Location + Effekt + Vehicle base_might (+ Selbst-Buffs)
                 location_self_buffs = sum(buff.value for buff in location.buffs["self"])
                 figure_self_buffs = sum(buff.value for buff in figure.buffs["self"]) if figure.alt else 0
                 effect_self_buffs = sum(buff.value for buff in effect.buffs["self"]) if effect.alt else 0
-                might = (figure.base_might + location.base_might + effect.base_might + vehicle.base_might +
-                         location_self_buffs + figure_self_buffs + effect_self_buffs)
-                expected = (self.dummy_figure.base_might + self.dummy_location.base_might + self.dummy_effect.base_might + self.dummy_vehicle.base_might +
+                expected = (self.dummy_figure.base_might + self.dummy_location.base_might + 
+                           self.dummy_effect.base_might + self.dummy_vehicle.base_might +
                             location_self_buffs + figure_self_buffs + effect_self_buffs)
-                self.console.log(f"Might (mit Location + Effekt + Vehicle): {might} (erwartet: {expected})",
-                                COLORS["highlight"] if might == expected else COLORS["idle_opponent"])
+                self.console.log(f"Might des Hexfelds 0000: {hex_might} (erwartet: {expected})",
+                                COLORS["highlight"] if hex_might == expected else COLORS["idle_opponent"])
                 self.console.log("✅ Test 6: Vehicle platziert!", COLORS["highlight"])
             else:
                 self.console.log("❌ Test 6: Eine oder mehrere Entitäten nicht gefunden!", COLORS["idle_opponent"])
