@@ -11,6 +11,7 @@
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 2,
     "self_alt_activation": false,
     "alt_state": false,
@@ -24,16 +25,9 @@
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 20,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
   "1110": {
     "id": "1110",
@@ -47,6 +41,7 @@
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 1,
     "self_alt_activation": true,
     "alt_state": false,
@@ -54,730 +49,15 @@
     "faction": "Adam,main,good",
     "rarity": "unique",
     "buffs": {
-      "self": [
-        {
-          "value": 10,
-          "target": "Adam",
-          "target_type": "id"
-        }
-      ],
+      "self": [{"value": 10, "target": "Adam", "target_type": "id"}],
       "neighbor": [],
       "opponent": [],
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 20,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2111": {
-    "id": "2111",
-    "type": "figure",
-    "name": "BeastMan",
-    "display_name_en": "BeastMan",
-    "display_name_de": "BeastMan",
-    "description": "Unterstützt Skeletor und TrapJaw",
-    "base_might": 4,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,evil,labil",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [
-        {
-          "value": 3,
-          "target": "Skeletor",
-          "target_type": null
-        }
-      ],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2138": {
-    "id": "2138",
-    "type": "figure",
-    "name": "BuzzOff",
-    "display_name_en": "BuzzOff",
-    "display_name_de": "BuzzOff",
-    "description": "Kann Platz Tauschen",
-    "base_might": 5,
-    "mobility": "flying",
-    "range": "melee",
-    "vision": 3,
-    "placing": true,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,Zodak,mobil,good,spy",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2129": {
-    "id": "2129",
-    "type": "figure",
-    "name": "Clawful",
-    "display_name_en": "Clawful",
-    "display_name_de": "Clawful",
-    "description": "Gibt seine Stärke an die Figur rechts",
-    "base_might": 5,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,Hordak,Zodak,evil",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [
-        {
-          "value": 3,
-          "target": "evil",
-          "target_type": null
-        }
-      ],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2120": {
-    "id": "2120",
-    "type": "figure",
-    "name": "Dragstor",
-    "display_name_en": "Dragstor",
-    "display_name_de": "Dragstor",
-    "description": "",
-    "base_might": 9,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Hordak,evil,horde,labil",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2126": {
-    "id": "2126",
-    "type": "figure",
-    "name": "EvilLyn",
-    "display_name_en": "EvilLyn",
-    "display_name_de": "EvilLyn",
-    "description": "",
-    "base_might": 5,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,evil",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": 2,
-          "target": "Skeletor",
-          "target_type": null
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "3110": {
-    "id": "3110",
-    "type": "figure",
-    "name": "Hordak",
-    "display_name_en": "Hordak",
-    "display_name_de": "Hordak",
-    "description": "Wird in Snake Mountain überredet",
-    "base_might": 10,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": true,
-    "alt_activation_cost": 5,
-    "faction": "Hordak,main,evil,horde",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2130": {
-    "id": "2130",
-    "type": "figure",
-    "name": "Jitsu",
-    "display_name_en": "Jitsu",
-    "display_name_de": "Jitsu",
-    "description": "",
-    "base_might": 7,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,Hordak,Zodak,evil",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2134": {
-    "id": "2134",
-    "type": "figure",
-    "name": "KingHiss",
-    "display_name_en": "KingHiss",
-    "display_name_de": "KingHiss",
-    "description": "Bufft Alle Schlangenmenschen",
-    "base_might": 2,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "Schlangenmensch",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2135": {
-    "id": "2135",
-    "type": "figure",
-    "name": "KobraKahn",
-    "display_name_en": "KobraKahn",
-    "display_name_de": "KobraKahn",
-    "description": "Bufft Alle Schlangenmenschen",
-    "base_might": 5,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "Schlangenmensch",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2119": {
-    "id": "2119",
-    "type": "figure",
-    "name": "Leech",
-    "display_name_en": "Leech",
-    "display_name_de": "Leech",
-    "description": "Zieht dem Gegner 3 Macht",
-    "base_might": 3,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Hordak,Skeletor,evil,horde",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2114": {
-    "id": "2114",
-    "type": "figure",
-    "name": "ManAtArms",
-    "display_name_en": "ManAtArms",
-    "display_name_de": "ManAtArms",
-    "description": "Unterstütz Adam und Zodak",
-    "base_might": 5,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,Zodak,good",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [
-        {
-          "value": 3,
-          "target": "good",
-          "target_type": null
-        }
-      ],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2117": {
-    "id": "2117",
-    "type": "figure",
-    "name": "ManEFaces",
-    "display_name_en": "ManEFaces",
-    "display_name_de": "ManEFaces",
-    "description": "",
-    "base_might": 16,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,Zodak,good",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "good",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2121": {
-    "id": "2121",
-    "type": "figure",
-    "name": "Mantenna",
-    "display_name_en": "Mantenna",
-    "display_name_de": "Mantenna",
-    "description": "Gegner Adam hat hier keine Macht auf Fright Zone",
-    "base_might": 8,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 3,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Hordak,Skeletor,evil,horde,spy",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2140": {
-    "id": "2140",
-    "type": "figure",
-    "name": "Mekanek",
-    "display_name_en": "Mekanek",
-    "display_name_de": "Mekanek",
-    "description": "",
-    "base_might": 2,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 3,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,Zodak,good,spy,labil",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": -1,
-          "target": "spy",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2127": {
-    "id": "2127",
-    "type": "figure",
-    "name": "MerMan",
-    "display_name_en": "MerMan",
-    "display_name_de": "MerMan",
-    "description": "",
-    "base_might": 8,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,Hordak,evil",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2118": {
-    "id": "2118",
-    "type": "figure",
-    "name": "Modulok",
-    "display_name_en": "Modulok",
-    "display_name_de": "Modulok",
-    "description": "Kann zwei Idle angreifen",
-    "base_might": 6,
-    "mobility": "flying",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Hordak,evil,horde,mobil",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2141": {
-    "id": "2141",
-    "type": "figure",
-    "name": "MossMan",
-    "display_name_en": "MossMan",
-    "display_name_de": "MossMan",
-    "description": "",
-    "base_might": 5,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,Zodak,good",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2122": {
-    "id": "2122",
-    "type": "figure",
-    "name": "Multibot",
-    "display_name_en": "Multibot",
-    "display_name_de": "Multibot",
-    "description": "Bufft alle Hordak Figuren um 5",
-    "base_might": 0,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Hordak,Skeletor,horde,evil",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "Hordak",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
   "1111": {
     "id": "1111",
@@ -791,6 +71,7 @@
     "range": "melee",
     "vision": 1,
     "placing": true,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": true,
     "alt_state": false,
@@ -798,226 +79,45 @@
     "faction": "Adam,Zodak,good",
     "rarity": "epic",
     "buffs": {
-      "self": [
-        {
-          "value": 5,
-          "target": "Orko",
-          "target_type": "id"
-        }
-      ],
+      "self": [{"value": 5, "target": "Orko", "target_type": "id"}],
       "neighbor": [],
       "opponent": [],
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      1.0,
-      1.0
-    ],
+    "might_split": [1.0, 1.0],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
-  "2116": {
-    "id": "2116",
+  "1999": {
+    "id": "1999",
     "type": "figure",
-    "name": "RamMan",
-    "display_name_en": "RamMan",
-    "display_name_de": "RamMan",
-    "description": "Gegner Figur hat hier keine Macht",
-    "base_might": 2,
-    "mobility": "flying",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,good,mobil",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2139": {
-    "id": "2139",
-    "type": "figure",
-    "name": "Randor",
-    "display_name_en": "Randor",
-    "display_name_de": "Randor",
-    "description": "",
+    "name": "RoyalGuard",
+    "display_name_en": "Royal Guard",
+    "display_name_de": "Königsgarde",
+    "description": "Standard unit of the royal guard faction.",
     "base_might": 1,
     "mobility": "ground",
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": false,
     "alt_activation_cost": -1,
-    "faction": "Adam,good,labil",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2136": {
-    "id": "2136",
-    "type": "figure",
-    "name": "Rattlor",
-    "display_name_en": "Rattlor",
-    "display_name_de": "Rattlor",
-    "description": "Bufft Alle Schlangenmenschen",
-    "base_might": 9,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "Schlangenmensch",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2143": {
-    "id": "2143",
-    "type": "figure",
-    "name": "Rokkon",
-    "display_name_en": "Rokkon",
-    "display_name_de": "Rokkon",
-    "description": "Bufft Stondar +2",
-    "base_might": 8,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,Zodak,Felsling,good",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": 2,
-          "target": "Felsling",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2112": {
-    "id": "2112",
-    "type": "figure",
-    "name": "RoyalGuard",
-    "display_name_en": "Royal Guard",
-    "display_name_de": "Königsgarde",
-    "description": "Schützt den König mit loyaler Hingabe.",
-    "base_might": 2,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,good,royal_guard",
+    "faction": "royal_guard,good",
     "rarity": "common",
     "buffs": {
       "self": [],
       "neighbor": [],
       "opponent": [],
-      "faction": [
-        {
-          "value": 1,
-          "target": "royal_guard",
-          "target_type": "faction"
-        }
-      ],
+      "faction": [{"value": 1, "target": "royal_guard", "target_type": "faction"}],
       "targeted": []
     },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
   "2110": {
     "id": "2110",
@@ -1031,12 +131,67 @@
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": true,
     "alt_activation_cost": 5,
     "faction": "Skeletor,main,evil",
     "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2111": {
+    "id": "2111",
+    "type": "figure",
+    "name": "BeastMan",
+    "display_name_en": "BeastMan",
+    "display_name_de": "BeastMan",
+    "description": "Unterstützt Skeletor und TrapJaw",
+    "base_might": 4,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,evil,labil",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [{"value": 3, "target": "Skeletor", "target_type": null}],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2112": {
+    "id": "2112",
+    "type": "figure",
+    "name": "Teela",
+    "display_name_en": "Teela",
+    "display_name_de": "Teela",
+    "description": "Kämpferin aus Schloss Grayskull",
+    "base_might": 2,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,good,figure",
+    "rarity": "rare",
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -1044,29 +199,23 @@
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
-  "2144": {
-    "id": "2144",
+  "2113": {
+    "id": "2113",
     "type": "figure",
-    "name": "SnoutSpout",
-    "display_name_en": "SnoutSpout",
-    "display_name_de": "SnoutSpout",
-    "description": "Bufft Stondar und Rokkon +2",
-    "base_might": 8,
+    "name": "ManAtArms",
+    "display_name_en": "ManAtArms",
+    "display_name_de": "ManAtArms",
+    "description": "Unterstütz Adam und Zodak",
+    "base_might": 5,
     "mobility": "ground",
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": false,
@@ -1074,109 +223,18 @@
     "faction": "Adam,Zodak,good",
     "rarity": null,
     "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "Felsling",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2131": {
-    "id": "2131",
-    "type": "figure",
-    "name": "Stinkor",
-    "display_name_en": "Stinkor",
-    "display_name_de": "Stinkor",
-    "description": "Gegner hat keine Macht auf Snake Mountain",
-    "base_might": 1,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,Hordak,Zodak,evil",
-    "rarity": null,
-    "buffs": {
       "self": [],
-      "neighbor": [],
+      "neighbor": [{"value": 3, "target": "good", "target_type": null}],
       "opponent": [],
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
-  "2142": {
-    "id": "2142",
-    "type": "figure",
-    "name": "Stondar",
-    "display_name_en": "Stondar",
-    "display_name_de": "Stondar",
-    "description": "Bufft Rokkon +2",
-    "base_might": 8,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,Zodak,Felsling,good",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": 2,
-          "target": "Felsling",
-          "target_type": "faction"
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2115": {
-    "id": "2115",
+  "2114": {
+    "id": "2114",
     "type": "figure",
     "name": "Stratos",
     "display_name_en": "Stratos",
@@ -1187,12 +245,91 @@
     "range": "melee",
     "vision": 3,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": false,
     "alt_activation_cost": -1,
     "faction": "Adam,Zodak,good,mobil,spy",
     "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [1.0, 1.0],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2115": {
+    "id": "2115",
+    "type": "figure",
+    "name": "RamMan",
+    "display_name_en": "RamMan",
+    "display_name_de": "RamMan",
+    "description": "Gegner Figur hat hier keine Macht",
+    "base_might": 2,
+    "mobility": "flying",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,good,mobil",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2116": {
+    "id": "2116",
+    "type": "figure",
+    "name": "ManEFaces",
+    "display_name_en": "ManEFaces",
+    "display_name_de": "ManEFaces",
+    "description": "",
+    "base_might": 16,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,Zodak,good",
+    "rarity": null,
+    "buffs": {
+      "self": [{"value": 1, "target": "good", "target_type": "faction"}],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2117": {
+    "id": "2117",
+    "type": "figure",
+    "name": "Grizzlor",
+    "display_name_en": "Grizzlor",
+    "display_name_de": "Grizzlor",
+    "description": "Starker Bär-Krieger",
+    "base_might": 3,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,evil,figure",
+    "rarity": "rare",
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -1200,142 +337,135 @@
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      1.0,
-      1.0
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
-  "2113": {
-    "id": "2113",
+  "2118": {
+    "id": "2118",
     "type": "figure",
-    "name": "Teela",
-    "display_name_en": "Teela",
-    "display_name_de": "Teela",
-    "description": "Hat die Stärke von Orko",
-    "base_might": 1,
-    "mobility": "ground",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Adam,good,labil",
-    "rarity": null,
-    "buffs": {
-      "self": [
-        {
-          "value": 2,
-          "target": "Adam",
-          "target_type": null
-        }
-      ],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2124": {
-    "id": "2124",
-    "type": "figure",
-    "name": "TrapJaw",
-    "display_name_en": "TrapJaw",
-    "display_name_de": "TrapJaw",
-    "description": "",
+    "name": "Modulok",
+    "display_name_en": "Modulok",
+    "display_name_de": "Modulok",
+    "description": "Kann zwei Idle angreifen",
     "base_might": 6,
-    "mobility": "ground",
+    "mobility": "flying",
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": false,
     "alt_activation_cost": -1,
-    "faction": "Hordak,Skeletor,evil",
+    "faction": "Hordak,evil,horde,mobil",
     "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [
-        {
-          "value": 3,
-          "target": "evil",
-          "target_type": null
-        }
-      ],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [1.0, 1.0],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
-  "2125": {
-    "id": "2125",
+  "2119": {
+    "id": "2119",
     "type": "figure",
-    "name": "TriKlops",
-    "display_name_en": "TriKlops",
-    "display_name_de": "TriKlops",
+    "name": "Leech",
+    "display_name_en": "Leech",
+    "display_name_de": "Leech",
+    "description": "Zieht dem Gegner 3 Macht",
+    "base_might": 3,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Hordak,Skeletor,evil,horde",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2120": {
+    "id": "2120",
+    "type": "figure",
+    "name": "Dragstor",
+    "display_name_en": "Dragstor",
+    "display_name_de": "Dragstor",
     "description": "",
+    "base_might": 9,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Hordak,evil,horde,labil",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2121": {
+    "id": "2121",
+    "type": "figure",
+    "name": "Mantenna",
+    "display_name_en": "Mantenna",
+    "display_name_de": "Mantenna",
+    "description": "Gegner Adam hat hier keine Macht auf Fright Zone",
     "base_might": 8,
     "mobility": "ground",
     "range": "melee",
     "vision": 3,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": false,
     "alt_activation_cost": -1,
-    "faction": "Hordak,Skeletor,evil,spy",
+    "faction": "Hordak,Skeletor,evil,horde,spy",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2122": {
+    "id": "2122",
+    "type": "figure",
+    "name": "Multibot",
+    "display_name_en": "Multibot",
+    "display_name_de": "Multibot",
+    "description": "Bufft alle Hordak Figuren um 5",
+    "base_might": 0,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": true,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Hordak,Skeletor,horde,evil",
     "rarity": null,
     "buffs": {
-      "self": [],
-      "neighbor": [
-        {
-          "value": 3,
-          "target": "Skeletor",
-          "target_type": null
-        }
-      ],
+      "self": [{"value": 1, "target": "Hordak", "target_type": "faction"}],
+      "neighbor": [],
       "opponent": [],
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
   "2123": {
     "id": "2123",
@@ -1349,6 +479,7 @@
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": false,
@@ -1357,69 +488,230 @@
     "rarity": null,
     "buffs": {
       "self": [],
-      "neighbor": [
-        {
-          "value": 1,
-          "target": "horde",
-          "target_type": null
-        }
-      ],
+      "neighbor": [{"value": 1, "target": "horde", "target_type": null}],
       "opponent": [],
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
-  "2137": {
-    "id": "2137",
+  "2124": {
+    "id": "2124",
     "type": "figure",
-    "name": "TungLashor",
-    "display_name_en": "TungLashor",
-    "display_name_de": "TungLashor",
-    "description": "Bufft Alle Schlangenmenschen",
-    "base_might": 12,
+    "name": "TrapJaw",
+    "display_name_en": "TrapJaw",
+    "display_name_de": "TrapJaw",
+    "description": "",
+    "base_might": 6,
     "mobility": "ground",
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": false,
     "alt_activation_cost": -1,
-    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch",
+    "faction": "Hordak,Skeletor,evil",
     "rarity": null,
     "buffs": {
-      "self": [
-        {
-          "value": 1,
-          "target": "Schlangenmensch",
-          "target_type": "faction"
-        }
-      ],
+      "self": [],
+      "neighbor": [{"value": 3, "target": "evil", "target_type": null}],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2125": {
+    "id": "2125",
+    "type": "figure",
+    "name": "TriKlops",
+    "display_name_en": "TriKlops",
+    "display_name_de": "TriKlops",
+    "description": "",
+    "base_might": 8,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 3,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Hordak,Skeletor,evil,spy",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [{"value": 3, "target": "Skeletor", "target_type": null}],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2126": {
+    "id": "2126",
+    "type": "figure",
+    "name": "EvilLyn",
+    "display_name_en": "EvilLyn",
+    "display_name_de": "EvilLyn",
+    "description": "",
+    "base_might": 5,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,evil",
+    "rarity": null,
+    "buffs": {
+      "self": [{"value": 2, "target": "Skeletor", "target_type": null}],
       "neighbor": [],
       "opponent": [],
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2127": {
+    "id": "2127",
+    "type": "figure",
+    "name": "MerMan",
+    "display_name_en": "MerMan",
+    "display_name_de": "MerMan",
+    "description": "",
+    "base_might": 8,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,Hordak,evil",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2128": {
+    "id": "2128",
+    "type": "figure",
+    "name": "Webstor",
+    "display_name_en": "Webstor",
+    "display_name_de": "Webstor",
+    "description": "Kann Position tauschen",
+    "base_might": 15,
+    "mobility": "flying",
+    "range": "melee",
+    "vision": 1,
+    "placing": true,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,Hordak,Zodak,evil,mobil",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2129": {
+    "id": "2129",
+    "type": "figure",
+    "name": "Clawful",
+    "display_name_en": "Clawful",
+    "display_name_de": "Clawful",
+    "description": "Gibt seine Stärke an die Figur rechts",
+    "base_might": 5,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,Hordak,Zodak,evil",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [{"value": 3, "target": "evil", "target_type": null}],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2130": {
+    "id": "2130",
+    "type": "figure",
+    "name": "Jitsu",
+    "display_name_en": "Jitsu",
+    "display_name_de": "Jitsu",
+    "description": "",
+    "base_might": 7,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,Hordak,Zodak,evil",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2131": {
+    "id": "2131",
+    "type": "figure",
+    "name": "Stinkor",
+    "display_name_en": "Stinkor",
+    "display_name_de": "Stinkor",
+    "description": "Gegner hat keine Macht auf Snake Mountain",
+    "base_might": 1,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,Hordak,Zodak,evil",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
   "2132": {
     "id": "2132",
@@ -1433,65 +725,17 @@
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": false,
     "alt_activation_cost": -1,
     "faction": "Skeletor,Hordak,Zodak,evil,mobil",
     "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [1.0, 1.0],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
-  },
-  "2128": {
-    "id": "2128",
-    "type": "figure",
-    "name": "Webstor",
-    "display_name_en": "Webstor",
-    "display_name_de": "Webstor",
-    "description": "Kann Position tauschen",
-    "base_might": 15,
-    "mobility": "flying",
-    "range": "melee",
-    "vision": 1,
-    "placing": false,
-    "AP_credit": 0,
-    "self_alt_activation": false,
-    "alt_state": false,
-    "alt_activation_cost": -1,
-    "faction": "Skeletor,Hordak,Zodak,evil,mobil",
-    "rarity": null,
-    "buffs": {
-      "self": [],
-      "neighbor": [],
-      "opponent": [],
-      "faction": [],
-      "targeted": []
-    },
-    "might_split": [
-      0.5,
-      0.5
-    ],
-    "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
   "2133": {
     "id": "2133",
@@ -1505,29 +749,413 @@
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 0,
     "self_alt_activation": false,
     "alt_state": false,
     "alt_activation_cost": -1,
     "faction": "Skeletor,Hordak,Zodak",
     "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2134": {
+    "id": "2134",
+    "type": "figure",
+    "name": "KingHiss",
+    "display_name_en": "KingHiss",
+    "display_name_de": "KingHiss",
+    "description": "Bufft Alle Schlangenmenschen",
+    "base_might": 2,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch",
+    "rarity": null,
     "buffs": {
-      "self": [],
+      "self": [{"value": 1, "target": "Schlangenmensch", "target_type": "faction"}],
       "neighbor": [],
       "opponent": [],
       "faction": [],
       "targeted": []
     },
-    "might_split": [
-      0.5,
-      0.5
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2135": {
+    "id": "2135",
+    "type": "figure",
+    "name": "KobraKahn",
+    "display_name_en": "KobraKahn",
+    "display_name_de": "KobraKahn",
+    "description": "Bufft Alle Schlangenmenschen",
+    "base_might": 5,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch",
+    "rarity": null,
+    "buffs": {
+      "self": [{"value": 1, "target": "Schlangenmensch", "target_type": "faction"}],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2136": {
+    "id": "2136",
+    "type": "figure",
+    "name": "Rattlor",
+    "display_name_en": "Rattlor",
+    "display_name_de": "Rattlor",
+    "description": "Bufft Alle Schlangenmenschen",
+    "base_might": 9,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch",
+    "rarity": null,
+    "buffs": {
+      "self": [{"value": 1, "target": "Schlangenmensch", "target_type": "faction"}],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2137": {
+    "id": "2137",
+    "type": "figure",
+    "name": "TungLashor",
+    "display_name_en": "TungLashor",
+    "display_name_de": "TungLashor",
+    "description": "Bufft Alle Schlangenmenschen",
+    "base_might": 12,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Skeletor,Hordak,Zodak,Schlangenmensch",
+    "rarity": null,
+    "buffs": {
+      "self": [{"value": 1, "target": "Schlangenmensch", "target_type": "faction"}],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2138": {
+    "id": "2138",
+    "type": "figure",
+    "name": "BuzzOff",
+    "display_name_en": "BuzzOff",
+    "display_name_de": "BuzzOff",
+    "description": "Kann Platz Tauschen",
+    "base_might": 5,
+    "mobility": "flying",
+    "range": "melee",
+    "vision": 3,
+    "placing": true,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,Zodak,mobil,good,spy",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2139": {
+    "id": "2139",
+    "type": "figure",
+    "name": "Randor",
+    "display_name_en": "Randor",
+    "display_name_de": "Randor",
+    "description": "",
+    "base_might": 1,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,good,labil",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2140": {
+    "id": "2140",
+    "type": "figure",
+    "name": "Mekanek",
+    "display_name_en": "Mekanek",
+    "display_name_de": "Mekanek",
+    "description": "",
+    "base_might": 2,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 3,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,Zodak,good,spy,labil",
+    "rarity": null,
+    "buffs": {
+      "self": [{"value": -1, "target": "spy", "target_type": "faction"}],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2141": {
+    "id": "2141",
+    "type": "figure",
+    "name": "MossMan",
+    "display_name_en": "MossMan",
+    "display_name_de": "MossMan",
+    "description": "",
+    "base_might": 5,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,Zodak,good",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2142": {
+    "id": "2142",
+    "type": "figure",
+    "name": "Stondar",
+    "display_name_en": "Stondar",
+    "display_name_de": "Stondar",
+    "description": "Bufft Rokkon +2",
+    "base_might": 8,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": true,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,Zodak,Felsling,good",
+    "rarity": null,
+    "buffs": {
+      "self": [{"value": 2, "target": "Stondar", "target_type": "id"}],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2143": {
+    "id": "2143",
+    "type": "figure",
+    "name": "Rokkon",
+    "display_name_en": "Rokkon",
+    "display_name_de": "Rokkon",
+    "description": "Bufft Stondar +2",
+    "base_might": 8,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": true,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,Zodak,Felsling,good",
+    "rarity": null,
+    "buffs": {
+      "self": [{"value": 2, "target": "Rokkon", "target_type": "id"}],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2144": {
+    "id": "2144",
+    "type": "figure",
+    "name": "SnoutSpout",
+    "display_name_en": "SnoutSpout",
+    "display_name_de": "SnoutSpout",
+    "description": "Bufft Stondar und Rokkon +2",
+    "base_might": 8,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "Adam,Zodak,good",
+    "rarity": null,
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [{"value": 1, "target": "Felsling", "target_type": "faction"}],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "2999": {
+    "id": "2999",
+    "type": "figure",
+    "name": "Beast",
+    "display_name_en": "Beast",
+    "display_name_de": "Monster",
+    "description": "Standard unit of the beast faction.",
+    "base_might": 1,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "beast,evil",
+    "rarity": "common",
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "opponent": [{"value": 1, "target": null, "target_type": "opponent"}],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "3110": {
+    "id": "3110",
+    "type": "figure",
+    "name": "Hordak",
+    "display_name_en": "Hordak",
+    "display_name_de": "Hordak",
+    "description": "Wird in Snake Mountain überredet",
+    "base_might": 10,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": true,
+    "alt_activation_cost": 5,
+    "faction": "Hordak,main,evil,horde",
+    "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "3999": {
+    "id": "3999",
+    "type": "figure",
+    "name": "HordeTrooper",
+    "display_name_en": "Trooper",
+    "display_name_de": "Trooper",
+    "description": "Standard unit of the horde faction.",
+    "base_might": 1,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "horde,evil",
+    "rarity": "common",
+    "buffs": {
+      "self": [],
+      "neighbor": [{"value": 2, "target": "horde", "target_type": "faction"}],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    },
+    "might_split": [0.5, 0.5],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   },
   "4110": {
     "id": "4110",
@@ -1541,28 +1169,46 @@
     "range": "melee",
     "vision": 1,
     "placing": false,
+    "cost": 0,
     "AP_credit": 1,
     "self_alt_activation": true,
     "alt_state": true,
     "alt_activation_cost": 1,
     "faction": "Zodak,main,neutral",
     "rarity": null,
+    "buffs": {"self": [], "neighbor": [], "opponent": [], "faction": [], "targeted": []},
+    "might_split": [1.0, 1.0],
+    "mighty_threshold": 0,
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
+  },
+  "4999": {
+    "id": "4999",
+    "type": "figure",
+    "name": "StarBug",
+    "display_name_en": "Star Bug",
+    "display_name_de": "Sternenkäfer",
+    "description": "Standard unit of the star bug faction.",
+    "base_might": 1,
+    "mobility": "ground",
+    "range": "melee",
+    "vision": 1,
+    "placing": false,
+    "cost": 0,
+    "AP_credit": 0,
+    "self_alt_activation": false,
+    "alt_state": false,
+    "alt_activation_cost": -1,
+    "faction": "star_bug,neutral",
+    "rarity": "common",
     "buffs": {
       "self": [],
       "neighbor": [],
       "opponent": [],
-      "faction": [],
+      "faction": [{"value": 1, "target": "star_bug", "target_type": "faction"}],
       "targeted": []
     },
-    "might_split": [
-      1.0,
-      1.0
-    ],
+    "might_split": [0.5, 0.5],
     "mighty_threshold": 0,
-    "immunity": {
-      "buff_types": [],
-      "buff_targets": [],
-      "buff_values": null
-    }
+    "immunity": {"buff_types": [], "buff_targets": [], "buff_values": null}
   }
 }

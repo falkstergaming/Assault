@@ -6,6 +6,7 @@
     "display_name_en": "Dummy Location",
     "display_name_de": "Dummy-Location",
     "description": "Test-Location für Simulationen",
+    "symbol": "🧪",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -28,13 +29,14 @@
       "targeted": []
     }
   },
-  "6001": {
-    "id": "6001",
+  "6666": {
+    "id": "6666",
     "type": "location",
-    "name": "EbenederEwigkeit",
-    "display_name_en": "Ebene der Ewigkeit",
-    "display_name_de": "Ebene der Ewigkeit",
-    "description": "",
+    "name": "NeutralLocation",
+    "display_name_en": "Neutral Location",
+    "display_name_de": "Neutral-Location",
+    "description": "Test-Location für Simulationen",
+    "symbol": "⚪",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -42,7 +44,31 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "test",
+    "buffs": {
+      "self": [],
+      "neighbor": [],
+      "opponent": [],
+      "faction": [],
+      "targeted": []
+    }
+  },
+  "6001": {
+    "id": "6001",
+    "type": "location",
+    "name": "EbenederEwigkeit",
+    "display_name_en": "Ebene der Ewigkeit",
+    "display_name_de": "Ebene der Ewigkeit",
+    "description": "Ein mystischer Ort, der die Zeit selbst zu verzerren scheint.",
+    "symbol": "⏳",
+    "base_might": 0,
+    "mobility": null,
+    "range": null,
+    "vision": 0,
+    "placing": false,
+    "AP_credit": 0,
+    "faction": "good,location",
+    "rarity": "epic",
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -63,7 +89,8 @@
     "name": "VineDschungel",
     "display_name_en": "Vine Dschungel",
     "display_name_de": "Vine Dschungel",
-    "description": "Dicht und mühsam",
+    "description": "Dicht und mühsam zu durchqueren, voller lebendiger Pflanzen.",
+    "symbol": "🌿",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -71,7 +98,7 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "common",
     "buffs": {
       "self": [
         {
@@ -98,7 +125,8 @@
     "name": "GeheimnisvolleBerge",
     "display_name_en": "Geheimnisvolle Berge",
     "display_name_de": "Geheimnisvolle Berge",
-    "description": "",
+    "description": "Unberechenbare Pfade und verborgene Schätze.",
+    "symbol": "⛰️",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -106,7 +134,7 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "rare",
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -127,7 +155,8 @@
     "name": "ImmergrünerWald",
     "display_name_en": "Immergrüner Wald",
     "display_name_de": "Immergrüner Wald",
-    "description": "",
+    "description": "Ein friedlicher Wald, der das ganze Jahr über grün bleibt.",
+    "symbol": "🌲",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -135,7 +164,7 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "common",
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -156,7 +185,8 @@
     "name": "WüstederZeit",
     "display_name_en": "Wüste der Zeit",
     "display_name_de": "Wüste der Zeit",
-    "description": "",
+    "description": "Eine endlose Wüste, in der die Zeit stillzustehen scheint.",
+    "symbol": "🏜️",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -164,7 +194,7 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "rare",
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -185,23 +215,26 @@
     "name": "Schlangengrube",
     "display_name_en": "Schlangengrube",
     "display_name_de": "Schlangengrube",
-    "description": "",
+    "description": "Ein gefährlicher Ort, voller giftiger Schlangen.",
+    "symbol": "🐍",
     "base_might": 0,
     "mobility": null,
     "range": null,
     "vision": 0,
     "placing": false,
     "AP_credit": 0,
-    "faction": "neutral,location",
-    "rarity": null,
+    "faction": "evil,location",
+    "rarity": "rare",
     "buffs": {
-      "self": [],
+      "self": [
+
+      ],
       "neighbor": [],
       "opponent": [],
-      "faction": [
+      "faction": [        
         {
-          "value": 0,
-          "target": "figure",
+          "value": 2,
+          "target": "Schlangenmensch",
           "target_type": "faction"
         }
       ],
@@ -214,7 +247,8 @@
     "name": "StadtvonEternis",
     "display_name_en": "Stadt von Eternis",
     "display_name_de": "Stadt von Eternis",
-    "description": "",
+    "description": "Die Hauptstadt von Eternia, ein Zentrum des Handels und der Macht.",
+    "symbol": "🏙️",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -222,7 +256,7 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "common",
     "buffs": {
       "self": [
         {
@@ -243,7 +277,8 @@
     "name": "BaumderSterbendenZeit",
     "display_name_en": "Baum der Sterbenden Zeit",
     "display_name_de": "Baum der Sterbenden Zeit",
-    "description": "",
+    "description": "Ein uralter Baum, der die Zeit selbst zu kontrollieren scheint.",
+    "symbol": "🌳",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -251,7 +286,7 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "epic",
     "buffs": {
       "self": [
         {
@@ -272,7 +307,8 @@
     "name": "LachendeBrücke",
     "display_name_en": "Lachende Brücke",
     "display_name_de": "Lachende Brücke",
-    "description": "",
+    "description": "Eine Brücke, die magisch die Stimmung derer hebt, die sie überqueren.",
+    "symbol": "🌉",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -280,7 +316,7 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "rare",
     "buffs": {
       "self": [
         {
@@ -301,7 +337,8 @@
     "name": "Limbus",
     "display_name_en": "Limbus",
     "display_name_de": "Limbus",
-    "description": "",
+    "description": "Ein Ort zwischen den Welten, voller Mysterien und Gefahren.",
+    "symbol": "🔮",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -309,7 +346,7 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "epic",
     "buffs": {
       "self": [],
       "neighbor": [],
@@ -330,7 +367,8 @@
     "name": "Weltraumstation",
     "display_name_en": "Weltraumstation",
     "display_name_de": "Weltraumstation",
-    "description": "",
+    "description": "Eine hochtechnisierte Station im Orbit von Eternia.",
+    "symbol": "🚀",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -338,12 +376,12 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "epic",
     "buffs": {
       "self": [
         {
           "value": 0,
-          "target": "mobil",
+          "target": null,
           "target_type": null
         }
       ],
@@ -357,17 +395,18 @@
     "id": "6012",
     "type": "location",
     "name": "KingsPalace",
-    "display_name_en": "KingsPalace",
-    "display_name_de": "KingsPalace",
-    "description": "",
+    "display_name_en": "King's Palace",
+    "display_name_de": "Königspalast",
+    "description": "Der prächtige Palast des Königs von Eternia.",
+    "symbol": "🏰",
     "base_might": 0,
     "mobility": null,
     "range": null,
     "vision": 0,
     "placing": false,
     "AP_credit": 0,
-    "faction": "neutral,location",
-    "rarity": null,
+    "faction": "good,location",
+    "rarity": "epic",
     "buffs": {
       "self": [
         {
@@ -388,22 +427,23 @@
     "name": "Unterwelt",
     "display_name_en": "Unterwelt",
     "display_name_de": "Unterwelt",
-    "description": "",
+    "description": "Ein dunkler Ort, beherrscht von den Mächten des Bösen.",
+    "symbol": "☠️",
     "base_might": 0,
     "mobility": null,
     "range": null,
     "vision": 0,
     "placing": false,
     "AP_credit": 0,
-    "faction": "neutral,location",
-    "rarity": null,
+    "faction": "evil,location",
+    "rarity": "epic",
     "buffs": {
       "self": [],
       "neighbor": [
         {
           "value": 1,
           "target": "Skeletor",
-          "target_type": null
+          "target_type": "id"
         }
       ],
       "opponent": [],
@@ -417,7 +457,8 @@
     "name": "Gebirge",
     "display_name_en": "Gebirge",
     "display_name_de": "Gebirge",
-    "description": "",
+    "description": "Hohe Berge, die den Weg versperren.",
+    "symbol": "⛰️",
     "base_might": 0,
     "mobility": null,
     "range": null,
@@ -425,14 +466,14 @@
     "placing": false,
     "AP_credit": 0,
     "faction": "neutral,location",
-    "rarity": null,
+    "rarity": "common",
     "buffs": {
       "self": [],
       "neighbor": [],
       "opponent": [],
       "faction": [
         {
-          "value": 0,
+          "value": 1,
           "target": "Felsling",
           "target_type": "faction"
         }

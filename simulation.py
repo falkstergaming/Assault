@@ -77,17 +77,16 @@ class InGameConsole:
             text_surface = self.font.render(line, True, color)
             surface.blit(text_surface, (self.x + 10, self.y + 10 + i * 20))
 
-# --- Testbeschreibungen (aktualisiert) ---
+# --- Testbeschreibungen (neu geordnet) ---
 test_descriptions = [
-    "1: Check draw and function action button",
-    "2: Check draw and function settings button",
-    "3: Check draw and show Spielstandsanzeige",
-    "4: Check function Spielstandsanzeige",
-    "5: open ",
-    "6: Alle Hexfelder erstellen",
-    "7: Check choose player",
-    "8: Check choose mode",
-    "9: Board an/aus",
+    "1: Funktion Spielstandsanzeige",
+    "2: Alle Hexfelder erstellen",
+    "3: Toggle board (000x - 3xxx)",
+    "4: Toggle extra Hexfields (4xxx - 9xxx)",
+    "5: Fülle mit Faction Standard Entities",
+    "6: Trigger calc might",
+    "7: Trigger idle might",
+    "8: Check Idle Controll",
     "C: Konsole löschen | ESC: Beenden"
 ]
 
@@ -173,7 +172,7 @@ def main():
 
     # --- Konsolenausgabe im Fenster ---
     console.log("=== Sturm auf Grayskull - Kern-Tests ===", COLORS["highlight"])
-    console.log("Drücke 1-8 für Tests, 9 für Board an/aus, C zum Löschen, ESC zum Beenden", COLORS["primary"])
+    console.log("Drücke 1-8 für Tests, C zum Löschen, ESC zum Beenden", COLORS["primary"])
 
     # --- Init-Tests vorbereiten ---
     init_test = InitTest(board, console, screen, figuren, eterniaorte, effekte, fahrzeuge)
@@ -222,22 +221,9 @@ def main():
                 elif event.key == K_c:
                     console.clear()
                     console.log("Konsole gelöscht.", COLORS["primary"])
-                elif event.key == K_6:
-                    console.log("[USER] Taste 6 gedrückt.", COLORS["highlight"])
-                    # Test 6: Alle Hexfelder erstellen
-                    valid_ids = [h.raw_id for h in board._valid_hex_ids]
-                    console.log(f"Anzahl Hexfelder: {len(valid_ids)}", COLORS["text"])
-                    console.log("✅ Test 6: Alle Hexfelder erfolgreich erstellt!", COLORS["highlight"])
-                # --- Tasten 3 und 4 für Spielstandsanzeige-Tests ---
-                elif event.key == K_3:
-                    console.log("[USER] Taste 3 gedrückt: Spielstandsanzeige draw test", COLORS["highlight"])
-                    console.log(f"Aktueller Spielstand: Modus={game_status.game_data['modus']}, "
-                            f"Match={game_status.game_data['match_count']}, "
-                            f"Runde={game_status.game_data['round_count']}, "
-                            f"Phase={game_status.game_data['phase']}", COLORS["text"])
-                    console.log("✅ Test 3: Spielstandsanzeige wird angezeigt!", COLORS["highlight"])
-                elif event.key == K_4:
-                    console.log("[USER] Taste 4 gedrückt: Spielstandsanzeige function test", COLORS["highlight"])
+                # --- Taste 1: Funktion Spielstandsanzeige (alter Test 4) ---
+                elif event.key == K_1:
+                    console.log("[USER] Taste 1 gedrückt: Funktion Spielstandsanzeige", COLORS["highlight"])
                     # Aktualisiere Spielstandsdaten
                     game_status.update(
                         modus="Best of 4",
@@ -247,12 +233,36 @@ def main():
                         player={"idle_count": 2, "might": 45, "matches_won": 1},
                         opponent={"idle_count": 1, "might": 30, "matches_won": 0}
                     )
-                    console.log("✅ Test 4: Spielstandsanzeige aktualisiert mit Testdaten!", COLORS["highlight"])
-                elif event.key == K_9:
-                        console.log("[USER] Taste 9 gedrückt: Board an/aus", COLORS["highlight"])
-                        board_renderer.toggle_visibility()
-                        status = "AKTIVIERT" if board_renderer.is_visible else "DEAKTIVIERT"
-                        console.log(f"Board-Rendering: {status}", COLORS["highlight"])
+                    console.log("✅ Test 1: Spielstandsanzeige aktualisiert mit Testdaten!", COLORS["highlight"])
+                # --- Taste 2: Alle Hexfelder erstellen (alter Test 6) ---
+                elif event.key == K_2:
+                    console.log("[USER] Taste 2 gedrückt: Alle Hexfelder erstellen", COLORS["highlight"])
+                    valid_ids = [h.raw_id for h in board._valid_hex_ids]
+                    console.log(f"Anzahl Hexfelder: {len(valid_ids)}", COLORS["text"])
+                    console.log("✅ Test 2: Alle Hexfelder erfolgreich erstellt!", COLORS["highlight"])
+                # --- Taste 3: Toggle board (000x - 3xxx) (alter Test 9) ---
+                elif event.key == K_3:
+                    console.log("[USER] Taste 3 gedrückt: Toggle board (000x - 3xxx)", COLORS["highlight"])
+                    board_renderer.toggle_visibility()
+                    status = "AKTIVIERT" if board_renderer.is_visible else "DEAKTIVIERT"
+                    console.log(f"Board-Rendering (000x-3xxx): {status}", COLORS["highlight"])
+                # --- Taste 4: Toggle extra Hexfields (4xxx - 9xxx) ---
+                elif event.key == K_4:
+                    console.log("[USER] Taste 4 gedrückt: Toggle extra Hexfields (4xxx - 9xxx)", COLORS["highlight"])
+                    console.log("⚠️ Test 4: Funktion noch nicht implementiert", COLORS["text"])
+                # --- Tasten 5-8: Platzhalter ---
+                elif event.key == K_5:
+                    console.log("[USER] Taste 5 gedrückt: Fülle mit Faction Standard Entities", COLORS["highlight"])
+                    console.log("⚠️ Test 5: Funktion noch nicht implementiert", COLORS["text"])
+                elif event.key == K_6:
+                    console.log("[USER] Taste 6 gedrückt: Trigger calc might", COLORS["highlight"])
+                    console.log("⚠️ Test 6: Funktion noch nicht implementiert", COLORS["text"])
+                elif event.key == K_7:
+                    console.log("[USER] Taste 7 gedrückt: Trigger idle might", COLORS["highlight"])
+                    console.log("⚠️ Test 7: Funktion noch nicht implementiert", COLORS["text"])
+                elif event.key == K_8:
+                    console.log("[USER] Taste 8 gedrückt: Check Idle Controll", COLORS["highlight"])
+                    console.log("⚠️ Test 8: Funktion noch nicht implementiert", COLORS["text"])
             # --- Button-Events behandeln ---
             screen.handle_event(event)
             # Board-Button Events

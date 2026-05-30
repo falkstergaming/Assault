@@ -49,15 +49,14 @@ class BaseEntity:
         vision: int = 1,
         placing: bool = False,
         buffs: Optional[Dict[str, List[Buff]]] = None,
-        tags: Optional[List[str]] = None,
         # Might-Split
         might_split: Optional[List[float]] = None,
         # Alt-State
-        alt: bool = False,
-        alt_entity: Optional[str] = None,
+        alt_state: bool = False,
         mighty_threshold: int = 20,
         # Kosten
         cost: int = 0,
+        AP_credit: int = 0,
         activation_cost: int = 0,
     ):
         self.id = id
@@ -75,6 +74,8 @@ class BaseEntity:
         self.range = range
         self.vision = vision
         self.placing = placing
+        self.alt_state = alt_state
+        self.AP_credit = AP_credit
 
         # Buffs und Tags
         self.buffs = buffs if buffs is not None else {
@@ -84,14 +85,10 @@ class BaseEntity:
             "faction": [],
             "targeted": []
         }
-        self.tags = tags if tags is not None else []
 
         # Might-Split (Standard: [0.5, 0.5])
         self.might_split = might_split if might_split is not None else [0.5, 0.5]
 
-        # Alt-State
-        self.alt = alt
-        self.alt_entity = alt_entity
         self.mighty_threshold = mighty_threshold
 
         # Kosten
@@ -121,10 +118,9 @@ class BaseEntity:
             vision=data.get("vision", 1),
             placing=data.get("placing", False),
             buffs=buffs,
-            tags=data.get("tags", []),
+            AP_credit=data.get("AP_credit", 0),
             might_split=data.get("might_split", [0.5, 0.5]),
-            alt=data.get("alt", False),
-            alt_entity=data.get("alt_entity"),
+            alt_state=data.get("alt_state", False),
             mighty_threshold=data.get("mighty_threshold", 20),
             cost=data.get("cost", 0),
             activation_cost=data.get("activation_cost", 0)
@@ -150,11 +146,9 @@ class BaseEntity:
             "range": self.range,
             "vision": self.vision,
             "placing": self.placing,
+            "AP_credit": self.AP_credit,
             "buffs": buffs,
-            "tags": self.tags,
             "might_split": self.might_split,
-            "alt": self.alt,
-            "alt_entity": self.alt_entity,
             "mighty_threshold": self.mighty_threshold,
             "cost": self.cost,
             "activation_cost": self.activation_cost
@@ -175,7 +169,7 @@ class BaseEntity:
     # --- Alt-State ---
     def activate_alt_state(self) -> bool:
         """Aktiviert/deaktiviert den Alt-State. Gibt True zurück."""
-        self.alt = not self.alt
+        self.alt_state = not self.alt_state
         return True
 
     def is_alt_active(self) -> bool:
