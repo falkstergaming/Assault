@@ -1,6 +1,7 @@
 from typing import List, Optional, Dict
 from core.entities.base_entity import BaseEntity
 from core.game.board import Board
+from core.utils import HexID
 from core.entities.base_entity import Buff  # Importiere die Buff-Klasse
 
 class MightCalculator:
@@ -9,6 +10,35 @@ class MightCalculator:
     def __init__(self, board: Board):
         self.board = board
 
+    def calculate_might_for_hex(self, hex_id: HexID) -> float:
+        """Berechnet den finalen Might-Wert für ein Hexfeld."""
+        entities = self.board.get_entities_on_hex(hex_id)
+        base_might = self._sum_base_might(entities)
+        buffs = self._calculate_buffs(hex_id, entities)
+        return base_might + buffs
+
+    def _sum_base_might(self, entities: List[BaseEntity]) -> float:
+        """Summiert die base_might aller Entities auf dem Feld."""
+        return sum(entity.base_might for entity in entities)
+
+    def _calculate_buffs(self, hex_id: HexID, entities: List[BaseEntity]) -> float:
+        """Berechnet alle Buffs für die Entities auf dem Feld."""
+        buffs = 0
+        buffs += self._get_neighbor_buffs(hex_id, entities)
+        buffs += self._get_opponent_buffs(hex_id, entities)
+        buffs += self._get_faction_buffs(entities)
+        buffs += self._get_targeted_buffs(entities)
+        buffs += self._get_self_buffs(entities)  # Nur für Alt-State-Entities
+        return buffs
+
+    def _get_might_split(self, hex_id: HexID) -> List[float]:
+        """Gibt den maximalen might_split aller Entities auf dem Feld zurück."""
+        entities = self.board.get_entities_on_hex(hex_id)
+        return [
+            max(e.might_split[0] for e in entities),
+            max(e.might_split[1] for e in entities)
+        ]
+    
     def calculate_might(
         self,
         entity: BaseEntity,
