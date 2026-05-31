@@ -1,7 +1,7 @@
 # 📜 **Assault on Grayskull / Sturm auf Grayskull – Dokumentation & Implementierungsstand**
 
-*Letzte Aktualisierung: 30.05.2026*  
-*Status: 🔄 Finalisiert für Implementierung*
+*Letzte Aktualisierung: 31.05.2026*  
+*Status: 🔄 Finalisiert für Implementierung, Bugfixes ausstehend*
 
 ---
 
@@ -12,7 +12,11 @@ Assault/
 │
 ├── core/
 │   ├── game/
-│   │   └── board.py                          # Board-Klasse (Hexfelder, Entities, Nachbarn, Idle-Kontrolle)
+│   │   ├── board.py                          # Board-Klasse (Hexfelder, Entities, Nachbarn, Idle-Kontrolle)
+│   │   ├── board_initializer.py              # Initialisierung des Boards (Hexfelder, Entities, Startpositionen)
+│   │   ├── debug_state.py                    # Debug-Informationen für Board- und Entity-Zustände
+│   │   ├── idle_manager.py                   # Verwaltung der Idle-Felder (3011, 3012, 3013) und Kontrolle
+│   │   └── neighbor_manager.py               # Verwaltung der Nachbarbeziehungen (links/rechts/gegenüber)
 │   │
 │   ├── entities/
 │   │   ├── base_entity.py                    # Basis-Klasse für alle Entities (id, name, type, base_might, buffs, tags, might_split, alt, alt_entity, mighty_threshold)
@@ -63,11 +67,13 @@ Assault/
 │           │       └── zodak_theme.mp3
 │           │
 │           └── components/
+│               ├── board_renderer.py          # Rendering des Boards (Hexfelder, Entities, Idle-Felder)
 │               ├── button.py                  # HexButton-Klasse (für UI-Interaktion)
 │               ├── console.py                 # InGameConsole (Textkonsole für Log-Meldungen)
 │               ├── game_status.py             # Anzeige für Spielstand (AP, Might, Idle-Kontrolle)
 │               └── settings_menu.py           # Kontextmenü für Einstellungen (Sprache, Musik, Lautstärke)
 │
+├── Session_Init.md                           # Session-Initialisierungsdokumentation
 ├── settings.ini                               # Einstellungen (Sprache, Musik-Lautstärke, Effekt-Lautstärke)
 ├── simulation.py                             # Haupt-Testumgebung (720p-Fenster, Tasten 1–8 für Tests, Action-/Settings-Button)
 └── main.py                                   # Einstiegspunkt (startet simulation.py)
@@ -123,7 +129,7 @@ Assault/
     - **Single Match (X=1)**: Sieg nach **1 Match**.
     - **Best of X Factions (X=2,3,4)**: Spiel endet, wenn ein Spieler mit **X verschiedenen Factions** gewonnen hat.
   - **Faction-Sperre**:
-    - Wenn ein Spieler mit einer Faction gewonnen hat, **kann diese Faction nicht nochmal gewählt werden** (gilt für beide Spieler, auch in Simulation - diese verwendet nur single match).
+    - Wenn ein Spieler mit einer Faction gewonnen hat, **kann diese Faction nicht nochmal gewählt werden** (gilt für beide Spieler, auch in Simulationen - diese verwenden nur Single Match).
 
 ---
 
@@ -150,9 +156,11 @@ Assault/
   - Schriftgröße der Konsole: **20%** (für bessere Lesbarkeit).
 - **Hintergrund**: Statisches Bild (`background.jpg`).
 - **Farben**: Definiert in `global_constants.py` (z. B. `FACTION_COLORS`).
+- **Faction Colors**: ✅ **Umgesetzt** (Farbschema für Factions in UI).
 - **Buttons**: HexButton-Klasse für UI-Interaktion (z. B. Action-, Settings-Button).
 - **Sprache**: Zweisprachigkeit über `get_translation` in `utils.translations`.
 - **Idle-Kontrolle**: Farblicher Rahmen (Faction-Farbe) für Hexfelder mit Idle.
+- **Testplattform**: `simulation.py` als Haupt-Testumgebung mit 720p-Fenster, Tasten 1–8 für Tests, Action-/Settings-Button.
 
 ---
 
@@ -368,7 +376,7 @@ class Buff:
 ```json
 {
   "metadata": {
-    "timestamp": "2026-05-30T12:00:00Z",
+    "timestamp": "2026-05-31T12:00:00Z",
     "match_id": "unique_id_12345",
     "game_mode": "Single Match",
     "players": [
@@ -446,7 +454,7 @@ class Buff:
 | **Sprachauswahl (UI)**             | Deutsch/Englisch (Standard: Englisch).                    | ✅          | In `settings.ini` speichern.     |
 | **Musik-Einstellung (UI)**         | An/Aus + Lautstärke (Schieberegler).                      | ✅          | In `settings.ini` speichern.     |
 | **Hintergrundmusik**               | Titelmusik + Faction-Themes.                              | ⏳          | MP3-Dateien in `artwork/music/`. |
-| **Faction-Themes (Musik + Farbe)** | Musik + Farbschema wechseln je nach Faction.              | ⏳          | Nutzt `FACTION_COLORS`.          |
+| **Faction-Themes (Musik + Farbe)** | Musik + Farbschema wechseln je nach Faction.              | ✅          | **Umgesetzt**.                   |
 
 
 ---
@@ -454,14 +462,15 @@ class Buff:
 ### **🎮 Spielerlebnis & UI**
 
 
-| **Anforderung**             | **Details**                                              | **Status** | **Notizen**                    |
-| --------------------------- | -------------------------------------------------------- | ---------- | ------------------------------ |
-| **Menü & Einstellungen**    | Sprachauswahl, Musik, Lautstärke.                        | ✅          | `settings_menu.py` funktional. |
-| **Hintergrundbild**         | Statisches Bild (keine Animation).                       | ✅          | JPG in `artwork/`.             |
-| **Konsolenausgabe**         | Benutzerinputs mit `[USER]`, Mausklicks mit Koordinaten. | ✅          | Schriftgröße: 20%.             |
-| **720p-Fenster**            | Standardgröße für UI.                                    | ✅          | &nbsp;                         |
-| **Action-/Settings-Button** | UI-Buttons für Spielsteuerung.                           | ✅          | `button.py` implementiert.     |
-| **Idle-Kontrolle (UI)**     | Farblicher Rahmen (Faction-Farbe) für Idle-Felder.       | ⏳          | &nbsp;                         |
+| **Anforderung**             | **Details**                                              | **Status** | **Notizen**                        |
+| --------------------------- | -------------------------------------------------------- | ---------- | ---------------------------------- |
+| **Menü & Einstellungen**    | Sprachauswahl, Musik, Lautstärke.                        | ✅          | `settings_menu.py` funktional.     |
+| **Hintergrundbild**         | Statisches Bild (keine Animation).                       | ✅          | JPG in `artwork/`.                 |
+| **Konsolenausgabe**         | Benutzerinputs mit `[USER]`, Mausklicks mit Koordinaten. | ✅          | Schriftgröße: 20%.                 |
+| **720p-Fenster**            | Standardgröße für UI.                                    | ✅          | &nbsp;                             |
+| **Action-/Settings-Button** | UI-Buttons für Spielsteuerung.                           | ✅          | `button.py` implementiert.         |
+| **Idle-Kontrolle (UI)**     | Farblicher Rahmen (Faction-Farbe) für Idle-Felder.       | ⏳          | &nbsp;                             |
+| **Board-Rendering**         | Rendering des Boards (Hexfelder, Entities, Idle-Felder). | ✅          | `board_renderer.py` implementiert. |
 
 
 ---
@@ -469,15 +478,15 @@ class Buff:
 ### **🎮 Kernmechaniken**
 
 
-| **Anforderung**      | **Details**                             | **Status** | **Notizen**                              |
-| -------------------- | --------------------------------------- | ---------- | ---------------------------------------- |
-| **Might-Berechnung** | Prioritätenreihenfolge, Buff-Logik.     | ⏳          | `might_calculator.py` zu implementieren. |
-| **Might-Split**      | Maximalwerte der Entities auf dem Feld. | ⏳          | &nbsp;                                   |
-| **Mighty-Status**    | Immunitäten ab `Might >= 20`.           | ⏳          | &nbsp;                                   |
-| **Alt-State**        | Alternativer Zustand für Entities.      | ⏳          | `self_alt_activation` in JSON.           |
-| **Buff-System**      | Buff-Klasse implementiert.              | ⏳          | `buff.py` zu finalisieren.               |
-| **AP-System**        | AP-Konto, Kostenabzug, Überziehung.     | ⏳          | `ap_manager.py` zu implementieren.       |
-| **Idle-Kontrolle**   | Might-Verteilung, Threshold-Regel.      | ⏳          | `idle_control.py` zu implementieren.     |
+| **Anforderung**      | **Details**                             | **Status** | **Notizen**                         |
+| -------------------- | --------------------------------------- | ---------- | ----------------------------------- |
+| **Might-Berechnung** | Prioritätenreihenfolge, Buff-Logik.     | ✅          | **Implementiert, Bugfixes nötig**.  |
+| **Might-Split**      | Maximalwerte der Entities auf dem Feld. | ✅          | **Implementiert**.                  |
+| **Mighty-Status**    | Immunitäten ab `Might >= 20`.           | ⏳          | &nbsp;                              |
+| **Alt-State**        | Alternativer Zustand für Entities.      | ⏳          | `self_alt_activation` in JSON.      |
+| **Buff-System**      | Buff-Klasse implementiert.              | ⏳          | `buff.py` zu finalisieren.          |
+| **AP-System**        | AP-Konto, Kostenabzug, Überziehung.     | ⏳          | `ap_manager.py` zu implementieren.  |
+| **Idle-Kontrolle**   | Might-Verteilung, Threshold-Regel.      | ✅          | **Implementiert, Debugging nötig**. |
 
 
 ---
@@ -524,30 +533,38 @@ class Buff:
 ### **📁 Module & Klassen**
 
 
-| **Modul/Klasse**  | **Status** | **Beschreibung**                | **Datei**                               |
-| ----------------- | ---------- | ------------------------------- | --------------------------------------- |
-| `BaseEntity`      | ✅          | Basis-Klasse für alle Entities. | `core/entities/base_entity.py`          |
-| `Buff`            | ⏳          | Buff-Klasse + Serialisierung.   | `core/entities/buff.py`                 |
-| `Figure`          | ✅          | Figuren-Logik.                  | `core/entities/figure.py`               |
-| `Location`        | ✅          | Locations-Logik.                | `core/entities/location.py`             |
-| `Effect`          | ✅          | Effekte-Logik.                  | `core/entities/effect.py`               |
-| `Vehicle`         | ✅          | Vehicles-Logik.                 | `core/entities/vehicle.py`              |
-| `HexID`           | ✅          | Hexfeld-ID-Logik.               | `core/game/hex_id.py`                   |
-| `Board`           | ✅          | Hexfeld-Verwaltung.             | `core/game/board.py`                    |
-| `MightCalculator` | ⏳          | Zentrale Might-Berechnung.      | `core/managers/might_calculator.py`     |
-| `APManager`       | ⏳          | AP-Konto.                       | `core/managers/ap_manager.py`           |
-| `RoundManager`    | ⏳          | Steuerung der 9 Phasen.         | `core/managers/round_manager.py`        |
-| `IdleControl`     | ⏳          | Idle-Kontrolle.                 | `core/managers/idle_control.py`         |
-| `EntityLoader`    | ⏳          | Lädt Entities aus JSON.         | `core/entities/entity_loader.py`        |
-| `GlobalConstants` | ✅          | Farben, Fonts, Pfade.           | `core/utils/global_constants.py`        |
-| `Translations`    | ✅          | Übersetzungen für DE/EN.        | `core/utils/translations.py`            |
-| `Settings`        | ✅          | Einstellungen.                  | `core/utils/settings.py`                |
-| `GameController`  | ✅          | Eingabe-Handling.               | `interfaces/game_controller.py`         |
-| `Screen`          | ✅          | Pygame-Screen.                  | `interfaces/renderer/pygame/screen.py`  |
-| `Console`         | ✅          | Textkonsole.                    | `interfaces/renderer/pygame/console.py` |
-| `AudioManager`    | ✅          | MP3-Wiedergabe.                 | `interfaces/renderer/pygame/audio.py`   |
-| `Simulation`      | ✅          | Testumgebung.                   | `simulation.py`                         |
-| `Main`            | ✅          | Einstiegspunkt.                 | `main.py`                               |
+| **Modul/Klasse**       | **Status** | **Beschreibung**                            | **Datei**                                                |
+| ---------------------- | ---------- | ------------------------------------------- | -------------------------------------------------------- |
+| `BaseEntity`           | ✅          | Basis-Klasse für alle Entities.             | `core/entities/base_entity.py`                           |
+| `Buff`                 | ⏳          | Buff-Klasse + Serialisierung.               | `core/entities/buff.py`                                  |
+| `Figure`               | ✅          | Figuren-Logik.                              | `core/entities/figure.py`                                |
+| `Location`             | ✅          | Locations-Logik.                            | `core/entities/location.py`                              |
+| `Effect`               | ✅          | Effekte-Logik.                              | `core/entities/effect.py`                                |
+| `Vehicle`              | ✅          | Vehicles-Logik.                             | `core/entities/vehicle.py`                               |
+| `EntityLoader`         | ⏳          | Lädt Entities aus JSON.                     | `core/entities/entity_loader.py`                         |
+| `HexID`                | ✅          | Hexfeld-ID-Logik.                           | `core/game/hex_id.py`                                    |
+| `Board`                | ✅          | Hexfeld-Verwaltung.                         | `core/game/board.py`                                     |
+| `**BoardInitializer**` | ✅          | **Initialisierung des Boards**.             | `core/game/board_initializer.py`                         |
+| `**DebugState**`       | ✅          | **Debug-Informationen für Board/Entities**. | `core/game/debug_state.py`                               |
+| `**IdleManager**`      | ✅          | **Verwaltung der Idle-Felder**.             | `core/game/idle_manager.py`                              |
+| `**NeighborManager**`  | ✅          | **Verwaltung der Nachbarbeziehungen**.      | `core/game/neighbor_manager.py`                          |
+| `MightCalculator`      | ✅          | **Zentrale Might-Berechnung**.              | `core/managers/might_calculator.py`                      |
+| `APManager`            | ⏳          | AP-Konto.                                   | `core/managers/ap_manager.py`                            |
+| `RoundManager`         | ⏳          | Steuerung der 9 Phasen.                     | `core/managers/round_manager.py`                         |
+| `IdleControl`          | ✅          | **Idle-Kontrolle**.                         | `core/managers/idle_control.py`                          |
+| `GlobalConstants`      | ✅          | Farben, Fonts, Pfade.                       | `core/utils/global_constants.py`                         |
+| `Translations`         | ✅          | Übersetzungen für DE/EN.                    | `core/utils/translations.py`                             |
+| `Settings`             | ✅          | Einstellungen.                              | `core/utils/settings.py`                                 |
+| `GameController`       | ✅          | Eingabe-Handling.                           | `interfaces/game_controller.py`                          |
+| `Screen`               | ✅          | Pygame-Screen.                              | `interfaces/renderer/pygame/screen.py`                   |
+| `Console`              | ✅          | Textkonsole.                                | `interfaces/renderer/pygame/console.py`                  |
+| `AudioManager`         | ✅          | MP3-Wiedergabe.                             | `interfaces/renderer/pygame/audio.py`                    |
+| `**BoardRenderer**`    | ✅          | **Rendering des Boards**.                   | `interfaces/renderer/pygame/board_renderer.py`           |
+| `Button`               | ✅          | HexButton-Klasse.                           | `interfaces/renderer/pygame/components/button.py`        |
+| `GameStatus`           | ✅          | Anzeige für Spielstand.                     | `interfaces/renderer/pygame/components/game_status.py`   |
+| `SettingsMenu`         | ✅          | Kontextmenü für Einstellungen.              | `interfaces/renderer/pygame/components/settings_menu.py` |
+| `Simulation`           | ✅          | **Testplattform**.                          | `simulation.py`                                          |
+| `Main`                 | ✅          | Einstiegspunkt.                             | `main.py`                                                |
 
 
 ---
@@ -555,16 +572,16 @@ class Buff:
 ### **🎯 Offene Aufgaben (Priorisiert)**
 
 
-| **Aufgabe**                          | **Priorität** | **Abhängigkeiten**               | **Notizen**                                  |
-| ------------------------------------ | ------------- | -------------------------------- | -------------------------------------------- |
-| `fahrzeuge.json` erweitern           | 🟢 Niedrig    | Keine                            | Dummy-Vehicle `0000` mit `capacity`.         |
-| `**MightCalculator` implementieren** | 🔴 **Hoch**   | `BaseEntity`, `Board`, `HexID`   | Might pro Hexfeld + Buff-Logik.              |
-| `**APManager` implementieren**       | 🔴 **Hoch**   | `BaseEntity`, `Figure`, `Effect` | AP-Konto + Überziehung (`AP_credit`).        |
-| `**RoundManager` implementieren**    | 🔴 **Hoch**   | `MightCalculator`, `APManager`   | Steuerung der 9 Phasen.                      |
-| `**IdleControl` implementieren**     | 🔴 **Hoch**   | `MightCalculator`, `Board`       | Might-Verteilung + Threshold-Regel (`>=30`). |
-| **UI für Faction-Themes**            | 🟡 Mittel     | `FACTION_COLORS`, `AudioManager` | Musik + Rahmenfarben für Idle-Kontrolle.     |
-| **KI-Implementierung (`random`)**    | 🟡 Mittel     | Keine                            | Zufällige Entscheidungen.                    |
-| **Match-Export-Funktionalität**      | 🟡 Mittel     | Keine                            | JSON-Export nach jedem Match.                |
+| **Aufgabe**                       | **Priorität** | **Abhängigkeiten**                        | **Notizen**                              |
+| --------------------------------- | ------------- | ----------------------------------------- | ---------------------------------------- |
+| `fahrzeuge.json` erweitern        | 🟢 Niedrig    | Keine                                     | Dummy-Vehicle `0000` mit `capacity`.     |
+| `**MightCalculator` debuggen**    | 🔴 **Hoch**   | `Board`, `IdleManager`, `NeighborManager` | **Implementiert, Bugfixes nötig**.       |
+| `**IdleControl` debuggen**        | 🔴 **Hoch**   | `MightCalculator`, `Board`                | **Implementiert, Debugging nötig**.      |
+| `**APManager` implementieren**    | 🔴 **Hoch**   | `BaseEntity`, `Figure`, `Effect`          | AP-Konto + Überziehung (`AP_credit`).    |
+| `**RoundManager` implementieren** | 🔴 **Hoch**   | `MightCalculator`, `APManager`            | Steuerung der 9 Phasen.                  |
+| **UI für Faction-Themes**         | 🟡 Mittel     | `FACTION_COLORS`, `AudioManager`          | Musik + Rahmenfarben für Idle-Kontrolle. |
+| **KI-Implementierung (`random`)** | 🟡 Mittel     | Keine                                     | Zufällige Entscheidungen.                |
+| **Match-Export-Funktionalität**   | 🟡 Mittel     | Keine                                     | JSON-Export nach jedem Match.            |
 
 
 ---
@@ -581,11 +598,10 @@ class Buff:
 
 ## **📅 Nächste Schritte**
 
-1. `**MightCalculator` implementieren** (Might pro Hexfeld + Buff-Logik).
+1. `**MightCalculator` und `IdleControl` debuggen** (Bugfixes für Might-Berechnung und Idle-Kontrolle).
 2. `**APManager` implementieren** (AP-Konto + Überziehung).
 3. `**RoundManager` implementieren** (Steuerung der 9 Phasen).
-4. `**IdleControl` implementieren** (Might-Verteilung + Threshold-Regel).
-5. **UI für Faction-Themes** (Musik + Rahmenfarben für Idle-Kontrolle).
-6. **KI-Implementierung (`random`)** für erste Tests.
-7. **Match-Export-Funktionalität** für Balancing-Daten.
-8. `**fahrzeuge.json` finalisieren** (Dummy-Daten für Vehicles).
+4. **UI für Faction-Themes** (Musik + Rahmenfarben für Idle-Kontrolle).
+5. **KI-Implementierung (`random`)** für erste Tests.
+6. **Match-Export-Funktionalität** für Balancing-Daten.
+7. `**fahrzeuge.json` finalisieren** (Dummy-Daten für Vehicles).
