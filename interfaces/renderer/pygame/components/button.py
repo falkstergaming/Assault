@@ -36,7 +36,7 @@ class HexButton:
         callback: Optional[Callable] = None,
         highlight_color: Optional[tuple] = None,
         symbol: Optional[pygame.Surface] = None,
-        text_color: tuple = COLORS["text"],
+        text_color: tuple = (0, 0, 0),  # Standard: Schwarz für bessere Sichtbarkeit
         font_size: int = 20,
     ):
         # Basis-Eigenschaften
@@ -110,8 +110,19 @@ class HexButton:
             symbol_rect = self.symbol.get_rect(center=(self.center_x, self.center_y - 10))
             surface.blit(self.symbol, symbol_rect)
 
-        # Text (falls vorhanden)
+        # Text (falls vorhanden) - unterstützt Zeilenumbrüche
         if self.text:
-            text_surface = self.font.render(self.text, True, self.text_color)
-            text_rect = text_surface.get_rect(center=(self.center_x, self.center_y + 10))
-            surface.blit(text_surface, text_rect)
+            lines = self.text.split('\n')
+            if len(lines) == 1:
+                # Einfacher Text (zentriert)
+                text_surface = self.font.render(self.text, True, self.text_color)
+                text_rect = text_surface.get_rect(center=(self.center_x, self.center_y))
+                surface.blit(text_surface, text_rect)
+            else:
+                # Multi-Line Text - zentriert in Hexagon
+                y_offset = -6
+                for line in lines:
+                    text_surface = self.font.render(line, True, self.text_color)
+                    text_rect = text_surface.get_rect(center=(self.center_x, self.center_y + y_offset))
+                    surface.blit(text_surface, text_rect)
+                    y_offset += 12  # Zeilenabstand (kleiner für 80px Hexfelder)

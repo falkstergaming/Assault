@@ -108,6 +108,7 @@ class BoardRenderer:
         self.hex_buttons: Dict[str, HexButton] = {}
         self.is_visible = False
         self.show_extra_fields = False  # Für 4xxx-9xxx Felder
+        self.show_might_values = True  # Might-Werte auf 1xxx/2xxx Feldern anzeigen
         
         # Berechne Board-Zentrum
         self.board_center_x = screen_width // 2
@@ -120,6 +121,10 @@ class BoardRenderer:
         # Default Factions für 0001/0002
         self.player_faction = "Adam"
         self.opponent_faction = "Skeletor"
+        
+        # MightCalculator für Might-Berechnungen
+        from core.managers.might_calculator import MightCalculator
+        self.might_calc = MightCalculator(board)
 
     def toggle_visibility(self) -> None:
         """Schaltet die Sichtbarkeit des Boards um."""
@@ -202,13 +207,20 @@ class BoardRenderer:
             hex_id: Die HexID
             
         Returns:
-            Text-String
+            Text-String (kann Zeilenumbrüche enthalten)
         """
         # Faction Indicator zeigen Faction-Namen
         if hex_id.raw_id == "0001":
             return self.player_faction
         elif hex_id.raw_id == "0002":
             return self.opponent_faction
+        
+        # Für 1xxx und 2xxx Felder: Hex-ID + Might anzeigen (falls Entities vorhanden)
+        if hex_id.area in [1, 2] and self.show_might_values:
+            entities = self.board.get_entities_on_hex(hex_id)
+            if entities:
+                might = self.might_calc.calculate_might_for_hex(hex_id)
+                return f"{hex_id.raw_id}\nM:{might:.0f}"
         
         # Andere Felder zeigen Hex-ID (kurz)
         return hex_id.raw_id
@@ -240,9 +252,17 @@ class BoardRenderer:
                 size=HEX_SIZE["width"],
                 color=color,
                 text=text,
-                hex_id=hex_id.raw_id
+                hex_id=hex_id.raw_id,
+                text_color=(0, 0, 0),  # Schwarz für bessere Sichtbarkeit
+                font_size=14  # Kleinere Schrift für mehrzeiligen Text
             )
             self.hex_buttons[hex_id.raw_id] = button
+
+    def update_button_texts(self) -> None:
+        """Aktualisiert die Texte aller HexButtons (z. B. nach Might-Änderungen)."""
+        for hex_id_str, button in self.hex_buttons.items():
+            hex_id = HexID(hex_id_str)
+            button.text = self._get_field_text(hex_id)
 
     def render(self, surface: pygame.Surface) -> None:
         """
